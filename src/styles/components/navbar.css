@@ -3,24 +3,25 @@
   --hud-height: 76px;
   --hud-height-scrolled: 68px;
   
-  /* Deep burgundy/black surface */
-  --hud-bg: rgba(10, 2, 5, 0.75);
-  --hud-bg-scrolled: rgba(6, 1, 3, 0.92);
+  /* Deep blood-ruby surfaces */
+  --hud-bg-gradient: linear-gradient(135deg, rgba(56, 7, 17, 0.85) 0%, rgba(36, 4, 10, 0.9) 100%);
+  --hud-bg-scrolled: linear-gradient(135deg, rgba(74, 8, 21, 0.95) 0%, rgba(36, 4, 10, 0.98) 100%);
   
-  /* Ruby lighting hierarchy */
-  --ruby-bright: #FF003C;
-  --ruby-core: #E60036;
-  --ruby-muted: rgba(230, 0, 54, 0.2);
-  --ruby-glow: rgba(230, 0, 54, 0.4);
+  /* Blood-ruby lighting hierarchy */
+  --ruby-bright: #F04463;
+  --ruby-core: #E3264F;
+  --ruby-cherry: #C2183A;
+  --ruby-deep: #A30F2D;
+  --ruby-dark: #650B1D;
   
-  --os-text-primary: #FFFFFF;
-  --os-text-muted: rgba(255, 255, 255, 0.5);
+  --ruby-glow: rgba(227, 38, 79, 0.45);
+  
+  /* Warm text to harmonize with reds */
+  --os-text-primary: #FAFAFA;
+  --os-text-muted: rgba(250, 250, 250, 0.65);
   --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 
-  /* 
-    The Machined HUD Shape.
-    Full height on edges. Angles up to a notched center area.
-  */
+  /* The Machined HUD Shape */
   --hud-clip: polygon(
     0 0,
     100% 0,
@@ -43,40 +44,39 @@
   width: 100%;
   height: var(--hud-height);
   z-index: 100;
-  /* Glow that wraps the clipped shape */
-  filter: drop-shadow(0 4px 15px rgba(139, 0, 33, 0.3));
+  /* Deep crimson glow surrounding the shape */
+  filter: drop-shadow(0 6px 20px rgba(163, 15, 45, 0.35));
   transition: height var(--transition-smooth), filter var(--transition-smooth);
 }
 
 .educloud-hud-wrapper.is-scrolled {
   height: var(--hud-height-scrolled);
-  filter: drop-shadow(0 8px 25px rgba(139, 0, 33, 0.6));
+  filter: drop-shadow(0 10px 25px rgba(163, 15, 45, 0.5));
 }
 
-/* The glowing energy edge (Background Layer) */
+/* Layer 1: Bright Crimson/Ruby Glowing Boundary */
 .hud-edge-layer {
   position: absolute;
   inset: 0;
   background: linear-gradient(90deg, 
-    var(--ruby-bright) 0%, 
-    var(--ruby-core) 15%, 
-    var(--ruby-muted) 30%, 
-    var(--ruby-muted) 70%, 
-    var(--ruby-core) 85%, 
+    var(--ruby-core) 0%, 
+    var(--ruby-deep) 15%, 
+    var(--ruby-dark) 30%, 
+    var(--ruby-dark) 70%, 
+    var(--ruby-cherry) 85%, 
     var(--ruby-bright) 100%
   );
   clip-path: var(--hud-clip);
   transition: clip-path var(--transition-smooth);
 }
 
-/* The dark glass surface (Foreground Layer) */
+/* Layer 2: Blood-Ruby Glass Surface */
 .hud-surface {
   position: absolute;
-  /* Inset by 1px at the bottom to reveal the glowing edge layer behind it */
-  inset: 0 0 1px 0;
-  background: var(--hud-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  inset: 0 0 1px 0; /* Inset to reveal the bright boundary behind it */
+  background: var(--hud-bg-gradient);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   clip-path: var(--hud-clip);
   
   display: grid;
@@ -90,7 +90,7 @@
 }
 
 /* =========================================
-   HUD REGIONS
+   HUD REGIONS & TYPOGRAPHY
    ========================================= */
 
 /* Left: Logo Node */
@@ -99,14 +99,14 @@
   display: flex;
   align-items: center;
   padding-left: 2rem;
-  background: radial-gradient(circle at 30% 50%, rgba(230, 0, 54, 0.1) 0%, transparent 70%);
+  background: radial-gradient(circle at 30% 50%, rgba(227, 38, 79, 0.15) 0%, transparent 70%);
 }
 
 .os-logo {
-  font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
-  font-weight: 800;
-  letter-spacing: 0.15em;
-  font-size: 0.9rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  font-size: 1rem;
   color: var(--os-text-primary);
   text-decoration: none;
   display: flex;
@@ -123,17 +123,18 @@
 .hud-node-nav {
   display: flex;
   justify-content: center;
-  align-items: flex-start; /* Align to top so they sit inside the notched area */
+  align-items: flex-start;
   padding-top: 1.25rem;
-  gap: 2rem;
+  gap: 2.5rem;
 }
 
 .nav-link {
+  font-family: var(--font-display);
   position: relative;
   color: var(--os-text-muted);
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   text-decoration: none;
   text-transform: uppercase;
   padding: 0.5rem 0;
@@ -145,15 +146,15 @@
   outline: none;
 }
 
-/* Active indicator integrated into the text baseline */
+/* Integrated active indicator */
 .hud-active-indicator {
   position: absolute;
   bottom: -2px;
   left: 0;
   right: 0;
   height: 2px;
-  background: var(--ruby-core);
-  box-shadow: 0 -2px 10px var(--ruby-glow);
+  background: var(--ruby-bright);
+  box-shadow: 0 -2px 12px var(--ruby-glow);
   border-radius: 2px;
 }
 
@@ -163,15 +164,16 @@
   justify-content: flex-end;
   align-items: center;
   padding-right: 2rem;
-  background: radial-gradient(circle at 70% 50%, rgba(230, 0, 54, 0.08) 0%, transparent 70%);
+  background: radial-gradient(circle at 70% 50%, rgba(227, 38, 79, 0.12) 0%, transparent 70%);
 }
 
 .auth-button {
+  font-family: var(--font-display);
   display: flex;
   align-items: center;
   gap: 0.5rem;
   color: var(--os-text-primary);
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   font-weight: 600;
   letter-spacing: 0.1em;
   background: transparent;
@@ -189,7 +191,7 @@
   transition: filter 0.3s ease;
 }
 .auth-button:hover svg {
-  filter: drop-shadow(0 0 6px var(--ruby-core));
+  filter: drop-shadow(0 0 8px var(--ruby-core));
 }
 
 /* =========================================
@@ -198,27 +200,27 @@
 .system-marquee-container {
   width: 100%;
   height: 28px;
-  /* Ensure it sits exactly below the 76px HUD on initial load */
   margin-top: var(--hud-height);
-  background: rgba(6, 1, 3, 0.95);
-  border-bottom: 1px solid rgba(230, 0, 54, 0.15);
+  /* Dark-medium blood ruby surface */
+  background: rgba(74, 8, 21, 0.9);
+  border-bottom: 1px solid rgba(227, 38, 79, 0.25);
   display: flex;
   align-items: center;
   overflow: hidden;
-  position: relative; /* Normal document flow - scrolls naturally */
+  position: relative;
   z-index: 90;
 }
 
 .system-marquee-content {
   display: flex;
   width: fit-content;
-  animation: marquee-scroll 45s linear infinite;
-  /* Monospace technical font */
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  animation: marquee-scroll 50s linear infinite;
+  /* Refined monospace typography */
+  font-family: var(--font-mono);
   font-size: 0.65rem;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--ruby-core);
-  letter-spacing: 0.15em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
 }
 
@@ -241,7 +243,6 @@
 
 @media (max-width: 900px) {
   :root {
-    /* Simplify shape for mobile */
     --hud-clip: polygon(0 0, 100% 0, 100% 100%, 0 100%);
     --hud-height: 64px;
     --hud-height-scrolled: 64px;
@@ -252,7 +253,7 @@
   }
   
   .hud-node-nav, .hud-node-uplink {
-    display: none; /* Hide desktop nav */
+    display: none;
   }
   
   .mobile-trigger {
@@ -275,27 +276,30 @@
   .mobile-trigger .line-2 { width: 16px; background-color: var(--ruby-core); align-self: flex-end; }
 }
 
-/* Maintain existing mobile overlay styling */
+/* Mobile Fullscreen Overlay */
 .mobile-overlay {
   position: fixed;
   inset: 0;
   z-index: 110;
-  background: rgba(6, 1, 3, 0.98);
-  backdrop-filter: blur(20px);
+  /* Deep blood-ruby gradient overlay */
+  background: linear-gradient(180deg, rgba(36, 4, 10, 0.98) 0%, rgba(74, 8, 21, 0.96) 100%);
+  backdrop-filter: blur(24px);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 2rem;
+  gap: 2.5rem;
 }
 
 .mobile-link {
-  font-size: 1.75rem;
-  font-weight: 800;
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 700;
   color: var(--os-text-muted);
   text-decoration: none;
   letter-spacing: 0.1em;
   text-transform: uppercase;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
 }
 
 .mobile-link.active {
