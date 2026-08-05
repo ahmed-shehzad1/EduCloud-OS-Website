@@ -1,27 +1,95 @@
+/* src/styles/global.css
+   Complete site baseline for EduCloud OS Web
+   - Fonts
+   - Design tokens (colors, typography, sizing)
+   - Page container and base resets
+   - Ambient subtle page glow
+*/
+
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
 :root {
-  --page-bg: #050001;
+  /* HUD height — keep in sync with navbar */
+  --hud-height: 76px;
+  --hud-height-scrolled: 68px;
+
+  /* Page and palette */
+  --page-bg: #050405; /* near-black */
+  --surface-deep: #0b0607; /* slightly lighter than page */
+  --ruby-deep: #72001F;
+  --ruby-core: #B0002A;
+  --ruby-bright: #E23D55;
+
+  /* Accents introduced (white + gold) */
+  --accent-white: #FFFFFF;
+  --accent-gold: #D4AF37;
+
+  /* Text */
+  --text-primary: #F6F4F4;
+  --text-muted: rgba(246, 244, 244, 0.68);
+
+  /* Typographic tokens */
   --font-display: 'Space Grotesk', sans-serif;
   --font-mono: 'IBM Plex Mono', monospace;
-  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+
+  /* Motion & layout */
+  --transition-smooth: 0.36s cubic-bezier(0.16, 1, 0.3, 1);
+  --max-content-width: 1400px;
+
+  /* Marquee / hero spacing */
+  --hero-padding-inline: 28px;
 }
 
+/* Reset / base */
 * { box-sizing: border-box; margin: 0; padding: 0; }
-
+html, body, #root { height: 100%; }
 body {
-  background-color: var(--page-bg);
-  color: #f0e6e7;
   font-family: var(--font-sans);
-  overflow-x: hidden;
+  background-color: var(--page-bg);
+  color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  line-height: 1.35;
 }
 
+/* small readable defaults */
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; }
+
+/* page container for main content under the HUD */
 .page-container {
-  width: min(1400px, calc(100% - 48px));
+  width: min(var(--max-content-width), calc(100% - 48px));
   margin-inline: auto;
-  padding-top: 160px; /* supports unified HUD system */
+  padding-top: calc(var(--hud-height) + 24px); /* keeps content clear of fixed HUD */
+  padding-inline: var(--hero-padding-inline);
   position: relative;
-  z-index: 1;
+  z-index: 2;
+}
+
+/* small ambient page glow (very subtle) */
+body::before {
+  content: "";
+  position: fixed;
+  top: 6vh;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80vw;
+  height: 36vh;
+  background: radial-gradient(circle at top center, rgba(212,174,55,0.02), rgba(224,0,63,0.01), transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.98;
+}
+
+/* Generic utility classes used by hero & site */
+.container-centered {
+  width: min(var(--max-content-width), 94%);
+  margin-inline: auto;
+}
+
+/* Accessibility: reduce animations if user prefers */
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
 }
