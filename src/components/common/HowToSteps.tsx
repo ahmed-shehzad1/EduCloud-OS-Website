@@ -1,8 +1,7 @@
-// src/components/common/HowToSteps.tsx
 import React, { useState } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
-import '../../styles/pages/howto.css';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import '../../styles/pages/howto.css';
 
 type Step = {
   id: string;
@@ -46,77 +45,111 @@ export const HowToSteps: React.FC = () => {
   const reduceMotion = useReducedMotion();
   const [open, setOpen] = useState<string | null>(STEPS[0].id);
 
-  const container = {
-    hidden: {},
-    show: { transition: { staggerChildren: 0.06 } },
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { staggerChildren: 0.08 },
+    },
   };
 
-  const item = {
-    hidden: { opacity: 0, y: 8 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } },
+  const itemVariants = {
+    hidden: { opacity: 0, y: 16 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } },
   };
 
   return (
     <motion.div
-      className="howto-steps"
-      variants={reduceMotion ? undefined : container}
+      className="howto-steps-container"
+      variants={reduceMotion ? undefined : containerVariants}
       initial={reduceMotion ? undefined : 'hidden'}
       animate={reduceMotion ? undefined : 'show'}
     >
       {STEPS.map((s, i) => {
         const isOpen = open === s.id;
         return (
-          <motion.article key={s.id} className={`howto-step ${isOpen ? 'open' : ''}`} variants={reduceMotion ? undefined : item}>
+          <motion.article
+            key={s.id}
+            className={`howto-step-card ${isOpen ? 'is-open' : ''}`}
+            variants={reduceMotion ? undefined : itemVariants}
+          >
             <button
-              className="howto-step-head"
+              className="howto-step-trigger"
               onClick={() => setOpen(isOpen ? null : s.id)}
               aria-expanded={isOpen}
               aria-controls={`howto-detail-${s.id}`}
             >
-              <div className="step-number">
-                <span>{String(i + 1).padStart(2, '0')}</span>
-                <div className="number-gold" aria-hidden="true" />
+              <div className="step-number-badge">
+                <span className="number-text">{String(i + 1).padStart(2, '0')}</span>
+                <span className="badge-glow-ring" aria-hidden="true" />
               </div>
 
               <div className="step-meta">
-                <div className="step-title">{s.title}</div>
-                <div className="step-short">{s.short}</div>
+                <div className="step-title-row">
+                  <h3 className="step-title">{s.title}</h3>
+                  <span className="step-phase-tag">PHASE 0{i + 1}</span>
+                </div>
+                <div className="step-short-desc">{s.short}</div>
               </div>
 
-              <div className="step-cta" aria-hidden="true">›</div>
+              <motion.div
+                className="step-chevron"
+                animate={{ rotate: isOpen ? 180 : 0 }}
+                transition={{ duration: 0.3, ease: 'easeInOut' }}
+                aria-hidden="true"
+              >
+                ↓
+              </motion.div>
             </button>
 
-            <motion.div
-              id={`howto-detail-${s.id}`}
-              className="howto-step-detail"
-              initial={{ height: 0, opacity: 0 }}
-              animate={isOpen ? { height: 'auto', opacity: 1 } : { height: 0, opacity: 0 }}
-              transition={reduceMotion ? { duration: 0 } : { duration: 0.42, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <div className="detail-inner">
-                <p>{s.detail}</p>
+            <AnimatePresence initial={false}>
+              {isOpen && (
+                <motion.div
+                  id={`howto-detail-${s.id}`}
+                  className="howto-step-detail-wrapper"
+                  initial={reduceMotion ? { opacity: 1, height: 'auto' } : { height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={reduceMotion ? { opacity: 0, height: 0 } : { height: 0, opacity: 0 }}
+                  transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
+                >
+                  <div className="detail-content-box">
+                    <p className="detail-text">{s.detail}</p>
 
-                {s.id === 'download' && (
-                  <div className="download-block">
-                    <Link to="/download" className="download-btn">Go to download</Link>
-                    <div className="download-note">Latest release • Signed • Windows x64 (installer)</div>
-                  </div>
-                )}
+                    {s.id === 'download' && (
+                      <div className="download-action-panel">
+                        <Link to="/download" className="step-download-btn">
+                          Go to download →
+                        </Link>
+                        <span className="download-spec-note">
+                          Latest release • Signed • Windows x64 (installer)
+                        </span>
+                      </div>
+                    )}
 
-                {s.id === 'install' && (
-                  <div className="install-commands">
-                    <pre>
+                    {s.id === 'install' && (
+                      <div className="terminal-code-window">
+                        <div className="terminal-header">
+                          <div className="terminal-dots">
+                            <span className="dot red" />
+                            <span className="dot yellow" />
+                            <span className="dot green" />
+                          </div>
+                          <span className="terminal-title">bash — install verification</span>
+                        </div>
+                        <pre className="terminal-body">
 {`# Example: verify installer:
 EduCloudOS-Setup.exe --verify
 
 # For source builds (Linux/macOS):
 cmake -S . -B build
 cmake --build build -- -j 6`}
-                    </pre>
+                        </pre>
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
-            </motion.div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </motion.article>
         );
       })}

@@ -1,55 +1,148 @@
-// src/pages/HowTo/HowTo.tsx
 import React from 'react';
+import { motion } from 'framer-motion';
 import { HowToSteps } from '../../components/common/HowToSteps';
 import '../../styles/pages/howto.css';
 import { Link } from 'react-router-dom';
 
 export const HowTo: React.FC = () => {
   return (
-    <div className="howto-page">
-      <header className="howto-hero container-centered">
-        <div className="howto-hero-left">
-          <h1 className="howto-title">How to use EduCloud OS</h1>
-          <p className="howto-sub">
-            A short guided flow from download to exploration. Follow these steps to install and begin experimenting with OS concepts.
-          </p>
+    <div className="howto-page-container">
+      {/* Background Ambient Cyber Glows */}
+      <div className="howto-bg-ambient" aria-hidden="true">
+        <div className="ambient-orb orb-top" />
+        <div className="ambient-orb orb-bottom" />
+        <div className="grid-overlay" />
+      </div>
 
-          <div className="howto-hero-ctas">
-            <Link to="/download" className="cta primary">Download</Link>
-            <a href="#steps" className="cta ghost">Installation steps</a>
-          </div>
-        </div>
+      <header className="howto-hero-centered container-centered">
+        {/* Kicker Tag */}
+        <motion.div
+          className="hero-badge"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <span className="pulse-indicator" />
+          <span>GUIDED SETUP & QUICK START</span>
+        </motion.div>
 
-        <div className="howto-hero-right" aria-hidden="true">
-          {/* Video poster / demo placeholder */}
-          <div className="video-poster">
-            <div className="video-play">▶</div>
-            <div className="video-meta">Quick start • 1:32</div>
+        {/* Hero Headline & Subtitle */}
+        <motion.h1
+          className="howto-main-title"
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+        >
+          How to use EduCloud OS
+        </motion.h1>
+
+        <motion.p
+          className="howto-hero-sub"
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          A short guided flow from download to exploration. Follow these steps to install and begin experimenting with OS concepts.
+        </motion.p>
+
+        {/* Action Buttons */}
+        <motion.div
+          className="howto-hero-ctas"
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+        >
+          <Link to="/download" className="cta-btn primary-glow">
+            Download Now
+          </Link>
+          <a href="#steps" className="cta-btn ghost-cyber">
+            Installation steps ↓
+          </a>
+        </motion.div>
+
+        {/* Large Centered Video Demo Player */}
+        <motion.div
+          className="featured-video-showcase"
+          initial={{ opacity: 0, scale: 0.95, y: 25 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <div className="video-player-frame">
+            <div className="video-hud-bar">
+              <div className="hud-dots">
+                <span />
+                <span />
+                <span />
+              </div>
+              <span className="hud-title">EduCloud Runtime Demo — Quick Start</span>
+              <span className="hud-status">LIVE PREVIEW</span>
+            </div>
+
+            <div className="video-viewport">
+              <div className="video-grid-pattern" aria-hidden="true" />
+              
+              <div className="play-button-wrapper">
+                <motion.button
+                  className="play-pulse-btn"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  aria-label="Play Quick Start Overview Video"
+                >
+                  <span className="play-icon">▶</span>
+                </motion.button>
+              </div>
+
+              <div className="video-overlay-info">
+                <span className="badge-pill">Quick start</span>
+                <span className="duration-tag">1:32</span>
+              </div>
+            </div>
           </div>
-        </div>
+        </motion.div>
       </header>
 
-      <main className="howto-main container-centered" id="steps" role="main">
+      {/* Main Content Section */}
+      <main className="howto-main-content container-centered" id="steps" role="main">
         <section className="howto-section">
-          <h2 className="section-title">Installation Guide</h2>
-          <p className="section-lead">Follow the steps below — each step expands with details and commands where appropriate.</p>
+          <div className="section-header-block">
+            <h2 className="section-title">Installation Guide</h2>
+            <p className="section-lead">
+              Follow the steps below — each step expands with details and commands where appropriate.
+            </p>
+          </div>
 
           <HowToSteps />
         </section>
 
+        {/* Download Options Grid */}
         <section className="howto-section download-section">
-          <h2 className="section-title">Get EduCloud OS</h2>
+          <div className="section-header-block">
+            <h2 className="section-title">Get EduCloud OS</h2>
+            <p className="section-lead">Choose your installation method below.</p>
+          </div>
+
           <div className="download-grid">
-            <div className="download-card">
-              <div className="download-title">Latest Release</div>
-              <div className="download-meta">August 2026 • Signed</div>
-              <Link to="/download" className="download-cta">Download Installer</Link>
+            <div className="download-card accent-ruby">
+              <div className="card-badge">RECOMMENDED</div>
+              <h3 className="download-card-title">Latest Release</h3>
+              <p className="download-card-meta">August 2026 • Signed Installer</p>
+              <Link to="/download" className="download-card-cta">
+                Download Installer
+              </Link>
             </div>
 
-            <div className="download-card">
-              <div className="download-title">Source</div>
-              <div className="download-meta">Build from source on Linux/macOS</div>
-              <a href="https://github.com" target="_blank" rel="noreferrer" className="download-cta ghost">View on GitHub</a>
+            <div className="download-card accent-cyan">
+              <div className="card-badge ghost">DEVELOPER</div>
+              <h3 className="download-card-title">Source</h3>
+              <p className="download-card-meta">Build from source on Linux/macOS</p>
+              <a
+                href="https://github.com"
+                target="_blank"
+                rel="noreferrer"
+                className="download-card-cta ghost"
+              >
+                View on GitHub
+              </a>
             </div>
           </div>
         </section>
