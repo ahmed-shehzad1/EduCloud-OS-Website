@@ -1,120 +1,448 @@
-/* src/styles/components/feature-fragments.css
-   Machined Fragments — spacious, sculptural, with subtle gold and ruby accents
-*/
-
-:root{
-  --max-width: 1400px;
-  --stage-gap: 48px;
-  --ruby-core: #B0002A;
-  --accent-gold: #D4AF37;
-  --surface: rgba(255,255,255,0.02);
-  --text-primary: #F6F4F4;
-  --text-muted: rgba(246,244,244,0.68);
-  --frag-elevation: 0 18px 44px rgba(0,0,0,0.5);
+:root {
+  --page-bg: #080103;
+  --ruby-primary: #C51F45;
+  --ruby-bright: #E62B52;
+  --ruby-dark: #26050D;
+  --ruby-glow: rgba(230, 43, 82, 0.35);
+  --text-main: #F4E9EC;
+  --text-muted: #B98F9A;
+  --text-dim: #825E68;
+  
+  /* Green Digital Technology Rain */
+  --green-rain-bright: #00FF88;
+  --green-rain-glow: rgba(0, 255, 136, 0.5);
 }
 
-/* section */
-.fragments-section { padding: 64px 0 110px; position: relative; z-index: 1; }
-.fragments-inner { width: min(var(--max-width), 94%); margin-inline: auto; }
-
-/* header */
-.fragments-header { text-align: left; max-width: 980px; margin-bottom: 24px; }
-.fragments-title { font-family: var(--font-display); font-size: clamp(1.6rem, 2.6vw, 2.2rem); color: var(--text-primary); margin-bottom: 6px; }
-.fragments-sub { color: var(--text-muted); font-size: 1rem; }
-
-/* stage layout — large triangular arrangement with space */
-.fragments-stage {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: var(--stage-gap);
-  align-items: end;
-  justify-items: stretch;
-  margin-top: 18px;
-}
-
-/* fragment base */
-.fragment { width: 100%; display: block; outline: none; cursor: default; }
-.fragment:focus { box-shadow: 0 0 0 4px rgba(224,0,63,0.06); }
-
-/* fragment surface: the sculpted glass surface */
-.fragment-surface {
+.ruby-cloud-section {
   position: relative;
-  border-radius: 14px;
-  overflow: visible;
-  padding: 20px;
-  min-height: 220px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.018), rgba(0,0,0,0.02));
-  border: 1px solid rgba(255,255,255,0.03);
-  box-shadow: var(--frag-elevation), inset 0 1px 0 rgba(255,255,255,0.02);
-  transition: transform 0.36s ease, box-shadow 0.36s ease;
+  padding: clamp(72px, 9vw, 128px) 24px;
+  background-color: var(--page-bg);
+  color: var(--text-main);
+  overflow: hidden;
+  z-index: 1;
 }
 
-/* geometry SVG sits behind content for the shape */
-.frag-geo { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; mix-blend-mode: normal; opacity:1; }
-
-/* content sits above */
-.frag-content { position: relative; z-index: 2; display:flex; flex-direction:column; justify-content:flex-end; height:100%; }
-
-/* title & blurb */
-.frag-title { display:flex; gap:10px; align-items:baseline; }
-.frag-main { font-family: var(--font-display); font-weight:700; font-size:1.15rem; letter-spacing:0.12em; color: var(--text-primary); }
-.frag-sub { font-weight:800; color: var(--ruby-core); font-size:0.78rem; margin-left:6px; letter-spacing:0.18em; }
-
-.frag-blurb { color: var(--text-muted); margin-top: 10px; font-size:0.95rem; }
-
-/* link with small gold accent */
-.frag-link { margin-top: 14px; display:inline-flex; align-items:center; gap:10px; text-decoration:none; color: var(--text-primary); font-weight:700; }
-.frag-gold { width:8px; height:8px; border-radius:50%; background: var(--accent-gold); box-shadow: 0 0 10px rgba(212,174,55,0.12); }
-
-/* hover / focus micro-animations */
-.fragment:hover .fragment-surface, .fragment:focus .fragment-surface {
-  transform: translateY(-6px);
-  box-shadow: 0 28px 68px rgba(0,0,0,0.62), 0 0 28px rgba(176,0,42,0.04);
+.ruby-cloud-container {
+  width: min(1200px, 100%);
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
 }
 
-/* Left fragment specifics (taller, vertical feel) */
-.fragment-left .fragment-surface { min-height: 260px; padding: 26px; }
-.fragment-left .frag-title .frag-main { font-size: 1.2rem; }
+/* Section Header */
+.ruby-cloud-header {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto 64px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-/* Center fragment specifics (largest, interactive) */
-.fragment-center .fragment-surface { min-height: 320px; padding: 32px; border: 1px solid rgba(212,174,55,0.04); }
-.fragment-center .frag-title.big .frag-main { font-size: 1.6rem; letter-spacing: 0.18em; }
-.fragment-center .frag-sub { font-size:0.9rem; }
+.ruby-tech-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 14px;
+  background: rgba(38, 5, 13, 0.8);
+  border: 1px solid rgba(197, 31, 69, 0.4);
+  border-radius: 4px;
+  font-family: var(--font-mono, 'IBM Plex Mono', monospace);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--ruby-bright);
+  margin-bottom: 16px;
+  box-shadow: 0 0 14px rgba(197, 31, 69, 0.2);
+}
 
-/* Scheduler visual: small timeline */
-.scheduler-visual { margin-top: 14px; display:flex; flex-direction:column; gap:8px; align-items:center; }
-.timeline { width: 100%; height: 46px; display:flex; align-items:center; gap:8px; position:relative; padding: 6px; border-radius:8px; background: linear-gradient(90deg, rgba(255,255,255,0.01), rgba(0,0,0,0.02)); border:1px solid rgba(255,255,255,0.02); }
-.timeline .job { width: calc(16%); height: 28px; border-radius:6px; display:flex; align-items:center; justify-content:center; font-weight:700; color:white; font-family: var(--font-mono); font-size:0.82rem; }
-.timeline .j1 { background: linear-gradient(180deg, rgba(176,0,42,0.92), rgba(176,0,42,0.78)); }
-.timeline .j2 { background: linear-gradient(180deg, rgba(120,12,24,0.9), rgba(120,12,24,0.78)); }
-.timeline .j3 { background: linear-gradient(180deg, rgba(200,30,60,0.88), rgba(200,30,60,0.78)); }
-.timeline .j4 { background: linear-gradient(180deg, rgba(140,8,30,0.9), rgba(140,8,30,0.78)); }
-.timeline .label { position:absolute; right:10px; font-family:var(--font-mono); font-size:0.78rem; color: rgba(255,255,255,0.85); }
+.badge-pulse-ruby {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--ruby-bright);
+  box-shadow: 0 0 8px var(--ruby-bright);
+  animation: rubyPulse 1.8s infinite ease-in-out;
+}
 
-/* FCFS vs SJF visual differences */
-.timeline.mode-fcfs .job { transform: translateX(0); transition: transform .6s ease; }
-.timeline.mode-sjf .j2 { transform: translateX(-8%); }
-.timeline.mode-sjf .j3 { transform: translateX(-18%); }
-.timeline.mode-sjf .j4 { transform: translateX(-28%); }
+@keyframes rubyPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.35; transform: scale(0.85); }
+}
 
-/* Right fragment specifics (compact memory grid) */
-.fragment-right .fragment-surface { min-height: 220px; padding: 20px; }
-.mem-visual { margin-top: 12px; display:flex; justify-content:flex-start; }
-.mem-grid { display:flex; gap:6px; align-items:center; }
-.mem-block { width:18px; height:28px; border-radius:4px; background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.02)); }
-.mem-block.b1 { background: linear-gradient(180deg, rgba(176,0,42,0.84), rgba(176,0,42,0.6)); }
-.mem-block.b2 { background: linear-gradient(180deg, rgba(200,40,60,0.72), rgba(200,40,60,0.5)); }
-.mem-block.b3 { background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02)); opacity: 0.4; }
+.ruby-cloud-title {
+  font-family: var(--font-display, 'Space Grotesk', sans-serif);
+  font-size: clamp(2.1rem, 4.2vw, 3.4rem);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--text-main);
+  margin: 0 0 16px 0;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.9);
+}
 
-/* Responsive adjustments - keep fragments stacked with spacing on smaller viewports */
-@media (max-width: 1100px) {
-  .fragments-stage { grid-template-columns: 1fr; gap: 40px; }
-  .fragment-center .fragment-surface { order: 2; }
-  .fragment-left .fragment-surface { order: 1; }
-  .fragment-right .fragment-surface { order: 3; }
-  .fragments-header { text-align: center; }
+.ruby-cloud-lead {
+  font-family: var(--font-display, 'Space Grotesk', sans-serif);
+  font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* Timeline Layout Chassis */
+.timeline-assembly-chassis {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 84px;
+  padding: 24px 0;
+}
+
+/* Timeline Central Ruby Axis Spine */
+.timeline-spine-laser {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  transform: translateX(-50%);
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(197, 31, 69, 0.3) 15%,
+    rgba(230, 43, 82, 0.5) 50%,
+    rgba(197, 31, 69, 0.3) 85%,
+    transparent 100%
+  );
+  z-index: 1;
+}
+
+.timeline-pulse-beam {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 140px;
+  background: linear-gradient(180deg, transparent, var(--ruby-bright), transparent);
+  box-shadow: 0 0 12px var(--ruby-bright);
+  animation: rubyLaserScan 4.5s infinite linear;
+}
+
+@keyframes rubyLaserScan {
+  0% { top: -140px; }
+  100% { top: 100%; }
+}
+
+/* Alternating Row Alignment */
+.timeline-cloud-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  z-index: 2;
+}
+
+.timeline-row-right {
+  justify-content: flex-end;
+  padding-left: 50%;
+}
+
+.timeline-row-left {
+  justify-content: flex-start;
+  padding-right: 50%;
+}
+
+/* Central Ruby Timeline Node */
+.timeline-ruby-node {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 4;
+}
+
+.ruby-node-core {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--ruby-bright);
+  box-shadow: 0 0 10px var(--ruby-bright);
+}
+
+.ruby-node-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(230, 43, 82, 0.6);
+  animation: rubyPing 2.4s infinite ease-out;
+}
+
+@keyframes rubyPing {
+  0% { transform: scale(0.6); opacity: 1; }
+  100% { transform: scale(1.9); opacity: 0; }
+}
+
+/* Cloud Card Main Container */
+.ruby-cloud-card {
+  position: relative;
+  width: min(480px, 92%);
+  min-height: 250px;
+  margin: 0 32px;
+  border-radius: 28px;
+  padding: 32px 28px 42px 28px;
+  background: radial-gradient(circle at 50% 0%, rgba(38, 5, 13, 0.9) 0%, rgba(15, 2, 5, 0.96) 100%);
+  border: 1px solid rgba(197, 31, 69, 0.35);
+  box-shadow: 
+    0 20px 48px rgba(0, 0, 0, 0.85),
+    inset 0 1px 1px rgba(230, 43, 82, 0.2),
+    0 0 24px rgba(197, 31, 69, 0.08);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.ruby-cloud-card.is-hovered {
+  transform: translateY(-8px) scale(1.015);
+  border-color: var(--ruby-bright);
+  box-shadow: 
+    0 28px 64px rgba(0, 0, 0, 0.92),
+    0 0 32px var(--ruby-glow),
+    inset 0 1px 2px rgba(230, 43, 82, 0.4);
+}
+
+/* Broken / Shattered Cloud Shell Pieces */
+.shattered-piece {
+  position: absolute;
+  pointer-events: none;
+  background: rgba(197, 31, 69, 0.12);
+  border: 1px solid rgba(230, 43, 82, 0.4);
+  backdrop-filter: blur(10px);
+  z-index: 1;
+}
+
+.piece-top-left {
+  top: -14px;
+  left: 18px;
+  width: 65px;
+  height: 42px;
+  border-radius: 24px 24px 0 24px;
+}
+
+.piece-top-right {
+  top: -18px;
+  right: 36px;
+  width: 80px;
+  height: 52px;
+  border-radius: 32px 32px 24px 0;
+}
+
+.piece-bottom-left {
+  bottom: -12px;
+  left: 30px;
+  width: 75px;
+  height: 34px;
+  border-radius: 0 20px 20px 20px;
+}
+
+.piece-bottom-right {
+  bottom: -14px;
+  right: 40px;
+  width: 85px;
+  height: 38px;
+  border-radius: 20px 0 20px 20px;
+}
+
+/* Cloud SVG Outline backdrop */
+.cloud-outline-svg {
+  position: absolute;
+  inset: -12px -12px -12px -12px;
+  width: calc(100% + 24px);
+  height: calc(100% + 24px);
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.7;
+}
+
+/* Card Content Body */
+.cloud-card-inner {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.cloud-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.cloud-sys-code {
+  font-family: var(--font-mono, 'IBM Plex Mono', monospace);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  color: var(--ruby-bright);
+  font-weight: 600;
+}
+
+.cloud-role-tag {
+  font-family: var(--font-mono, 'IBM Plex Mono', monospace);
+  font-size: 0.6rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  background: rgba(197, 31, 69, 0.2);
+  border: 1px solid rgba(197, 31, 69, 0.4);
+  border-radius: 4px;
+  color: var(--text-main);
+}
+
+.cloud-title {
+  font-family: var(--font-display, 'Space Grotesk', sans-serif);
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 0 0 10px 0;
+}
+
+.cloud-blurb {
+  font-family: var(--font-display, 'Space Grotesk', sans-serif);
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin: 0 0 24px 0;
+}
+
+.cloud-card-footer {
+  margin-top: auto;
+}
+
+.ruby-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px;
+  background: linear-gradient(135deg, rgba(67, 9, 20, 0.8) 0%, rgba(38, 5, 13, 0.9) 100%);
+  border: 1px solid var(--ruby-primary);
+  border-radius: 6px;
+  color: var(--text-main);
+  font-family: var(--font-mono, 'IBM Plex Mono', monospace);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.ruby-action-btn:hover {
+  background: var(--ruby-primary);
+  border-color: var(--ruby-bright);
+  box-shadow: 0 0 16px var(--ruby-glow);
+  color: #FFFFFF;
+}
+
+.ruby-action-btn:hover .btn-arrow {
+  transform: translateX(4px);
+}
+
+.btn-arrow {
+  transition: transform 0.3s ease;
+}
+
+/* GREEN TECHNOLOGY WATER RAIN DROPS */
+.green-rain-container {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 75%;
+  height: 110px;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 2;
+  border-radius: 0 0 28px 28px;
+}
+
+.green-rain-drop {
+  position: absolute;
+  top: -40px;
+  width: 2px;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(0, 255, 136, 0.45) 40%,
+    var(--green-rain-bright) 100%
+  );
+  box-shadow: 0 0 6px var(--green-rain-glow);
+  border-radius: 1px;
+  animation: greenTechRain infinite linear;
+}
+
+.rain-head-spark {
+  position: absolute;
+  bottom: 0;
+  left: -1px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: #FFFFFF;
+  box-shadow: 0 0 8px var(--green-rain-bright);
+}
+
+@keyframes greenTechRain {
+  0% {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translateY(150px);
+    opacity: 0;
+  }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 868px) {
+  .timeline-assembly-chassis {
+    gap: 48px;
+  }
+
+  .timeline-spine-laser {
+    left: 24px;
+    transform: none;
+  }
+
+  .timeline-ruby-node {
+    left: 24px;
+    transform: translate(-50%, -50%);
+  }
+
+  .timeline-cloud-row {
+    padding-left: 56px !important;
+    padding-right: 0 !important;
+    justify-content: flex-start !important;
+  }
+
+  .ruby-cloud-card {
+    width: 100%;
+    margin: 0;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .fragment, .fragment-surface, .timeline .job { transition: none !important; animation: none !important; }
+  .green-rain-drop,
+  .timeline-pulse-beam,
+  .ruby-node-ring,
+  .badge-pulse-ruby {
+    animation: none !important;
+  }
 }

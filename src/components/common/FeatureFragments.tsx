@@ -8,41 +8,38 @@ export const FeatureFragments: React.FC = () => {
   const reduceMotion = useReducedMotion();
   const [activeHoverId, setActiveHoverId] = useState<string | null>(null);
 
-  // Parent scroll-trigger assembly container variants
+  // Container scroll trigger parent
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.28,
+        staggerChildren: 0.3,
         delayChildren: 0.1,
       },
     },
   };
 
-  // Shattered pieces reassembling into a single unified cloud card
-  const getShatterVariants = (side: 'left' | 'right'): Variants => {
-    const directionX = side === 'left' ? -1 : 1;
-    return {
-      hidden: {
-        opacity: 0,
-        y: 60,
+  // Card assembly container logic (Triggered as user scrolls down)
+  const cardAssemblyVariants: Variants = {
+    hidden: {
+      opacity: 0.2,
+      scale: 0.9,
+    },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 0.95,
+        ease: [0.16, 1, 0.3, 1],
+        staggerChildren: 0.1,
       },
-      visible: {
-        opacity: 1,
-        y: 0,
-        transition: {
-          duration: 0.9,
-          ease: [0.16, 1, 0.3, 1],
-          staggerChildren: 0.12,
-        },
-      },
-    };
+    },
   };
 
-  // Individual fragment piece scatter variants
-  const pieceLeftVariants: Variants = {
-    hidden: { x: -80, y: -45, rotate: -18, opacity: 0, scale: 0.75 },
+  // Individual broken piece scattering variants (Convergence on Scroll)
+  const topLeftPieceVariants: Variants = {
+    hidden: { x: -110, y: -70, rotate: -24, opacity: 0, scale: 0.65 },
     visible: {
       x: 0,
       y: 0,
@@ -53,8 +50,8 @@ export const FeatureFragments: React.FC = () => {
     },
   };
 
-  const pieceRightVariants: Variants = {
-    hidden: { x: 95, y: -30, rotate: 22, opacity: 0, scale: 0.7 },
+  const topRightPieceVariants: Variants = {
+    hidden: { x: 120, y: -50, rotate: 28, opacity: 0, scale: 0.6 },
     visible: {
       x: 0,
       y: 0,
@@ -65,8 +62,8 @@ export const FeatureFragments: React.FC = () => {
     },
   };
 
-  const pieceBottomVariants: Variants = {
-    hidden: { x: 0, y: 70, rotate: -8, opacity: 0, scale: 0.8 },
+  const bottomLeftPieceVariants: Variants = {
+    hidden: { x: -90, y: 80, rotate: -18, opacity: 0, scale: 0.7 },
     visible: {
       x: 0,
       y: 0,
@@ -77,119 +74,144 @@ export const FeatureFragments: React.FC = () => {
     },
   };
 
+  const bottomRightPieceVariants: Variants = {
+    hidden: { x: 100, y: 90, rotate: 22, opacity: 0, scale: 0.65 },
+    visible: {
+      x: 0,
+      y: 0,
+      rotate: 0,
+      opacity: 1,
+      scale: 1,
+      transition: { duration: 0.9, ease: [0.16, 1, 0.3, 1] },
+    },
+  };
+
+  // Core central body assembly
+  const centerBodyVariants: Variants = {
+    hidden: { opacity: 0, scale: 0.85, y: 30 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      y: 0,
+      transition: { duration: 0.75, ease: [0.16, 1, 0.3, 1] },
+    },
+  };
+
   return (
-    <section className="tech-cloud-section" aria-labelledby="cloud-fragments-heading">
-      <div className="cloud-section-container">
-        <header className="cloud-section-header">
-          <div className="cloud-tech-tag">
-            <span className="tag-pulse-emerald" />
-            DYNAMIC REASSEMBLY PIPELINE
+    <section className="ruby-cloud-section" aria-labelledby="cloud-fragments-heading">
+      <div className="ruby-cloud-container">
+        <header className="ruby-cloud-header">
+          <div className="ruby-tech-badge">
+            <span className="badge-pulse-ruby" />
+            REASSEMBLY TIMELINE MATRIX
           </div>
-          <h2 id="cloud-fragments-heading" className="cloud-section-title">
-            Cloud Matrix Timeline
+          <h2 id="cloud-fragments-heading" className="ruby-cloud-title">
+            Interface Fragments
           </h2>
-          <p className="cloud-section-lead">
-            Shattered system fragments reassemble into unified cloud nodes upon entry, raining green digital telemetry across the timeline.
+          <p className="ruby-cloud-lead">
+            Shattered system pieces converge and lock into unified cloud nodes as you scroll down, releasing digital green telemetry rain.
           </p>
         </header>
 
         <motion.div
-          className="vertical-timeline-chassis"
+          className="timeline-assembly-chassis"
           variants={reduceMotion ? undefined : containerVariants}
           initial={reduceMotion ? undefined : 'hidden'}
           whileInView={reduceMotion ? undefined : 'visible'}
           viewport={{ once: true, amount: 0.15 }}
         >
-          {/* Central Vertical Timeline Spine Line */}
-          <div className="timeline-spine-axis">
-            <div className="timeline-laser-pulse" />
+          {/* Central Timeline Ruby Axis Line */}
+          <div className="timeline-spine-laser">
+            <div className="timeline-pulse-beam" />
           </div>
 
           {FRAGMENTS.map((item: FragmentItem, index: number) => {
             const isEven = index % 2 === 0;
-            const sideClass = isEven ? 'timeline-item-right' : 'timeline-item-left';
+            const sideClass = isEven ? 'timeline-row-right' : 'timeline-row-left';
             const isHovered = activeHoverId === item.id;
 
             return (
               <motion.article
                 key={item.id}
                 className={`timeline-cloud-row ${sideClass}`}
-                variants={reduceMotion ? undefined : getShatterVariants(isEven ? 'right' : 'left')}
+                variants={reduceMotion ? undefined : cardAssemblyVariants}
                 onMouseEnter={() => setActiveHoverId(item.id)}
                 onMouseLeave={() => setActiveHoverId(null)}
               >
-                {/* Timeline node marker at center */}
-                <div className="timeline-node-anchor">
-                  <div className="timeline-node-core" />
-                  <div className="timeline-node-ring" />
+                {/* Central Timeline Anchor Node */}
+                <div className="timeline-ruby-node">
+                  <div className="ruby-node-core" />
+                  <div className="ruby-node-ring" />
                 </div>
 
-                {/* Main Assembling Cloud Card Shell */}
-                <div className={`cloud-card-assembly ${isHovered ? 'is-hovered' : ''}`}>
-                  {/* Exploded / Reassembling Fragment Orbs & Shell Parts */}
+                {/* Cloud Card Shell (Shattered pieces pull into one card) */}
+                <div className={`ruby-cloud-card ${isHovered ? 'is-hovered' : ''}`}>
+                  {/* Shattered Outer Cloud Pieces (Concealed on scroll completion) */}
                   <motion.div
-                    className="cloud-fragment-piece piece-top-left"
-                    variants={reduceMotion ? undefined : pieceLeftVariants}
+                    className="shattered-piece piece-top-left"
+                    variants={reduceMotion ? undefined : topLeftPieceVariants}
                   />
                   <motion.div
-                    className="cloud-fragment-piece piece-top-right"
-                    variants={reduceMotion ? undefined : pieceRightVariants}
+                    className="shattered-piece piece-top-right"
+                    variants={reduceMotion ? undefined : topRightPieceVariants}
                   />
                   <motion.div
-                    className="cloud-fragment-piece piece-bottom-base"
-                    variants={reduceMotion ? undefined : pieceBottomVariants}
+                    className="shattered-piece piece-bottom-left"
+                    variants={reduceMotion ? undefined : bottomLeftPieceVariants}
+                  />
+                  <motion.div
+                    className="shattered-piece piece-bottom-right"
+                    variants={reduceMotion ? undefined : bottomRightPieceVariants}
                   />
 
-                  {/* Cloud Silhouette SVG Backdrop */}
-                  <svg className="cloud-shape-svg" viewBox="0 0 420 220" preserveAspectRatio="none" aria-hidden="true">
+                  {/* Ruby Cloud SVG Outline Overlay */}
+                  <svg className="cloud-outline-svg" viewBox="0 0 440 240" preserveAspectRatio="none" aria-hidden="true">
                     <defs>
-                      <linearGradient id={`cloud-grad-${item.id}`} x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="#0B2016" stopOpacity="0.92" />
-                        <stop offset="50%" stopColor="#05120B" stopOpacity="0.96" />
-                        <stop offset="100%" stopColor="#020805" stopOpacity="0.98" />
+                      <linearGradient id={`ruby-cloud-grad-${item.id}`} x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#26050D" stopOpacity="0.94" />
+                        <stop offset="50%" stopColor="#140207" stopOpacity="0.97" />
+                        <stop offset="100%" stopColor="#080103" stopOpacity="0.99" />
                       </linearGradient>
-                      <filter id={`cloud-glow-${item.id}`} x="-20%" y="-20%" width="140%" height="140%">
-                        <feGaussianBlur stdDeviation="8" result="blur" />
-                        <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                      </filter>
                     </defs>
-                    {/* Organic Cloud Contour Path */}
                     <path
-                      d="M 60,170 
-                         C 20,170 0,140 10,105 
-                         C 18,75 48,60 80,68 
-                         C 100,28 150,10 205,22 
-                         C 250,5 305,18 330,55 
-                         C 370,48 405,75 410,110 
-                         C 418,150 385,170 350,170 Z"
-                      fill={`url(#cloud-grad-${item.id})`}
-                      stroke="rgba(0, 255, 136, 0.35)"
+                      d="M 60,185 
+                         C 15,185 -5,150 8,112 
+                         C 18,80 50,65 85,72 
+                         C 105,30 158,10 215,22 
+                         C 260,5 320,18 345,58 
+                         C 388,50 425,80 430,120 
+                         C 438,162 400,185 365,185 Z"
+                      fill={`url(#ruby-cloud-grad-${item.id})`}
+                      stroke="rgba(230, 43, 82, 0.45)"
                       strokeWidth="1.5"
                     />
                   </svg>
 
-                  {/* Cloud Card Internal Content */}
-                  <div className="cloud-card-body">
+                  {/* Main Cloud Card Content */}
+                  <motion.div
+                    className="cloud-card-inner"
+                    variants={reduceMotion ? undefined : centerBodyVariants}
+                  >
                     <div className="cloud-card-header">
-                      <span className="cloud-sub-code">{item.subtitle}</span>
-                      <span className="cloud-role-badge">{item.role.toUpperCase()}</span>
+                      <span className="cloud-sys-code">{item.subtitle}</span>
+                      <span className="cloud-role-tag">{item.role.toUpperCase()}</span>
                     </div>
 
                     <h3 className="cloud-title">{item.title}</h3>
                     <p className="cloud-blurb">{item.blurb}</p>
 
                     <div className="cloud-card-footer">
-                      <Link to={item.route} className="cloud-action-btn">
-                        <span>EXPLORE NODE</span>
+                      <Link to={item.route} className="ruby-action-btn">
+                        <span>OPEN SUBSYSTEM</span>
                         <svg className="btn-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                           <path d="M5 12h14M12 5l7 7-7 7" />
                         </svg>
                       </Link>
                     </div>
-                  </div>
+                  </motion.div>
 
-                  {/* Green Technology Water Raindrops Canopy */}
-                  <div className="tech-rain-canopy" aria-hidden="true">
+                  {/* Glowing Green Rain Water Drops falling from Cloud */}
+                  <div className="green-rain-container" aria-hidden="true">
                     {item.rainDrops.map((drop) => (
                       <div
                         key={drop.id}

@@ -1,0 +1,128 @@
+/* src/styles/components/footer.css
+   Sculptural footer designed to feel like the final scene:
+   - Large partially-clipped EDUCLOUD typography
+   - Deep ruby atmosphere, subtle white & gold accents
+   - Download CTA, nav columns, contact links
+   - Subtle particle/atmosphere continuation from the hero
+*/
+
+:root {
+  --footer-bg: linear-gradient(180deg, rgba(8,4,4,0.98), rgba(10,4,6,0.99));
+  --footer-pad-vertical: 56px;
+  --accent-gold: #D4AF37;
+  --text-primary: #F6F4F4;
+  --text-muted: rgba(246,244,244,0.64);
+  --max-width: 1400px;
+}
+
+/* container */
+.edu-footer {
+  position: relative;
+  background: var(--footer-bg);
+  padding: calc(var(--footer-pad-vertical) + 10px) 0 80px;
+  color: var(--text-primary);
+  overflow: hidden;
+  z-index: 2;
+}
+
+/* faint oversized brand in background */
+.edu-footer .brand-giant {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 10%;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(96px, 18vw, 240px);
+  color: rgba(255,255,255,0.03);
+  letter-spacing: 0.3em;
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+  -webkit-font-smoothing: antialiased;
+  text-transform: uppercase;
+  z-index: 0;
+  filter: blur(0.6px);
+}
+
+/* inner */
+.footer-inner { width: min(var(--max-width), 94%); margin-inline: auto; position: relative; z-index: 3; }
+
+/* top area: brand and CTAs */
+.footer-top {
+  display:flex;
+  gap: 20px;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+
+/* brand block */
+.brand-block { display:flex; flex-direction:column; gap:6px; z-index:3; }
+.brand-sub { color: var(--accent-gold); font-weight:800; letter-spacing:0.18em; }
+.brand-tagline { color: var(--text-muted); font-size:0.95rem; margin-top:4px; }
+
+/* CTA block */
+.footer-cta-block { display:flex; gap:12px; align-items:center; }
+.cta-download {
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding: 10px 14px;
+  background: linear-gradient(180deg, rgba(224,0,63,0.06), rgba(0,0,0,0.02));
+  color: var(--text-primary);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 10px;
+  font-weight:700;
+  text-decoration:none;
+  position:relative;
+  overflow:hidden;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+.cta-download:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.5); }
+.cta-gold { width:8px; height:8px; border-radius:50%; background: var(--accent-gold); box-shadow: 0 0 10px rgba(212,174,55,0.12); }
+
+/* ghost link */
+.cta-ghost { color: var(--text-muted); text-decoration:none; padding: 8px 10px; border-radius:8px; border: 1px solid rgba(255,255,255,0.02); }
+
+/* middle area: nav & visuals */
+.footer-middle { display:flex; gap: 24px; align-items:flex-start; justify-content:space-between; margin-top: 18px; }
+
+/* nav columns */
+.footer-nav { display:flex; gap: 28px; align-items:flex-start; z-index:3; }
+.footer-nav .col { min-width: 160px; }
+.col-title { font-weight:700; color: var(--text-primary); margin-bottom:8px; font-family: var(--font-display); letter-spacing:0.08em; }
+.footer-nav ul { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:8px; }
+.footer-nav a { color: var(--text-muted); text-decoration:none; }
+
+/* visuals: subtle anchored particles to continue atmosphere */
+.footer-visuals { position:relative; width: 260px; height: 120px; pointer-events:none; }
+.visual-particle { position:absolute; border-radius:50%; background: radial-gradient(circle, rgba(224,0,63,0.14), rgba(176,0,42,0.04)); opacity:0.9; filter: blur(6px); }
+.visual-particle.p1 { width: 120px; height: 120px; right: 28px; top: -6px; transform: translateZ(0); animation: drift-slow 16s linear infinite; }
+.visual-particle.p2 { width: 36px; height: 36px; right: 18px; top: 38px; background: radial-gradient(circle, rgba(212,174,55,0.12), rgba(255,255,255,0.02)); animation: drift-slower 20s linear infinite; }
+.visual-particle.p3 { width: 64px; height: 64px; right: 86px; top: 12px; animation: drift-medium 22s linear infinite; }
+
+@keyframes drift-slow { 0% { transform: translateY(0) translateX(0) } 50% { transform: translateY(-6px) translateX(6px) } 100% { transform: translateY(0) translateX(0) } }
+@keyframes drift-slower { 0% { transform: translateY(0) } 50% { transform: translateY(-8px) } 100% { transform: translateY(0) } }
+@keyframes drift-medium { 0% { transform: translateY(0) } 50% { transform: translateY(-4px) } 100% { transform: translateY(0) } }
+
+/* bottom area: legal and micro-links */
+.footer-bottom { display:flex; gap:12px; align-items:center; justify-content:space-between; margin-top: 28px; border-top: 1px solid rgba(255,255,255,0.02); padding-top: 18px; color: var(--text-muted); font-size:0.94rem; }
+.bottom-links a { color: var(--text-muted); text-decoration:none; margin: 0 6px; }
+.sep { color: rgba(255,255,255,0.05); margin: 0 8px; }
+
+/* responsive */
+@media (max-width: 980px) {
+  .footer-top { flex-direction: column; align-items: flex-start; gap: 18px; }
+  .footer-middle { flex-direction: column; gap: 18px; }
+  .footer-nav { width: 100%; justify-content: space-between; }
+  .footer-visuals { width: 100%; height: 80px; }
+  .edu-footer .brand-giant { top: 6%; font-size: clamp(64px, 22vw, 160px); left: 8%; transform: translateX(0); opacity: 0.04; }
+  .footer-inner { padding-bottom: 18px; }
+}
+
+/* reduced motion respects user preference */
+@media (prefers-reduced-motion: reduce) {
+  .visual-particle { animation: none !important; transform: none !important; }
+  .cta-download, .fragment { transition: none !important; }
+}
