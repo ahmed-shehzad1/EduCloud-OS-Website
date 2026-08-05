@@ -1,104 +1,143 @@
-/* Custom OS Design Variables */
+/* Custom OS HUD Variables */
 :root {
-  --os-bg-ultra-dark: rgba(8, 0, 2, 0.4);
-  --os-bg-solid: rgba(8, 0, 2, 0.85);
-  --os-ruby-primary: #E60036;
-  --os-ruby-deep: #8B0021;
-  --os-ruby-glow: rgba(230, 0, 54, 0.3);
-  --os-ruby-edge: rgba(230, 0, 54, 0.15);
-  --os-ruby-edge-active: rgba(230, 0, 54, 0.5);
+  --hud-height: 76px;
+  --hud-height-scrolled: 68px;
+  
+  /* Deep burgundy/black surface */
+  --hud-bg: rgba(10, 2, 5, 0.75);
+  --hud-bg-scrolled: rgba(6, 1, 3, 0.92);
+  
+  /* Ruby lighting hierarchy */
+  --ruby-bright: #FF003C;
+  --ruby-core: #E60036;
+  --ruby-muted: rgba(230, 0, 54, 0.2);
+  --ruby-glow: rgba(230, 0, 54, 0.4);
+  
   --os-text-primary: #FFFFFF;
-  --os-text-muted: rgba(255, 255, 255, 0.6);
+  --os-text-muted: rgba(255, 255, 255, 0.5);
   --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* 
+    The Machined HUD Shape.
+    Full height on edges. Angles up to a notched center area.
+  */
+  --hud-clip: polygon(
+    0 0,
+    100% 0,
+    100% 100%,
+    calc(100% - 200px) 100%,
+    calc(100% - 220px) calc(100% - 16px),
+    280px calc(100% - 16px),
+    260px 100%,
+    0 100%
+  );
 }
 
-/* Base HUD Container */
-.educloud-hud {
+/* =========================================
+   FIXED HUD CONTAINER
+   ========================================= */
+.educloud-hud-wrapper {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  padding: 1.5rem 2rem;
+  height: var(--hud-height);
   z-index: 100;
+  /* Glow that wraps the clipped shape */
+  filter: drop-shadow(0 4px 15px rgba(139, 0, 33, 0.3));
+  transition: height var(--transition-smooth), filter var(--transition-smooth);
+}
+
+.educloud-hud-wrapper.is-scrolled {
+  height: var(--hud-height-scrolled);
+  filter: drop-shadow(0 8px 25px rgba(139, 0, 33, 0.6));
+}
+
+/* The glowing energy edge (Background Layer) */
+.hud-edge-layer {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, 
+    var(--ruby-bright) 0%, 
+    var(--ruby-core) 15%, 
+    var(--ruby-muted) 30%, 
+    var(--ruby-muted) 70%, 
+    var(--ruby-core) 85%, 
+    var(--ruby-bright) 100%
+  );
+  clip-path: var(--hud-clip);
+  transition: clip-path var(--transition-smooth);
+}
+
+/* The dark glass surface (Foreground Layer) */
+.hud-surface {
+  position: absolute;
+  /* Inset by 1px at the bottom to reveal the glowing edge layer behind it */
+  inset: 0 0 1px 0;
+  background: var(--hud-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  clip-path: var(--hud-clip);
+  
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-  gap: 1rem;
-  pointer-events: none; /* Let clicks pass through the empty gaps */
-  transition: padding var(--transition-smooth);
+  grid-template-columns: 260px 1fr 200px;
+  align-items: stretch;
+  transition: background var(--transition-smooth), clip-path var(--transition-smooth);
 }
 
-.educloud-hud.is-scrolled {
-  padding: 1rem 2rem;
+.educloud-hud-wrapper.is-scrolled .hud-surface {
+  background: var(--hud-bg-scrolled);
 }
 
-/* Individual Floating Modules */
-.hud-module {
-  pointer-events: auto; /* Re-enable clicks for modules */
-  background: var(--os-bg-ultra-dark);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--os-ruby-edge);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(230, 0, 54, 0.05);
-  transition: background var(--transition-smooth), border-color var(--transition-smooth), box-shadow var(--transition-smooth);
-}
+/* =========================================
+   HUD REGIONS
+   ========================================= */
 
-.educloud-hud.is-scrolled .hud-module {
-  background: var(--os-bg-solid);
-  border-color: var(--os-ruby-edge-active);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(230, 0, 54, 0.1);
-}
-
-/* Sculpted Shapes */
-.module-left {
-  justify-self: start;
-  border-radius: 8px 24px 8px 8px; /* Sweeping top right corner */
-  padding: 0.75rem 1.25rem;
-}
-
-.module-center {
-  justify-self: center;
-  border-radius: 24px 8px 24px 8px; /* Asymmetrical tech capsule */
-  padding: 0.5rem 0.75rem;
+/* Left: Logo Node */
+.hud-node-logo {
+  position: relative;
   display: flex;
-  gap: 0.5rem;
+  align-items: center;
+  padding-left: 2rem;
+  background: radial-gradient(circle at 30% 50%, rgba(230, 0, 54, 0.1) 0%, transparent 70%);
 }
 
-.module-right {
-  justify-self: end;
-  border-radius: 24px 8px 8px 8px; /* Sweeping top left corner */
-  padding: 0.6rem 1.2rem;
-}
-
-/* Typography & Links */
 .os-logo {
   font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
   font-weight: 800;
   letter-spacing: 0.15em;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   color: var(--os-text-primary);
+  text-decoration: none;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  text-decoration: none;
+  gap: 0.4rem;
 }
 
 .os-logo span {
-  color: var(--os-ruby-primary);
-  text-shadow: 0 0 10px var(--os-ruby-glow);
+  color: var(--ruby-core);
+  text-shadow: 0 0 12px var(--ruby-glow);
+}
+
+/* Center: Navigation */
+.hud-node-nav {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Align to top so they sit inside the notched area */
+  padding-top: 1.25rem;
+  gap: 2rem;
 }
 
 .nav-link {
   position: relative;
   color: var(--os-text-muted);
-  font-size: 0.85rem;
-  font-weight: 500;
-  letter-spacing: 0.05em;
-  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
   text-decoration: none;
   text-transform: uppercase;
+  padding: 0.5rem 0;
   transition: color 0.2s ease;
-  z-index: 1;
 }
 
 .nav-link:hover, .nav-link:focus-visible {
@@ -106,76 +145,142 @@
   outline: none;
 }
 
-.nav-link:focus-visible {
-  border-radius: 4px;
-  box-shadow: 0 0 0 2px var(--os-ruby-primary);
-}
-
-/* Active State Underglow Indicator */
-.active-indicator {
+/* Active indicator integrated into the text baseline */
+.hud-active-indicator {
   position: absolute;
-  bottom: 0;
+  bottom: -2px;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(180deg, transparent 60%, rgba(230, 0, 54, 0.15) 100%);
-  border-bottom: 2px solid var(--os-ruby-primary);
-  border-radius: 4px;
-  box-shadow: 0 10px 20px -5px var(--os-ruby-primary);
-  z-index: -1;
+  right: 0;
+  height: 2px;
+  background: var(--ruby-core);
+  box-shadow: 0 -2px 10px var(--ruby-glow);
+  border-radius: 2px;
 }
 
-/* Auth / GitHub Button */
+/* Right: Uplink Node */
+.hud-node-uplink {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 2rem;
+  background: radial-gradient(circle at 70% 50%, rgba(230, 0, 54, 0.08) 0%, transparent 70%);
+}
+
 .auth-button {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   color: var(--os-text-primary);
-  font-size: 0.85rem;
+  font-size: 0.75rem;
   font-weight: 600;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.1em;
   background: transparent;
   border: none;
   cursor: pointer;
+  transition: text-shadow 0.2s ease;
+}
+
+.auth-button:hover {
+  text-shadow: 0 0 8px var(--ruby-glow);
 }
 
 .auth-button svg {
+  color: var(--ruby-core);
   transition: filter 0.3s ease;
 }
-
 .auth-button:hover svg {
-  filter: drop-shadow(0 0 8px var(--os-ruby-primary));
+  filter: drop-shadow(0 0 6px var(--ruby-core));
 }
 
-/* Custom Mobile Menu Trigger */
+/* =========================================
+   SYSTEM TELEMETRY MARQUEE
+   ========================================= */
+.system-marquee-container {
+  width: 100%;
+  height: 28px;
+  /* Ensure it sits exactly below the 76px HUD on initial load */
+  margin-top: var(--hud-height);
+  background: rgba(6, 1, 3, 0.95);
+  border-bottom: 1px solid rgba(230, 0, 54, 0.15);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  position: relative; /* Normal document flow - scrolls naturally */
+  z-index: 90;
+}
+
+.system-marquee-content {
+  display: flex;
+  width: fit-content;
+  animation: marquee-scroll 45s linear infinite;
+  /* Monospace technical font */
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: var(--ruby-core);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.system-marquee-content span {
+  padding-right: 3rem;
+  white-space: nowrap;
+}
+
+@keyframes marquee-scroll {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
+}
+
+/* =========================================
+   MOBILE RESPONSIVENESS
+   ========================================= */
 .mobile-trigger {
   display: none;
-  flex-direction: column;
-  gap: 6px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 0.5rem;
 }
 
-.mobile-trigger .line {
-  height: 2px;
-  background-color: var(--os-text-primary);
-  transition: var(--transition-smooth);
+@media (max-width: 900px) {
+  :root {
+    /* Simplify shape for mobile */
+    --hud-clip: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    --hud-height: 64px;
+    --hud-height-scrolled: 64px;
+  }
+  
+  .hud-surface {
+    grid-template-columns: 1fr auto;
+  }
+  
+  .hud-node-nav, .hud-node-uplink {
+    display: none; /* Hide desktop nav */
+  }
+  
+  .mobile-trigger {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding-right: 1.5rem;
+  }
+  
+  .mobile-trigger .line {
+    height: 2px;
+    background-color: var(--os-text-primary);
+    transition: var(--transition-smooth);
+  }
+  .mobile-trigger .line-1 { width: 24px; }
+  .mobile-trigger .line-2 { width: 16px; background-color: var(--ruby-core); align-self: flex-end; }
 }
 
-.mobile-trigger .line-1 { width: 24px; }
-.mobile-trigger .line-2 { width: 16px; background-color: var(--os-ruby-primary); align-self: flex-end; }
-
-.mobile-trigger:hover .line-1 { width: 16px; }
-.mobile-trigger:hover .line-2 { width: 24px; }
-
-/* Mobile Overlay */
+/* Maintain existing mobile overlay styling */
 .mobile-overlay {
   position: fixed;
   inset: 0;
-  z-index: 90;
-  background: rgba(8, 0, 2, 0.95);
+  z-index: 110;
+  background: rgba(6, 1, 3, 0.98);
   backdrop-filter: blur(20px);
   display: flex;
   flex-direction: column;
@@ -184,46 +289,16 @@
   gap: 2rem;
 }
 
-.mobile-overlay::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 50% 50%, rgba(230, 0, 54, 0.1) 0%, transparent 70%);
-  pointer-events: none;
-}
-
 .mobile-link {
-  font-size: 2rem;
+  font-size: 1.75rem;
   font-weight: 800;
   color: var(--os-text-muted);
   text-decoration: none;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  transition: color 0.3s ease, text-shadow 0.3s ease;
 }
 
-.mobile-link.active, .mobile-link:hover {
+.mobile-link.active {
   color: var(--os-text-primary);
-  text-shadow: 0 0 20px var(--os-ruby-glow);
-}
-
-/* Responsiveness */
-@media (max-width: 900px) {
-  .module-center, .module-right {
-    display: none; /* Hide desktop nav and auth on smaller screens */
-  }
-  
-  .educloud-hud {
-    grid-template-columns: 1fr auto;
-  }
-  
-  .mobile-trigger {
-    display: flex;
-    pointer-events: auto;
-    border-radius: 8px 24px 8px 8px;
-    background: var(--os-bg-ultra-dark);
-    backdrop-filter: blur(16px);
-    border: 1px solid var(--os-ruby-edge);
-    padding: 0.8rem 1rem;
-  }
+  text-shadow: 0 0 15px var(--ruby-glow);
 }

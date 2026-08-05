@@ -1,19 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+:root {
+  /* Centralized Typographic Identity */
+  --font-display: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, Menlo, Monaco, monospace;
+}
+
 body {
   margin: 0;
   padding: 0;
-  background-color: #040001; /* Ultra-dark base for EduCloud OS */
-  color: #ffffff;
-  font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+  /* Very dark black-ruby page background to contrast with the ruby navbar */
+  background-color: #0A0103; 
+  color: #FAFAFA;
+  font-family: var(--font-display);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 * {
   box-sizing: border-box;
-}
-
-.page-content {
-  min-height: 100vh;
-  padding-top: 100px;
-  padding-inline: 2rem;
 }
