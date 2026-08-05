@@ -5,84 +5,84 @@ import '../../styles/pages/about.css';
 
 export const About: React.FC = () => {
   return (
-    <div className="about-page-container">
-      <div className="about-bg-ambient" aria-hidden="true">
-        <div className="ambient-glow glow-ruby" />
-        <div className="ambient-glow glow-gold" />
-      </div>
+    <div className="about-cyber-page">
+      {/* Cyber Grid & Ambient Background Lighting */}
+      <div className="cyber-bg-grid" aria-hidden="true" />
+      <div className="cyber-scanlines" aria-hidden="true" />
 
-      <main className="about-content container-centered">
-        {/* Project Mission Hero Header */}
-        <header className="about-hero-section">
+      <main className="about-main-wrapper container-centered">
+        {/* Project Core Hero Section */}
+        <header className="about-hero">
           <motion.div
-            className="hero-kicker"
+            className="hero-status-pill"
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            PROJECT MANIFESTO & ARCHITECTURE
+            <span className="pulse-dot" />
+            <span>EDUCLOUD.OS // SYSTEM MANIFESTO</span>
           </motion.div>
 
           <motion.h1
-            className="about-title"
+            className="hero-title"
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            Demystifying Operating Systems Through Visual Experiments
+            Demystifying Operating Systems Through Visual Sandboxes
           </motion.h1>
 
           <motion.p
-            className="about-lead"
+            className="hero-description"
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            EduCloud is an interactive educational laboratory created to make abstract computer science concepts tangible. By combining real-time C++ kernel simulations with interactive web graphics, learners can inspect process state transitions, benchmark scheduling policies, and analyze memory allocation map behavior firsthand.
+            EduCloud OS turns abstract, low-level system mechanics into interactive, explorable state spaces. Built for students and educators, our laboratory replaces static textbook diagrams with real-time execution models.
           </motion.p>
         </header>
 
-        {/* Interactive Timeline & Fragment Map */}
-        <section className="about-interactive-section" aria-label="Project Journey and Architecture Timeline">
-          <div className="section-label-bar">
-            <h2>Explore the Lab's Evolution & Core Modules</h2>
-            <p>Click any node in the constellation below to inspect project milestones, system modules, and technical design details.</p>
+        {/* Interactive Architecture & Milestone Stream */}
+        <section className="about-interactive-section">
+          <div className="section-head">
+            <h2>Explore the Lab's Architecture & Modules</h2>
+            <p>Select a step below to inspect project origins, core interactive modules, and technical design details.</p>
           </div>
 
           <FragmentCloud />
         </section>
 
-        {/* Real Core Pillars Section */}
-        <section className="about-pillars-grid">
+        {/* 3 Core Educational Pillars */}
+        <section className="pillars-grid">
           <div className="pillar-card">
-            <div className="pillar-icon">01</div>
-            <h3>Interactive Visualization</h3>
+            <div className="pillar-num">01</div>
+            <h3>Real-Time Telemetry</h3>
             <p>
-              Replaces static textbook diagrams with real-time state machines, execution traces, and controllable simulation speeds.
+              Observe state changes as they happen. Inspect process lifecycles, runqueues, and memory pages with zero abstraction delay.
             </p>
           </div>
 
           <div className="pillar-card">
-            <div className="pillar-icon">02</div>
+            <div className="pillar-num">02</div>
+            <h3>Comparative Experiments</h3>
+            <p>
+              Run side-by-side policy tests — like SJF versus Round-Robin scheduling or First-Fit versus Best-Fit allocation.
+            </p>
+          </div>
+
+          <div className="pillar-card">
+            <div className="pillar-num">03</div>
             <h3>Native Engine Performance</h3>
             <p>
-              Under the hood, C++ simulation logic powers precise OS behavior, compiled directly for web execution via WebAssembly.
-            </p>
-          </div>
-
-          <div className="pillar-card">
-            <div className="pillar-icon">03</div>
-            <h3>Experimentation First</h3>
-            <p>
-              Designed for CS students and educators to run side-by-side policy comparisons, such as SJF vs FCFS scheduling or First-Fit vs Best-Fit allocation.
+              C++ core simulation logic compiled straight to WebAssembly guarantees accurate, deterministic operating system behavior.
             </p>
           </div>
         </section>
 
-        {/* Join CTA */}
-        <section className="about-cta-banner">
-          <h2>Ready to explore the kernel?</h2>
-          <p>Dive into interactive scheduling experiments, memory maps, and process traces in the EduCloud lab space.</p>
+        {/* Call to Action Banner */}
+        <section className="about-cta-card">
+          <h2>Ready to test the kernel?</h2>
+          <p>Experiment with real-time CPU scheduling algorithms, view process state traces, and explore virtual memory maps.</p>
         </section>
       </main>
     </div>

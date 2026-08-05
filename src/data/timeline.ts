@@ -1,119 +1,111 @@
-export interface NodeHighlight {
+export interface ModuleHighlight {
   label: string;
-  detail: string;
+  value: string;
 }
 
 export interface TimelineNode {
   id: string;
-  step: string;
+  stepNumber: string;
   title: string;
-  category: 'origin' | 'module' | 'tech' | 'roadmap';
-  summary: string;
-  deepDive: string;
+  category: 'FOUNDATION' | 'CORE MODULE' | 'ARCHITECTURE' | 'ROADMAP';
+  shortDesc: string;
+  fullDesc: string;
   accentColor: '#E0003F' | '#D4AF37' | '#00F0FF' | '#00FF9D';
-  coords: { x: number; y: number };
-  highlights: NodeHighlight[];
-  linkTo?: string;
+  metrics: ModuleHighlight[];
+  demoRoute?: string;
 }
 
 export const TIMELINE_NODES: TimelineNode[] = [
   {
     id: 't-problem',
-    step: '01',
+    stepNumber: '01',
     title: 'The Learning Gap',
-    category: 'origin',
-    summary: 'Operating system mechanics are locked behind abstract code and textbook diagrams.',
-    deepDive: 'Concepts like process synchronization, TLB caching, and preemptive scheduling are notoriously difficult to grasp through static lectures alone, creating a high barrier for computer science students.',
+    category: 'FOUNDATION',
+    shortDesc: 'Abstract kernel concepts are difficult to master through static diagrams.',
+    fullDesc: 'Operating system internals like process scheduling, memory allocation, and IPC are inherently dynamic. Traditional textbooks fail to render the real-time execution states and race conditions students need to understand.',
     accentColor: '#E0003F',
-    coords: { x: 20, y: 25 },
-    highlights: [
-      { label: 'Challenge', detail: 'Opaque internal state transitions' },
-      { label: 'Impact', detail: 'High cognitive load for learners' },
+    metrics: [
+      { label: 'Primary Obstacle', value: 'Static Visuals' },
+      { label: 'Target Audience', value: 'CS Students & Educators' },
     ],
   },
   {
     id: 't-vision',
-    step: '02',
-    title: 'The EduCloud Vision',
-    category: 'origin',
-    summary: 'An interactive lab turning complex system internals into explorable visual models.',
-    deepDive: 'EduCloud bridges theoretical computer science and practical understanding by providing a hands-on sandbox where users can manipulate real-time simulations of OS kernels.',
+    stepNumber: '02',
+    title: 'The EduCloud Laboratory',
+    category: 'FOUNDATION',
+    shortDesc: 'Turning complex operating system internals into live interactive state spaces.',
+    fullDesc: 'EduCloud OS provides a hands-on sandbox where theoretical kernel concepts become visual micro-experiments. Learners can manipulate processes, adjust quantum slices, and inspect live memory maps.',
     accentColor: '#D4AF37',
-    coords: { x: 50, y: 15 },
-    highlights: [
-      { label: 'Goal', detail: 'Tangible, real-time feedback loops' },
-      { label: 'Approach', detail: 'Interactive micro-experiments' },
+    metrics: [
+      { label: 'Core Paradigm', value: 'Explorable State Spaces' },
+      { label: 'Simulation Level', value: 'Real-Time Telemetry' },
     ],
   },
   {
     id: 't-process',
-    step: '03',
-    title: 'Process Fragment',
-    category: 'module',
-    summary: 'Trace lifecycle state changes, thread forks, and PCB signal distributions.',
-    deepDive: 'Observe how processes transition between Ready, Running, and Blocked states while tracing state vectors and child process hierarchies in real time.',
+    stepNumber: '03',
+    title: 'Process Lifecycle Module',
+    category: 'CORE MODULE',
+    shortDesc: 'Observe thread creation, PCB transitions, and state machine signals.',
+    fullDesc: 'Inspect how processes transition between Ready, Running, and Blocked states. Trace process control blocks (PCBs), signal propagation, and tree hierarchies step by step.',
     accentColor: '#E0003F',
-    coords: { x: 18, y: 70 },
-    highlights: [
-      { label: 'Core Concepts', detail: 'PCB, State Machine, Signals' },
-      { label: 'Lab Focus', detail: 'Process Lifecycle & Traces' },
+    metrics: [
+      { label: 'State Vectors', value: 'Ready / Run / Block' },
+      { label: 'Tracked Entities', value: 'PCBs & Threads' },
     ],
   },
   {
     id: 't-scheduler',
-    step: '04',
-    title: 'Scheduler Fragment',
-    category: 'module',
-    summary: 'Benchmark CPU scheduling policies in real-time execution races.',
-    deepDive: 'Compare First-Come First-Served (FCFS), Shortest Job First (SJF), and Round-Robin. Experiment with time quanta, observe context switches, and analyze turnaround latency.',
+    stepNumber: '04',
+    title: 'Preemptive Scheduler',
+    category: 'CORE MODULE',
+    shortDesc: 'Run live races between FCFS, Shortest Job First, and Round-Robin.',
+    fullDesc: 'Test scheduling algorithms in real-time execution scenarios. Tweak time quanta, observe context-switch overhead, and calculate average turnaround and waiting times.',
     accentColor: '#00F0FF',
-    coords: { x: 50, y: 75 },
-    highlights: [
-      { label: 'Policies', detail: 'FCFS, SJF, Round-Robin' },
-      { label: 'Lab Focus', detail: 'Preemption & Gantt Metrics' },
+    metrics: [
+      { label: 'Algorithms', value: 'FCFS, SJF, Round-Robin' },
+      { label: 'Interactive Controls', value: 'Quantum & Burst Times' },
     ],
-    linkTo: '/how-to',
+    demoRoute: '/how-to',
   },
   {
     id: 't-memory',
-    step: '05',
-    title: 'Memory Fragment',
-    category: 'module',
-    summary: 'Visualize virtual memory mapping, page faults, and fragmentation.',
-    deepDive: 'Inspect how physical frames are assigned, dynamic memory allocation strategies (First-Fit, Best-Fit), and watch how defragmentation reclaims scattered space.',
+    stepNumber: '05',
+    title: 'Memory Virtualization',
+    category: 'CORE MODULE',
+    shortDesc: 'Visualize paging, frame allocation, TLB hits, and defragmentation.',
+    fullDesc: 'Directly observe dynamic memory allocation algorithms (First-Fit, Best-Fit, Worst-Fit) and monitor physical address translation alongside real-time page fault frequency.',
     accentColor: '#00FF9D',
-    coords: { x: 82, y: 70 },
-    highlights: [
-      { label: 'Core Concepts', detail: 'Paging, TLB Hits, Allocation' },
-      { label: 'Lab Focus', detail: 'Virtual-to-Physical Maps' },
+    metrics: [
+      { label: 'Memory Policies', value: 'First-Fit / Best-Fit' },
+      { label: 'Visualized Metrics', value: 'TLB Hits & Page Faults' },
     ],
   },
   {
     id: 't-architecture',
-    step: '06',
-    title: 'Hybrid Engine',
-    category: 'tech',
-    summary: 'C++ core simulation engine paired with a reactive web interface.',
-    deepDive: 'EduCloud uses modular C++ simulation logic compiled to WebAssembly for deterministic execution, connected to an animated React/TypeScript visualization layer.',
+    stepNumber: '06',
+    title: 'C++ & WASM Engine',
+    category: 'ARCHITECTURE',
+    shortDesc: 'Native simulation speed delivered straight to the browser.',
+    fullDesc: 'EduCloud combines deterministic C++ simulation logic compiled to WebAssembly with a high-fps, hardware-accelerated React visualization interface for butter-smooth rendering.',
     accentColor: '#D4AF37',
-    coords: { x: 80, y: 25 },
-    highlights: [
-      { label: 'Kernel Engine', detail: 'C++ compiled to WebAssembly' },
-      { label: 'UI Layer', detail: 'React + Framer Motion' },
+    metrics: [
+      { label: 'Simulation Core', value: 'C++ WebAssembly' },
+      { label: 'Rendering Layer', value: 'React + CSS Matrix' },
     ],
   },
   {
     id: 't-future',
-    step: '07',
-    title: 'The Horizon',
-    category: 'roadmap',
-    summary: 'Expanding into Inter-Process Communication (IPC) and file system drivers.',
-    deepDive: 'Upcoming modules include live deadlock detection visuals (Banker Algorithm), shared memory IPC queues, and virtual file system directory tree traversals.',
+    stepNumber: '07',
+    title: 'The Lab Horizon',
+    category: 'ROADMAP',
+    shortDesc: 'Expanding into Inter-Process Communication (IPC) and file systems.',
+    fullDesc: 'Upcoming modules will introduce live deadlock detection (Banker Algorithm), shared memory queues, semaphores, and interactive virtual file system traversals.',
     accentColor: '#00F0FF',
-    coords: { x: 50, y: 45 },
-    highlights: [
-      { label: 'Next Modules', detail: 'IPC, Deadlocks, File Systems' },
-      { label: 'Target', detail: 'Full OS Curriculum Suite' },
+    metrics: [
+      { label: 'Upcoming Modules', value: 'Deadlocks & IPC' },
+      { label: 'Goal', value: 'Full OS Curriculum Suite' },
     ],
   },
 ];

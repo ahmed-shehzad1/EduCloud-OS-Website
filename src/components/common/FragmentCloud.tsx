@@ -1,121 +1,158 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { TIMELINE_NODES, type TimelineNode } from '../../data/timeline';
+import { TIMELINE_NODES } from '../../data/timeline';
 
 export const FragmentCloud: React.FC = () => {
   const reduceMotion = useReducedMotion();
-  const [selectedId, setSelectedId] = useState<string>('t-vision');
+  const [activeId, setActiveId] = useState<string>('t-vision');
 
-  const activeNode = TIMELINE_NODES.find((n) => n.id === selectedId) || TIMELINE_NODES[1];
+  const activeNode = TIMELINE_NODES.find((n) => n.id === activeId) || TIMELINE_NODES[1];
 
   return (
-    <div className="about-interactive-stage">
-      {/* Visual Connection Network */}
-      <div className="stage-constellation">
-        <svg className="constellation-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-          {TIMELINE_NODES.map((node, i) => {
-            const nextNode = TIMELINE_NODES[(i + 1) % TIMELINE_NODES.length];
-            const isRelated = node.id === selectedId || nextNode.id === selectedId;
+    <div className="cyber-timeline-wrapper">
+      {/* Horizontal Circuit Navigation Bar */}
+      <div className="circuit-nav-container" role="tablist" aria-label="Project Timeline Navigation">
+        {/* Animated Connecting Track Beam */}
+        <div className="circuit-track-line">
+          <motion.div
+            className="circuit-track-progress"
+            style={{
+              backgroundColor: activeNode.accentColor,
+              boxShadow: `0 0 12px ${activeNode.accentColor}`,
+            }}
+            layoutId="trackProgress"
+            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+          />
+        </div>
+
+        {/* Node Stepper Pills */}
+        <div className="circuit-nodes-row">
+          {TIMELINE_NODES.map((node) => {
+            const isActive = node.id === activeId;
             return (
-              <line
-                key={`line-${node.id}-${nextNode.id}`}
-                x1={node.coords.x}
-                y1={node.coords.y}
-                x2={nextNode.coords.x}
-                y2={nextNode.coords.y}
-                stroke={isRelated ? node.accentColor : 'rgba(255, 255, 255, 0.12)'}
-                strokeWidth={isRelated ? '0.6' : '0.2'}
-                strokeDasharray={isRelated ? 'none' : '1 1'}
-              />
-            );
-          })}
-        </svg>
-
-        {/* Interactive Story Nodes */}
-        {TIMELINE_NODES.map((node) => {
-          const isSelected = node.id === selectedId;
-
-          return (
-            <motion.button
-              key={node.id}
-              onClick={() => setSelectedId(node.id)}
-              className={`constellation-node ${isSelected ? 'is-selected' : ''}`}
-              style={{
-                left: `${node.coords.x}%`,
-                top: `${node.coords.y}%`,
-              }}
-              whileHover={{ scale: 1.15 }}
-              whileTap={{ scale: 0.95 }}
-              aria-label={`Inspect ${node.title}`}
-            >
-              <div
-                className="node-ring"
+              <button
+                key={node.id}
+                role="tab"
+                aria-selected={isActive}
+                onClick={() => setActiveId(node.id)}
+                className={`circuit-node-pill ${isActive ? 'is-active' : ''}`}
                 style={{
-                  borderColor: node.accentColor,
-                  boxShadow: isSelected ? `0 0 18px ${node.accentColor}` : 'none',
+                  ['--node-color' as any]: node.accentColor,
                 }}
               >
-                <div
-                  className="node-dot"
-                  style={{ backgroundColor: node.accentColor }}
-                />
-              </div>
-
-              <span className="node-step-tag">{node.step}</span>
-              <span className="node-title-preview">{node.title}</span>
-            </motion.button>
-          );
-        })}
+                <span className="pill-step-num">{node.stepNumber}</span>
+                <span className="pill-title">{node.title}</span>
+                {isActive && (
+                  <motion.div
+                    className="active-indicator-glow"
+                    layoutId="activeGlow"
+                    transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                  />
+                )}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
-      {/* Inspector HUD Card */}
-      <div className="stage-inspector">
+      {/* Synchronized Display Card */}
+      <div className="cyber-display-stage">
         <AnimatePresence mode="wait">
           <motion.div
             key={activeNode.id}
-            className="inspector-card"
-            style={{ borderTopColor: activeNode.accentColor }}
-            initial={reduceMotion ? { opacity: 1 } : { opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -15 }}
-            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            className="stage-card"
+            style={{ borderColor: `rgba(${activeNode.accentColor === '#E0003F' ? '224, 0, 63' : activeNode.accentColor === '#D4AF37' ? '212, 174, 55' : activeNode.accentColor === '#00F0FF' ? '0, 240, 255' : '0, 255, 157'}, 0.3)` }}
+            initial={reduceMotion ? { opacity: 1 } : { opacity: 0, y: 12, scale: 0.99 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -12, scale: 0.99 }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
           >
-            <div className="inspector-header">
-              <div className="header-meta">
+            {/* Ambient Background Wave Shader Pulse */}
+            <div
+              className="card-ambient-pulse"
+              style={{
+                background: `radial-gradient(400px circle at 80% 20%, ${activeNode.accentColor}15, transparent 70%)`,
+              }}
+              aria-hidden="true"
+            />
+
+            {/* Header Telemetry */}
+            <div className="card-top-bar">
+              <div className="bar-tag-group">
                 <span className="step-badge" style={{ backgroundColor: activeNode.accentColor }}>
-                  STEP {activeNode.step}
+                  PHASE {activeNode.stepNumber}
                 </span>
-                <span className="category-tag">{activeNode.category.toUpperCase()}</span>
+                <span className="category-label">{activeNode.category}</span>
               </div>
-              <span className="node-id-code">{activeNode.id}</span>
+              <span className="system-code">{activeNode.id.toUpperCase()}</span>
             </div>
 
-            <div className="inspector-body">
-              <h3 className="inspector-title">{activeNode.title}</h3>
-              <p className="inspector-summary">{activeNode.summary}</p>
-              <p className="inspector-deepdive">{activeNode.deepDive}</p>
-            </div>
+            {/* Main Content Area */}
+            <div className="card-main-grid">
+              <div className="grid-left-info">
+                <h3 className="node-main-title">{activeNode.title}</h3>
+                <p className="node-short-tagline">{activeNode.shortDesc}</p>
+                <p className="node-full-body">{activeNode.fullDesc}</p>
 
-            <div className="inspector-highlights">
-              {activeNode.highlights.map((h, idx) => (
-                <div key={idx} className="highlight-item">
-                  <span className="highlight-label">{h.label}</span>
-                  <span className="highlight-detail">{h.detail}</span>
+                {activeNode.demoRoute && (
+                  <div className="node-action-area">
+                    <Link
+                      to={activeNode.demoRoute}
+                      className="demo-launch-btn"
+                      style={{
+                        borderColor: activeNode.accentColor,
+                        color: activeNode.accentColor,
+                      }}
+                    >
+                      <span>Launch Interactive {activeNode.title}</span>
+                      <span className="btn-arrow">→</span>
+                    </Link>
+                  </div>
+                )}
+              </div>
+
+              {/* Data Metrics & Status Signal Box */}
+              <div className="grid-right-metrics">
+                <div className="metrics-box-frame">
+                  <div className="box-title-row">
+                    <span className="box-dot" style={{ backgroundColor: activeNode.accentColor }} />
+                    <span className="box-label">LAB TELEMETRY</span>
+                  </div>
+
+                  <div className="metrics-list">
+                    {activeNode.metrics.map((m, idx) => (
+                      <div key={idx} className="metric-row">
+                        <span className="m-label">{m.label}</span>
+                        <span className="m-val" style={{ color: activeNode.accentColor }}>
+                          {m.value}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Equalizer Wave Accent */}
+                  <div className="equalizer-bars" aria-hidden="true">
+                    {[40, 75, 30, 90, 60, 100, 45, 80].map((h, i) => (
+                      <div
+                        key={i}
+                        className="eq-bar"
+                        style={{
+                          height: `${h}%`,
+                          backgroundColor: activeNode.accentColor,
+                          animationDelay: `${i * 0.1}s`,
+                        }}
+                      />
+                    ))}
+                  </div>
                 </div>
-              ))}
-            </div>
-
-            {activeNode.linkTo && (
-              <div className="inspector-action">
-                <Link to={activeNode.linkTo} className="action-button" style={{ borderColor: activeNode.accentColor }}>
-                  Open {activeNode.title} Dynamic Experiment →
-                </Link>
               </div>
-            )}
+            </div>
           </motion.div>
         </AnimatePresence>
       </div>
     </div>
   );
 };
+
+export default FragmentCloud;
