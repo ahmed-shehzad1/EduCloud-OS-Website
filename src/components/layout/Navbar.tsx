@@ -34,23 +34,20 @@ export const Navbar: React.FC = () => {
 
   return (
     <>
-      {/* FIXED OS COMMAND HUD */}
       <header className={`educloud-hud-wrapper ${isScrolled ? 'is-scrolled' : ''}`}>
         
-        {/* Layer 1: Glowing Boundary Edge */}
+        {/* Layer 1: Glowing Crimson/Ruby Boundary */}
         <div className="hud-edge-layer" />
 
-        {/* Layer 2: Machined Glass Surface */}
+        {/* Layer 2: Blood-Ruby Machined Surface */}
         <div className="hud-surface">
           
-          {/* LOGO NODE */}
           <div className="hud-node-logo">
             <Link to="/" className="os-logo" aria-label="EduCloud OS Home">
               EDUCLOUD <span>OS</span>
             </Link>
           </div>
 
-          {/* NAVIGATION NODE */}
           <nav className="hud-node-nav" aria-label="Main Navigation">
             {NAV_LINKS.map((link) => {
               const isActive = location.pathname === link.path;
@@ -76,80 +73,60 @@ export const Navbar: React.FC = () => {
             })}
           </nav>
 
-          {/* UPLINK / GITHUB NODE */}
           <div className="hud-node-uplink">
             <button className="auth-button" aria-label="GitHub Uplink">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="square" strokeLinejoin="miter">
-                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
               </svg>
               UPLINK
             </button>
           </div>
 
-          {/* MOBILE TRIGGER */}
           <button 
-            className="mobile-trigger" 
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-expanded={isMobileMenuOpen}
-            aria-label="Toggle command menu"
+            className="mobile-trigger"
+            onClick={() => setIsMobileMenuOpen(true)}
+            aria-label="Open System Menu"
           >
             <div className="line line-1" />
             <div className="line line-2" />
           </button>
-
         </div>
       </header>
 
-      {/* SYSTEM TELEMETRY MARQUEE (Normal Document Flow) */}
+      {/* System Diagnostic Marquee - Blood Ruby Strip */}
       <div className="system-marquee-container" aria-hidden="true">
         <div className="system-marquee-content">
-          {/* Rendered twice for a seamless infinite CSS loop */}
           <span>{TELEMETRY_TEXT}</span>
           <span>{TELEMETRY_TEXT}</span>
         </div>
       </div>
 
-      {/* MOBILE FULLSCREEN COMMAND OVERLAY */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div 
             className="mobile-overlay"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
           >
-            {NAV_LINKS.map((link, i) => (
-              <motion.div
-                key={link.path}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 10 }}
-                transition={{ delay: i * 0.05, duration: 0.3 }}
-              >
-                <Link 
-                  to={link.path} 
-                  className={`mobile-link ${location.pathname === link.path ? 'active' : ''}`}
-                >
-                  {link.label}
-                </Link>
-              </motion.div>
-            ))}
-            
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 10 }}
-              transition={{ delay: NAV_LINKS.length * 0.05, duration: 0.3 }}
-              style={{ marginTop: '2rem' }}
+            <button 
+              className="auth-button" 
+              style={{ position: 'absolute', top: '1.5rem', right: '1.5rem', border: 'none' }}
+              onClick={() => setIsMobileMenuOpen(false)}
             >
-              <button className="auth-button" style={{ fontSize: '1.2rem', color: '#fff' }}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="square">
-                  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-                </svg>
-                INITIATE UPLINK
-              </button>
-            </motion.div>
+              CLOSE SYSTEM
+            </button>
+
+            {NAV_LINKS.map((link) => (
+              <Link
+                key={link.path}
+                to={link.path}
+                className={`mobile-link ${location.pathname === link.path ? 'active' : ''}`}
+              >
+                {link.label}
+              </Link>
+            ))}
           </motion.div>
         )}
       </AnimatePresence>
