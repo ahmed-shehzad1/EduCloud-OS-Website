@@ -1,154 +1,169 @@
-// src/components/common/FragmentCloud.tsx
-import React from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
-import { TIMELINE_NODES } from '../../data/timeline';
-import '../../styles/pages/about.css';
-import { Link } from 'react-router-dom';
-
-/*
-  FragmentCloud
-  - Sculptural fragment elements animate from scattered positions into assembled center.
-  - Uses Framer Motion viewport triggers (no external scroll library).
-  - The fragment positions and scales are tuned in CSS (absolute layout).
-  - Fragments are keyboard focusable and have aria labels for accessibility.
-*/
+import React, { useState } from 'react';
+import { motion, AnimatePresence, useReducedMotion, type Variants } from 'framer-motion';
+import { TIMELINE_NODES, type TimelineNode } from '../../data/timeline';
 
 export const FragmentCloud: React.FC = () => {
   const reduceMotion = useReducedMotion();
+  const [activeNodeId, setActiveNodeId] = useState<string>('node-scheduler');
 
-  const fragVariants = {
-    off: (custom: number) => ({
-      opacity: 0,
-      y: 24 + custom * 8,
-      rotate: (custom % 2 === 0 ? -6 : 6),
-      scale: 0.96,
-    }),
-    on: (custom: number) => ({
-      opacity: 1,
-      y: 0,
-      rotate: 0,
-      scale: 1,
-      transition: {
-        delay: 0.12 * custom,
-        duration: 0.8,
-        ease: [0.16, 1, 0.3, 1],
-      },
-    }),
+  const activeNode = TIMELINE_NODES.find((n) => n.id === activeNodeId) || TIMELINE_NODES[0];
+
+  const nodePulseVariants: Variants = {
+    idle: { scale: 1, rotate: 0 },
+    active: {
+      scale: [1, 1.15, 1],
+      rotate: [0, 90, 180, 270, 360],
+      transition: { duration: 16, repeat: Infinity, ease: 'linear' },
+    },
   };
 
-  // Map nodes into three fragments plus meta steps
-  // For layout we will render fragment shapes at certain indexes
-  const fragments = TIMELINE_NODES.filter((n) => n.role === 'fragment');
-  const metas = TIMELINE_NODES.filter((n) => n.role === 'meta');
-
   return (
-    <section className="about-cloud-stage" aria-label="Fragment cloud timeline">
-      <div className="about-cloud-inner container-centered">
-        <div className="cloud-stage-visual" aria-hidden="true">
-          {/* background fog & radial lights are CSS-driven */}
-        </div>
+    <div className="about-spatial-matrix" role="region" aria-label="Kernel Interactive State Machine">
+      {/* Laser Spatial Mesh Connections */}
+      <svg className="matrix-laser-canvas" viewBox="-100 -100 200 200" preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="laserGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="rgba(224, 0, 63, 0.4)" />
+            <stop offset="50%" stopColor="rgba(0, 240, 255, 0.4)" />
+            <stop offset="100%" stopColor="rgba(212, 174, 55, 0.4)" />
+          </linearGradient>
+        </defs>
 
-        <div className="cloud-stage-fragments" role="list" aria-hidden="false">
-          {/* Left fragment (Process) */}
-          <motion.div
-            className="cloud-fragment cloud-frag-left"
-            variants={reduceMotion ? undefined : fragVariants}
-            initial={reduceMotion ? undefined : 'off'}
-            whileInView={reduceMotion ? undefined : 'on'}
-            viewport={{ once: true, amount: 0.28 }}
-            custom={0}
-            tabIndex={0}
-            role="listitem"
-            aria-label="Process fragment: animates into place"
-          >
-            <div className="frag-surface">
-              <svg className="frag-shape" viewBox="0 0 300 220" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-                <path d="M0,40 C40,0 260,0 300,40 L260,180 C220,210 80,210 40,180 Z" fill="rgba(255,255,255,0.02)"/>
-              </svg>
+        {/* Dynamic Connector Constellations */}
+        {TIMELINE_NODES.map((node, i) => {
+          const nextNode = TIMELINE_NODES[(i + 1) % TIMELINE_NODES.length];
+          const isActive = node.id === activeNodeId || nextNode.id === activeNodeId;
+          return (
+            <motion.line
+              key={`laser-${node.id}-${nextNode.id}`}
+              x1={node.spatialCoords.x}
+              y1={node.spatialCoords.y}
+              x2={nextNode.spatialCoords.x}
+              y2={nextNode.spatialCoords.y}
+              stroke="url(#laserGrad)"
+              strokeWidth={isActive ? '1.2' : '0.4'}
+              strokeDasharray={isActive ? '3 1' : '1 2'}
+              opacity={isActive ? 0.9 : 0.25}
+              animate={{
+                strokeDashoffset: [0, -20],
+              }}
+              transition={{
+                duration: 4,
+                repeat: Infinity,
+                ease: 'linear',
+              }}
+            />
+          );
+        })}
+      </svg>
 
-              <div className="frag-inside">
-                <div className="frag-label">PROCESS</div>
-                <div className="frag-mini">Lifecycle • traces</div>
-              </div>
-            </div>
-          </motion.div>
+      {/* Interactive Floating Spatial Nodes */}
+      <div className="nodes-spatial-container">
+        {TIMELINE_NODES.map((node) => {
+          const isSelected = node.id === activeNodeId;
+          return (
+            <button
+              key={node.id}
+              onClick={() => setActiveNodeId(node.id)}
+              className={`spatial-node-anchor ${isSelected ? 'is-active' : ''}`}
+              style={{
+                left: `${50 + node.spatialCoords.x * 0.9}%`,
+                top: `${50 + node.spatialCoords.y * 0.9}%`,
+              }}
+              aria-label={`Select node ${node.title}`}
+            >
+              <motion.div
+                className="node-ring-core"
+                style={{ borderColor: node.accentColor }}
+                variants={reduceMotion ? undefined : nodePulseVariants}
+                animate={reduceMotion ? 'idle' : isSelected ? 'active' : 'idle'}
+              >
+                <div
+                  className="node-center-dot"
+                  style={{
+                    backgroundColor: node.accentColor,
+                    boxShadow: `0 0 15px ${node.accentColor}`,
+                  }}
+                />
+              </motion.div>
 
-          {/* Center fragment (Scheduler) */}
-          <motion.div
-            className="cloud-fragment cloud-frag-center"
-            variants={reduceMotion ? undefined : fragVariants}
-            initial={reduceMotion ? undefined : 'off'}
-            whileInView={reduceMotion ? undefined : 'on'}
-            viewport={{ once: true, amount: 0.28 }}
-            custom={1}
-            tabIndex={0}
-            role="listitem"
-            aria-label="Scheduler fragment: interactive demonstration"
-          >
-            <div className="frag-surface frag-surface-hero">
-              <svg className="frag-shape" viewBox="0 0 360 260" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-                <path d="M0,56 C72,0 288,0 360,56 L320,220 C240,260 120,260 40,220 Z" fill="rgba(255,255,255,0.02)"/>
-              </svg>
+              <span className="node-hex-tag" style={{ color: node.accentColor }}>
+                {node.stepHex}
+              </span>
 
-              <div className="frag-inside center">
-                <div className="frag-label big">SCHEDULER</div>
-                <div className="frag-mini">Hover to preview policies</div>
-
-                <div className="sched-cta-row">
-                  <Link to="/how-to" className="sched-cta">Open Scheduler</Link>
-                  <div className="sched-hint">FCFS ↔ SJF</div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Right fragment (Memory) */}
-          <motion.div
-            className="cloud-fragment cloud-frag-right"
-            variants={reduceMotion ? undefined : fragVariants}
-            initial={reduceMotion ? undefined : 'off'}
-            whileInView={reduceMotion ? undefined : 'on'}
-            viewport={{ once: true, amount: 0.28 }}
-            custom={2}
-            tabIndex={0}
-            role="listitem"
-            aria-label="Memory fragment: allocation map"
-          >
-            <div className="frag-surface">
-              <svg className="frag-shape" viewBox="0 0 260 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-                <path d="M0,40 C40,10 220,10 260,40 L240,170 C200,190 60,190 20,170 Z" fill="rgba(255,255,255,0.02)"/>
-              </svg>
-
-              <div className="frag-inside">
-                <div className="frag-label">MEMORY</div>
-                <div className="frag-mini">Maps • fragmentation</div>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-
-        <div className="cloud-timeline" aria-hidden="false">
-          <ol className="timeline-list">
-            {TIMELINE_NODES.map((node, i) => (
-              <li key={node.id} className={`timeline-node ${node.role === 'fragment' ? 'node-frag' : 'node-meta'}`}>
-                <motion.div
-                  className="timeline-card"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.16 }}
-                  transition={{ duration: 0.7, delay: i * 0.06 }}
-                >
-                  <div className="timeline-step">{node.step}</div>
-                  <div className="timeline-body">
-                    <div className="timeline-title">{node.title}</div>
-                    <div className="timeline-summary">{node.summary}</div>
-                  </div>
-                </motion.div>
-              </li>
-            ))}
-          </ol>
-        </div>
+              {isSelected && <div className="node-beacon-ping" style={{ borderColor: node.accentColor }} />}
+            </button>
+          );
+        })}
       </div>
-    </section>
+
+      {/* Holographic Kernel Core HUD Inspect Panel */}
+      <div className="hologram-hud-viewport">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeNode.id}
+            className="hud-card-glass"
+            initial={{ opacity: 0, scale: 0.9, y: 15 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: -15 }}
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          >
+            {/* Top HUD Frame Header */}
+            <div className="hud-frame-header">
+              <div className="hud-code-group">
+                <span className="hud-step-badge" style={{ backgroundColor: activeNode.accentColor }}>
+                  {activeNode.stepHex}
+                </span>
+                <span className="hud-code-name">{activeNode.codeName}</span>
+              </div>
+              <span className="hud-role-pill">{activeNode.phaseRole.toUpperCase()}</span>
+            </div>
+
+            {/* Core Info Display */}
+            <div className="hud-body-content">
+              <h2 className="hud-node-title">{activeNode.title}</h2>
+              <p className="hud-node-tagline">{activeNode.tagline}</p>
+            </div>
+
+            {/* Real-time Telemetry Metrics Grid */}
+            <div className="hud-metrics-grid">
+              {activeNode.telemetry.map((metric, idx) => (
+                <div key={`metric-${idx}`} className="hud-metric-box">
+                  <span className="metric-lbl">{metric.label}</span>
+                  <div className="metric-val-row">
+                    <span className="metric-val" style={{ color: activeNode.accentColor }}>
+                      {metric.value}
+                    </span>
+                    {metric.unit && <span className="metric-unit">{metric.unit}</span>}
+                  </div>
+                  <div className={`metric-status-bar ${metric.status}`} />
+                </div>
+              ))}
+            </div>
+
+            {/* Subsystem Hexagon Audio-Visualizer Reacting Element */}
+            <div className="hud-visual-spectrum" aria-hidden="true">
+              {[...Array(12)].map((_, i) => (
+                <motion.div
+                  key={`bar-${i}`}
+                  className="spectrum-bar"
+                  style={{ backgroundColor: activeNode.accentColor }}
+                  animate={{
+                    height: [8, Math.max(12, (i * 7) % 36), 8],
+                  }}
+                  transition={{
+                    duration: 0.8 + (i % 4) * 0.2,
+                    repeat: Infinity,
+                    ease: 'easeInOut',
+                  }}
+                />
+              ))}
+            </div>
+          </motion.div>
+        </AnimatePresence>
+      </div>
+    </div>
   );
 };
+
+export default FragmentCloud;
