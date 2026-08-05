@@ -1,0 +1,144 @@
+/* Animated Cyber Core Logo Component */
+
+.educloud-logo-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  user-select: none;
+}
+
+/* Size Variants */
+.educloud-logo-link.size-sm .logo-icon-frame {
+  width: 32px;
+  height: 32px;
+}
+
+.educloud-logo-link.size-md .logo-icon-frame {
+  width: 42px;
+  height: 42px;
+}
+
+.educloud-logo-link.size-lg .logo-icon-frame {
+  width: 54px;
+  height: 54px;
+}
+
+/* Icon Frame */
+.logo-icon-frame {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(4, 2, 6, 0.9);
+}
+
+/* Outer Pulsing & Rotating Ring */
+.logo-ring-outer {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px dashed rgba(224, 0, 63, 0.6);
+  box-shadow: 0 0 12px rgba(224, 0, 63, 0.25);
+}
+
+/* Inner Orbit Container */
+.logo-ring-inner {
+  position: absolute;
+  inset: 5px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.orbit-node {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+}
+
+.orbit-node.gold {
+  top: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #D4AF37;
+  box-shadow: 0 0 6px #D4AF37;
+}
+
+.orbit-node.cyan {
+  bottom: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #00F0FF;
+  box-shadow: 0 0 6px #00F0FF;
+}
+
+/* Central Core */
+.logo-core {
+  position: relative;
+  width: 40%;
+  height: 40%;
+  border-radius: 50%;
+  background: #E0003F;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 14px #FF1E56;
+}
+
+.core-ruby-dot {
+  width: 50%;
+  height: 50%;
+  border-radius: 50%;
+  background: #FFFFFF;
+  opacity: 0.9;
+  animation: logo-core-pulse 2s infinite ease-in-out;
+}
+
+@keyframes logo-core-pulse {
+  0%, 100% {
+    transform: scale(0.8);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}
+
+/* Brand Text Styling */
+.logo-brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+
+.brand-primary {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 1.05rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  color: #FFFFFF;
+}
+
+.brand-accent {
+  color: #FF1E56;
+}
+
+.brand-sub {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.16em;
+  color: #D4AF37;
+  margin-top: 3px;
+}
+
+/* Reduced Motion Override */
+@media (prefers-reduced-motion: reduce) {
+  .logo-ring-outer,
+  .logo-ring-inner,
+  .core-ruby-dot {
+    animation: none !important;
+  }
+}
