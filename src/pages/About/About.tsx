@@ -5,63 +5,85 @@ import '../../styles/pages/about.css';
 
 export const About: React.FC = () => {
   return (
-    <div className="about-cyber-stage">
-      {/* Spatial Cyber Environment Visual Background */}
-      <div className="about-bg-grid" aria-hidden="true" />
-      <div className="about-scanlines" aria-hidden="true" />
+    <div className="about-page-container">
+      <div className="about-bg-ambient" aria-hidden="true">
+        <div className="ambient-glow glow-ruby" />
+        <div className="ambient-glow glow-gold" />
+      </div>
 
-      {/* Kinetic Atmospheric Light Flares */}
-      <div className="bg-flare flare-ruby" aria-hidden="true" />
-      <div className="bg-flare flare-cyan" aria-hidden="true" />
-
-      <main className="about-main-container container-centered">
-        {/* Kinetic Telemetry Header */}
-        <header className="about-hero-minimal">
+      <main className="about-content container-centered">
+        {/* Project Mission Hero Header */}
+        <header className="about-hero-section">
           <motion.div
-            className="hero-badge-tag"
+            className="hero-kicker"
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.5 }}
           >
-            <span className="badge-pulse" />
-            SYSTEM_MANIFESTO // LABORATORY_STATE_SPACE
+            PROJECT MANIFESTO & ARCHITECTURE
           </motion.div>
 
           <motion.h1
-            className="about-glitch-title"
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.1 }}
+            className="about-title"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
           >
-            EDUCLOUD<span className="text-gold">.OS</span> LABS
+            Demystifying Operating Systems Through Visual Experiments
           </motion.h1>
 
           <motion.p
-            className="about-hero-sub"
-            initial={{ opacity: 0, y: 10 }}
+            className="about-lead"
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
           >
-            Click state nodes to inspect execution vector topologies and system architecture state spaces in real time.
+            EduCloud is an interactive educational laboratory created to make abstract computer science concepts tangible. By combining real-time C++ kernel simulations with interactive web graphics, learners can inspect process state transitions, benchmark scheduling policies, and analyze memory allocation map behavior firsthand.
           </motion.p>
         </header>
 
-        {/* Primary Interactive Holographic Node Canvas */}
-        <section className="matrix-stage-section">
+        {/* Interactive Timeline & Fragment Map */}
+        <section className="about-interactive-section" aria-label="Project Journey and Architecture Timeline">
+          <div className="section-label-bar">
+            <h2>Explore the Lab's Evolution & Core Modules</h2>
+            <p>Click any node in the constellation below to inspect project milestones, system modules, and technical design details.</p>
+          </div>
+
           <FragmentCloud />
         </section>
 
-        {/* Minimal Terminal State Footer Bar */}
-        <footer className="about-interactive-bar">
-          <div className="bar-status">
-            <span className="status-label">SYS_EXEC_STATE:</span>
-            <span className="status-val text-green">STABLE_3D_VECTOR</span>
+        {/* Real Core Pillars Section */}
+        <section className="about-pillars-grid">
+          <div className="pillar-card">
+            <div className="pillar-icon">01</div>
+            <h3>Interactive Visualization</h3>
+            <p>
+              Replaces static textbook diagrams with real-time state machines, execution traces, and controllable simulation speeds.
+            </p>
           </div>
 
-          <div className="bar-interactive-controls">
-            <span className="control-hint">SELECT NODE TO SWITCH TELEMETRY</span>
+          <div className="pillar-card">
+            <div className="pillar-icon">02</div>
+            <h3>Native Engine Performance</h3>
+            <p>
+              Under the hood, C++ simulation logic powers precise OS behavior, compiled directly for web execution via WebAssembly.
+            </p>
           </div>
-        </footer>
+
+          <div className="pillar-card">
+            <div className="pillar-icon">03</div>
+            <h3>Experimentation First</h3>
+            <p>
+              Designed for CS students and educators to run side-by-side policy comparisons, such as SJF vs FCFS scheduling or First-Fit vs Best-Fit allocation.
+            </p>
+          </div>
+        </section>
+
+        {/* Join CTA */}
+        <section className="about-cta-banner">
+          <h2>Ready to explore the kernel?</h2>
+          <p>Dive into interactive scheduling experiments, memory maps, and process traces in the EduCloud lab space.</p>
+        </section>
       </main>
     </div>
   );

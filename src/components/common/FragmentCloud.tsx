@@ -1,169 +1,121 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence, useReducedMotion, type Variants } from 'framer-motion';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { TIMELINE_NODES, type TimelineNode } from '../../data/timeline';
 
 export const FragmentCloud: React.FC = () => {
   const reduceMotion = useReducedMotion();
-  const [activeNodeId, setActiveNodeId] = useState<string>('node-scheduler');
+  const [selectedId, setSelectedId] = useState<string>('t-vision');
 
-  const activeNode = TIMELINE_NODES.find((n) => n.id === activeNodeId) || TIMELINE_NODES[0];
-
-  const nodePulseVariants: Variants = {
-    idle: { scale: 1, rotate: 0 },
-    active: {
-      scale: [1, 1.15, 1],
-      rotate: [0, 90, 180, 270, 360],
-      transition: { duration: 16, repeat: Infinity, ease: 'linear' },
-    },
-  };
+  const activeNode = TIMELINE_NODES.find((n) => n.id === selectedId) || TIMELINE_NODES[1];
 
   return (
-    <div className="about-spatial-matrix" role="region" aria-label="Kernel Interactive State Machine">
-      {/* Laser Spatial Mesh Connections */}
-      <svg className="matrix-laser-canvas" viewBox="-100 -100 200 200" preserveAspectRatio="none" aria-hidden="true">
-        <defs>
-          <linearGradient id="laserGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="rgba(224, 0, 63, 0.4)" />
-            <stop offset="50%" stopColor="rgba(0, 240, 255, 0.4)" />
-            <stop offset="100%" stopColor="rgba(212, 174, 55, 0.4)" />
-          </linearGradient>
-        </defs>
+    <div className="about-interactive-stage">
+      {/* Visual Connection Network */}
+      <div className="stage-constellation">
+        <svg className="constellation-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+          {TIMELINE_NODES.map((node, i) => {
+            const nextNode = TIMELINE_NODES[(i + 1) % TIMELINE_NODES.length];
+            const isRelated = node.id === selectedId || nextNode.id === selectedId;
+            return (
+              <line
+                key={`line-${node.id}-${nextNode.id}`}
+                x1={node.coords.x}
+                y1={node.coords.y}
+                x2={nextNode.coords.x}
+                y2={nextNode.coords.y}
+                stroke={isRelated ? node.accentColor : 'rgba(255, 255, 255, 0.12)'}
+                strokeWidth={isRelated ? '0.6' : '0.2'}
+                strokeDasharray={isRelated ? 'none' : '1 1'}
+              />
+            );
+          })}
+        </svg>
 
-        {/* Dynamic Connector Constellations */}
-        {TIMELINE_NODES.map((node, i) => {
-          const nextNode = TIMELINE_NODES[(i + 1) % TIMELINE_NODES.length];
-          const isActive = node.id === activeNodeId || nextNode.id === activeNodeId;
-          return (
-            <motion.line
-              key={`laser-${node.id}-${nextNode.id}`}
-              x1={node.spatialCoords.x}
-              y1={node.spatialCoords.y}
-              x2={nextNode.spatialCoords.x}
-              y2={nextNode.spatialCoords.y}
-              stroke="url(#laserGrad)"
-              strokeWidth={isActive ? '1.2' : '0.4'}
-              strokeDasharray={isActive ? '3 1' : '1 2'}
-              opacity={isActive ? 0.9 : 0.25}
-              animate={{
-                strokeDashoffset: [0, -20],
-              }}
-              transition={{
-                duration: 4,
-                repeat: Infinity,
-                ease: 'linear',
-              }}
-            />
-          );
-        })}
-      </svg>
-
-      {/* Interactive Floating Spatial Nodes */}
-      <div className="nodes-spatial-container">
+        {/* Interactive Story Nodes */}
         {TIMELINE_NODES.map((node) => {
-          const isSelected = node.id === activeNodeId;
+          const isSelected = node.id === selectedId;
+
           return (
-            <button
+            <motion.button
               key={node.id}
-              onClick={() => setActiveNodeId(node.id)}
-              className={`spatial-node-anchor ${isSelected ? 'is-active' : ''}`}
+              onClick={() => setSelectedId(node.id)}
+              className={`constellation-node ${isSelected ? 'is-selected' : ''}`}
               style={{
-                left: `${50 + node.spatialCoords.x * 0.9}%`,
-                top: `${50 + node.spatialCoords.y * 0.9}%`,
+                left: `${node.coords.x}%`,
+                top: `${node.coords.y}%`,
               }}
-              aria-label={`Select node ${node.title}`}
+              whileHover={{ scale: 1.15 }}
+              whileTap={{ scale: 0.95 }}
+              aria-label={`Inspect ${node.title}`}
             >
-              <motion.div
-                className="node-ring-core"
-                style={{ borderColor: node.accentColor }}
-                variants={reduceMotion ? undefined : nodePulseVariants}
-                animate={reduceMotion ? 'idle' : isSelected ? 'active' : 'idle'}
+              <div
+                className="node-ring"
+                style={{
+                  borderColor: node.accentColor,
+                  boxShadow: isSelected ? `0 0 18px ${node.accentColor}` : 'none',
+                }}
               >
                 <div
-                  className="node-center-dot"
-                  style={{
-                    backgroundColor: node.accentColor,
-                    boxShadow: `0 0 15px ${node.accentColor}`,
-                  }}
+                  className="node-dot"
+                  style={{ backgroundColor: node.accentColor }}
                 />
-              </motion.div>
+              </div>
 
-              <span className="node-hex-tag" style={{ color: node.accentColor }}>
-                {node.stepHex}
-              </span>
-
-              {isSelected && <div className="node-beacon-ping" style={{ borderColor: node.accentColor }} />}
-            </button>
+              <span className="node-step-tag">{node.step}</span>
+              <span className="node-title-preview">{node.title}</span>
+            </motion.button>
           );
         })}
       </div>
 
-      {/* Holographic Kernel Core HUD Inspect Panel */}
-      <div className="hologram-hud-viewport">
+      {/* Inspector HUD Card */}
+      <div className="stage-inspector">
         <AnimatePresence mode="wait">
           <motion.div
             key={activeNode.id}
-            className="hud-card-glass"
-            initial={{ opacity: 0, scale: 0.9, y: 15 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: -15 }}
-            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            className="inspector-card"
+            style={{ borderTopColor: activeNode.accentColor }}
+            initial={reduceMotion ? { opacity: 1 } : { opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -15 }}
+            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
           >
-            {/* Top HUD Frame Header */}
-            <div className="hud-frame-header">
-              <div className="hud-code-group">
-                <span className="hud-step-badge" style={{ backgroundColor: activeNode.accentColor }}>
-                  {activeNode.stepHex}
+            <div className="inspector-header">
+              <div className="header-meta">
+                <span className="step-badge" style={{ backgroundColor: activeNode.accentColor }}>
+                  STEP {activeNode.step}
                 </span>
-                <span className="hud-code-name">{activeNode.codeName}</span>
+                <span className="category-tag">{activeNode.category.toUpperCase()}</span>
               </div>
-              <span className="hud-role-pill">{activeNode.phaseRole.toUpperCase()}</span>
+              <span className="node-id-code">{activeNode.id}</span>
             </div>
 
-            {/* Core Info Display */}
-            <div className="hud-body-content">
-              <h2 className="hud-node-title">{activeNode.title}</h2>
-              <p className="hud-node-tagline">{activeNode.tagline}</p>
+            <div className="inspector-body">
+              <h3 className="inspector-title">{activeNode.title}</h3>
+              <p className="inspector-summary">{activeNode.summary}</p>
+              <p className="inspector-deepdive">{activeNode.deepDive}</p>
             </div>
 
-            {/* Real-time Telemetry Metrics Grid */}
-            <div className="hud-metrics-grid">
-              {activeNode.telemetry.map((metric, idx) => (
-                <div key={`metric-${idx}`} className="hud-metric-box">
-                  <span className="metric-lbl">{metric.label}</span>
-                  <div className="metric-val-row">
-                    <span className="metric-val" style={{ color: activeNode.accentColor }}>
-                      {metric.value}
-                    </span>
-                    {metric.unit && <span className="metric-unit">{metric.unit}</span>}
-                  </div>
-                  <div className={`metric-status-bar ${metric.status}`} />
+            <div className="inspector-highlights">
+              {activeNode.highlights.map((h, idx) => (
+                <div key={idx} className="highlight-item">
+                  <span className="highlight-label">{h.label}</span>
+                  <span className="highlight-detail">{h.detail}</span>
                 </div>
               ))}
             </div>
 
-            {/* Subsystem Hexagon Audio-Visualizer Reacting Element */}
-            <div className="hud-visual-spectrum" aria-hidden="true">
-              {[...Array(12)].map((_, i) => (
-                <motion.div
-                  key={`bar-${i}`}
-                  className="spectrum-bar"
-                  style={{ backgroundColor: activeNode.accentColor }}
-                  animate={{
-                    height: [8, Math.max(12, (i * 7) % 36), 8],
-                  }}
-                  transition={{
-                    duration: 0.8 + (i % 4) * 0.2,
-                    repeat: Infinity,
-                    ease: 'easeInOut',
-                  }}
-                />
-              ))}
-            </div>
+            {activeNode.linkTo && (
+              <div className="inspector-action">
+                <Link to={activeNode.linkTo} className="action-button" style={{ borderColor: activeNode.accentColor }}>
+                  Open {activeNode.title} Dynamic Experiment →
+                </Link>
+              </div>
+            )}
           </motion.div>
         </AnimatePresence>
       </div>
     </div>
   );
 };
-
-export default FragmentCloud;
