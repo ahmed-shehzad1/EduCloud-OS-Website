@@ -1,92 +1,178 @@
-// src/components/common/FeatureSection.tsx
-import React from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
-import { FEATURES } from '../../data/features';
-import '../../styles/components/feature-section.css';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { FEATURES, type FeatureItem } from '../../data/features';
+import '../../styles/components/feature-section.css';
 
 export const FeatureSection: React.FC = () => {
+  const [activeSubsystem, setActiveSubsystem] = useState<FeatureItem>(FEATURES[0]);
+  const [telemetryIndex, setTelemetryIndex] = useState(0);
   const reduceMotion = useReducedMotion();
 
-  const container = {
-    hidden: {},
-    show: { transition: { staggerChildren: 0.08 } },
-  };
+  useEffect(() => {
+    const streamLength = activeSubsystem.telemetryStream.length;
+    if (streamLength === 0) return;
 
-  const cardVariants = {
-    hidden: { opacity: 0, y: 10, scale: 0.995 },
-    show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } },
-    hover: { scale: 1.02, y: -4, transition: { duration: 0.28 } },
+    const interval = setInterval(() => {
+      setTelemetryIndex((prev) => (prev + 1) % streamLength);
+    }, 2200);
+
+    return () => clearInterval(interval);
+  }, [activeSubsystem]);
+
+  const handleSubsystemChange = (sys: FeatureItem) => {
+    setActiveSubsystem(sys);
+    setTelemetryIndex(0);
   };
 
   return (
-    <section className="features-section" aria-labelledby="features-heading">
-      <div className="features-inner container-centered">
-        <header className="features-header">
-          <h2 id="features-heading" className="features-title">
-            Core Concepts
+    <section className="features-hud-section" aria-labelledby="features-hud-heading">
+      <div className="hud-grid-background" aria-hidden="true" />
+
+      <div className="features-container">
+        <header className="hud-section-header">
+          <div className="hud-status-badge">
+            <span className="badge-pulse" />
+            <span className="badge-text">SUBSYSTEM DIAGNOSTICS MATRIX</span>
+          </div>
+          <h2 id="features-hud-heading" className="hud-section-title">
+            INTERACTIVE KERNEL CORE
           </h2>
-          <p className="features-lead">
-            Large, interactive panels that teach OS fundamentals through hands‑on visualizations — not static documentation.
+          <p className="hud-section-lead">
+            Direct telemetry and low-level subsystem visualization. Select an OS component to inspect live diagnostics.
           </p>
         </header>
 
-        <motion.div
-          className="features-grid"
-          variants={reduceMotion ? undefined : container}
-          initial={reduceMotion ? undefined : 'hidden'}
-          animate={reduceMotion ? undefined : 'show'}
-        >
-          {FEATURES.map((f, i) => (
-            <motion.article
-              key={f.id}
-              className={`feature-card feature-card-${i}`}
-              variants={reduceMotion ? undefined : cardVariants}
-              whileHover={reduceMotion ? undefined : 'hover'}
-              aria-labelledby={`feature-${f.id}-title`}
-              role="article"
-            >
-              <div className="card-visual">
-                {/* Decorative clipped shape and simple inline visualization */}
-                <svg className="visual-shape" viewBox="0 0 200 120" preserveAspectRatio="none" aria-hidden="true">
-                  <path d="M0,24 C40,0 160,0 200,24 L200,96 C160,120 40,120 0,96 Z" fill="rgba(255,255,255,0.02)" />
-                </svg>
+        <div className="hud-console-chassis">
+          <nav className="hud-selector-rail" aria-label="Subsystems Navigation">
+            {FEATURES.map((sys) => {
+              const isActive = activeSubsystem.id === sys.id;
+              return (
+                <button
+                  key={sys.id}
+                  className={`subsystem-node-btn ${isActive ? 'is-active' : ''}`}
+                  onClick={() => handleSubsystemChange(sys)}
+                  type="button"
+                >
+                  <div className="node-indicator-bar" />
+                  <div className="node-info">
+                    <span className="node-sys-code">{sys.sysCode}</span>
+                    <span className="node-title">{sys.title}</span>
+                  </div>
+                  <span className="node-status-led" />
+                </button>
+              );
+            })}
+          </nav>
 
-                <div className="mini-visual" aria-hidden="true">
-                  {/* subtle dynamic bars / meter; representational only */}
-                  <div className="mini-bars">
-                    <span style={{ height: `${40 + i * 8}%` }} />
-                    <span style={{ height: `${60 - i * 6}%` }} />
-                    <span style={{ height: `${30 + i * 10}%` }} />
-                    <span style={{ height: `${50 + i * 4}%` }} />
+          <div className="hud-stage-chamber">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeSubsystem.id}
+                className="chamber-content-wrapper"
+                initial={reduceMotion ? false : { opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={reduceMotion ? undefined : { opacity: 0, x: -20 }}
+                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <div className="chamber-top-bar">
+                  <div className="chamber-sys-label">
+                    <span className="label-bracket">[</span>
+                    <span className="label-code">{activeSubsystem.sysCode}</span>
+                    <span className="label-bracket">]</span>
+                    <span className="label-sub">{activeSubsystem.subtitle}</span>
+                  </div>
+                  <div className="chamber-live-signal">
+                    <span className="signal-dot" />
+                    LIVE DIAGNOSTICS
                   </div>
                 </div>
-              </div>
 
-              <div className="card-body">
-                <h3 id={`feature-${f.id}-title`} className="card-title">
-                  <span className="title-main">{f.title}</span>
-                  <span className="title-sub">{f.subtitle}</span>
-                </h3>
+                <div className="chamber-visualizer-deck">
+                  <div className="deck-glass-overlay" />
+                  
+                  {activeSubsystem.id === 'process-management' && (
+                    <div className="visualizer-stage state-machine-stage">
+                      <div className="state-node node-new">NEW</div>
+                      <div className="state-connector connector-1"><span className="pulse-line" /></div>
+                      <div className="state-node node-ready is-active">READY</div>
+                      <div className="state-connector connector-2"><span className="pulse-line" /></div>
+                      <div className="state-node node-running">RUNNING</div>
+                    </div>
+                  )}
 
-                <p className="card-blurb">{f.blurb}</p>
+                  {activeSubsystem.id === 'cpu-scheduling' && (
+                    <div className="visualizer-stage gantt-stage">
+                      <div className="gantt-track">
+                        <span className="gantt-label">CPU0</span>
+                        <div className="gantt-bars">
+                          <div className="gantt-block b1" style={{ width: '35%' }}>P1</div>
+                          <div className="gantt-block b2" style={{ width: '25%' }}>P2</div>
+                          <div className="gantt-block b3" style={{ width: '40%' }}>P3</div>
+                        </div>
+                      </div>
+                      <div className="quantum-sweep-line" />
+                    </div>
+                  )}
 
-                <ul className="card-highlights" aria-hidden="true">
-                  {f.highlights?.map((h) => (
-                    <li key={h} className="highlight">{h}</li>
-                  ))}
-                </ul>
+                  {activeSubsystem.id === 'memory' && (
+                    <div className="visualizer-stage memory-grid-stage">
+                      {Array.from({ length: 16 }).map((_, idx) => (
+                        <div key={idx} className={`page-frame ${idx % 3 === 0 ? 'allocated' : ''} ${idx === 5 ? 'fault' : ''}`}>
+                          <span>0x{idx.toString(16).toUpperCase().padStart(2, '0')}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
 
-                <div className="card-actions">
-                  <Link to={f.route ?? '/how-to'} className="btn-link" aria-label={`Explore ${f.title}`}>
-                    Explore
-                    <span className="btn-gold" aria-hidden="true" />
+                <div className="chamber-body-grid">
+                  <div className="body-description">
+                    <h3 className="chamber-title">{activeSubsystem.title}</h3>
+                    <p className="chamber-blurb">{activeSubsystem.blurb}</p>
+
+                    <div className="chamber-highlights">
+                      {activeSubsystem.highlights.map((item) => (
+                        <div key={item} className="highlight-pill">
+                          <span className="pill-dot">◆</span>
+                          {item}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="body-telemetry">
+                    <div className="telemetry-metrics-grid">
+                      {activeSubsystem.metrics.map((m) => (
+                        <div key={m.label} className="metric-box">
+                          <span className="metric-box-label">{m.label}</span>
+                          <span className="metric-box-value">{m.value}</span>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="telemetry-terminal-stream">
+                      <div className="stream-header">SYSTEM_LOG // STREAM</div>
+                      <div className="stream-output">
+                        <span className="prompt">&gt;</span> {activeSubsystem.telemetryStream[telemetryIndex] ?? ''}
+                        <span className="terminal-cursor">_</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="chamber-footer">
+                  <Link to={activeSubsystem.route} className="chamber-uplink-btn">
+                    <span>INITIALIZE SUBSYSTEM LABORATORY</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                      <path d="M5 12h14M12 5l7 7-7 7" />
+                    </svg>
                   </Link>
                 </div>
-              </div>
-            </motion.article>
-          ))}
-        </motion.div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </div>
       </div>
     </section>
   );
