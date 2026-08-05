@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { motion, AnimatePresence, useReducedMotion, Variants } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import '../../styles/pages/howto.css';
 
@@ -41,22 +41,22 @@ const STEPS: Step[] = [
   },
 ];
 
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: { staggerChildren: 0.08 },
+  },
+};
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 16 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] as const } },
+};
+
 export const HowToSteps: React.FC = () => {
   const reduceMotion = useReducedMotion();
   const [open, setOpen] = useState<string | null>(STEPS[0].id);
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: { staggerChildren: 0.08 },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 16 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } },
-  };
 
   return (
     <motion.div
@@ -110,7 +110,7 @@ export const HowToSteps: React.FC = () => {
                   initial={reduceMotion ? { opacity: 1, height: 'auto' } : { height: 0, opacity: 0 }}
                   animate={{ height: 'auto', opacity: 1 }}
                   exit={reduceMotion ? { opacity: 0, height: 0 } : { height: 0, opacity: 0 }}
-                  transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
+                  transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] as const }}
                 >
                   <div className="detail-content-box">
                     <p className="detail-text">{s.detail}</p>
