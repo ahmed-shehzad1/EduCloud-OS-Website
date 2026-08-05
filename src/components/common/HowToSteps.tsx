@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence, useReducedMotion, Variants } from 'framer-motion';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import type { Variants } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import '../../styles/pages/howto.css';
 
