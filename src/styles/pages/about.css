@@ -1,0 +1,116 @@
+/* src/styles/pages/about.css
+   About page: fragment cloud timeline staging and textual timeline cards
+   Uses existing tokens from global.css; leverages ruby/gold accents.
+*/
+
+:root {
+  --about-pad-vertical: 48px;
+  --max-width: 1400px;
+  --ruby-core: #B0002A;
+  --accent-gold: #D4AF37;
+  --text-primary: #F6F4F4;
+  --text-muted: rgba(246,244,244,0.72);
+}
+
+/* page baseline */
+.about-page { color: var(--text-primary); background: transparent; }
+.about-hero { padding: 60px 0 8px; text-align: left; max-width: 980px; margin: 0 auto; }
+.about-title { font-family: var(--font-display); font-size: clamp(1.8rem, 3.6vw, 3rem); margin-bottom: 8px; letter-spacing: 0.06em; }
+.about-lead { color: var(--text-muted); font-size: 1.06rem; max-width: 900px; }
+
+/* main stage */
+.about-main { padding-bottom: 80px; }
+
+/* cloud stage container */
+.about-cloud-stage { padding: 36px 0 28px; position: relative; overflow: visible; }
+.about-cloud-inner { width: min(var(--max-width), 94%); margin-inline: auto; position: relative; }
+
+/* background radial / fog layer */
+.cloud-stage-visual {
+  position:absolute; inset:0; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(600px 160px at 22% 22%, rgba(176,0,42,0.04), transparent 12%),
+    radial-gradient(480px 140px at 78% 28%, rgba(212,174,55,0.02), transparent 12%);
+}
+
+/* fragments layout (spacious triangular composition) */
+.cloud-stage-fragments {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 48px;
+  align-items: end;
+  margin-top: 14px;
+  z-index: 2;
+}
+
+/* fragment base */
+.cloud-fragment { display:block; cursor: default; outline: none; }
+.frag-surface {
+  position: relative;
+  background: linear-gradient(180deg, rgba(255,255,255,0.018), rgba(0,0,0,0.02));
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.03);
+  box-shadow: 0 20px 44px rgba(0,0,0,0.48), inset 0 1px 0 rgba(255,255,255,0.02);
+  padding: 18px;
+  min-height: 220px;
+  overflow: hidden;
+}
+
+/* position specifics */
+.cloud-frag-left .frag-surface { min-height: 260px; padding: 22px; }
+.cloud-frag-center .frag-surface { min-height: 320px; padding: 26px; border:1px solid rgba(212,174,55,0.04); box-shadow: 0 26px 68px rgba(0,0,0,0.56); }
+.cloud-frag-right .frag-surface { min-height: 220px; padding: 18px; }
+
+/* inside labels */
+.frag-inside { position: relative; z-index: 2; display:flex; flex-direction:column; justify-content:flex-end; height:100%; }
+.frag-label { font-family: var(--font-display); font-weight:800; letter-spacing:0.12em; color: var(--text-primary); font-size: 1.05rem; }
+.frag-label.big { font-size: 1.5rem; letter-spacing: 0.16em; }
+.frag-mini { color: var(--text-muted); margin-top: 8px; font-size: 0.92rem; }
+
+/* CTA row inside center */
+.sched-cta-row { display:flex; gap:12px; align-items:center; margin-top:12px; }
+.sched-cta { padding:8px 12px; border-radius:8px; background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02)); border:1px solid rgba(255,255,255,0.03); color: var(--text-primary); text-decoration:none; font-weight:700; }
+.sched-hint { color: var(--text-muted); font-family: var(--font-mono); font-size:0.86rem; }
+
+/* timeline list under fragments */
+.cloud-timeline { margin-top: 34px; z-index: 2; }
+.timeline-list { list-style:none; padding:0; margin:0; display:grid; gap: 16px; max-width: var(--max-width); }
+.timeline-node {}
+.timeline-card {
+  display:flex;
+  gap:16px;
+  align-items:flex-start;
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.01));
+  border-radius: 8px;
+  padding: 12px 14px;
+  border: 1px solid rgba(255,255,255,0.02);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.38);
+}
+.timeline-step {
+  font-family: var(--font-mono);
+  font-weight:700;
+  color: rgba(255,255,255,0.9);
+  min-width: 48px;
+  text-align:center;
+  font-size:1rem;
+  border-right: 1px solid rgba(255,255,255,0.02);
+  padding-right: 12px;
+  margin-right: 6px;
+}
+.timeline-title { font-weight:800; color: var(--text-primary); font-family: var(--font-display); }
+.timeline-summary { color: var(--text-muted); font-size:0.95rem; margin-top:4px; }
+
+/* small responsive behavior */
+@media (max-width: 1100px) {
+  .cloud-stage-fragments { grid-template-columns: 1fr; gap: 32px; }
+  .about-hero { text-align: center; }
+  .sched-cta-row { justify-content:center; }
+  .timeline-card { flex-direction:column; align-items:flex-start; }
+  .timeline-step { border-right: none; padding-right: 0; margin-right: 0; width: auto; }
+}
+
+/* reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .cloud-fragment, .frag-surface, .timeline-card { transition: none !important; animation: none !important; transform: none !important; }
+}
