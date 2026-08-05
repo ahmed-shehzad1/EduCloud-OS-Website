@@ -1,190 +1,440 @@
-/* src/styles/components/hero.css
-   Fullscreen hero that sits beneath the fixed HUD.
-   - Clean spacing to avoid clipping with navbar.
-   - Intentional, premium animations (staggered entrance).
-   - Slightly lightened typographic and panel tones.
-*/
+/* ==================================================
+   EDUCLOUD OS - HERO SECTION
+   Precision-Machined Blood Ruby Design Language
+   ================================================== */
 
-:root {
-  --hud-offset: var(--hud-height, 76px); /* fall back if not defined */
-  --hero-min-height: calc(100vh - var(--hud-offset));
-  --hero-max-width: 1400px;
-  --ruby-core: #B0002A;
-  --ruby-deep: #72001F;
-  --accent-white: #FFFFFF;
-  --accent-gold: #D4AF37;
-}
-
-/* Main viewport area */
 .hero-viewport {
-  min-height: var(--hero-min-height);
+  position: relative;
+  min-height: calc(100vh - 120px);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: clamp(36px, 6vw, 72px) 20px;
-  position: relative;
-  overflow: hidden; /* prevents panels from creating scrollbars */
+  padding: clamp(48px, 8vw, 96px) 24px;
+  overflow: hidden;
   z-index: 1;
 }
 
-/* Layered background: subtle radial ruby glows + noise-like fog */
+/* ==================================================
+   BACKGROUND LIGHTING & GRID
+   ================================================== */
 .hero-background {
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(800px 300px at 14% 24%, rgba(176,0,42,0.028), transparent 8%),
-    radial-gradient(600px 220px at 86% 28%, rgba(196,0,50,0.018), transparent 10%),
-    linear-gradient(180deg, rgba(6,4,4,0.96), rgba(8,6,6,0.98));
-  mix-blend-mode: normal;
   z-index: 0;
   pointer-events: none;
 }
 
-/* inner centered content block */
-.hero-content {
-  width: min(var(--hero-max-width), 94%);
-  margin: 0 auto;
-  z-index: 2;
-  text-align: center;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-row-gap: 10px;
+.hero-grid-overlay {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(to right, rgba(197, 31, 69, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(197, 31, 69, 0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.8) 0%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.8) 0%, transparent 75%);
 }
 
-/* strap (system initializing) */
+.hero-radial-bloom {
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(1000px, 90vw);
+  height: 480px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(197, 31, 69, 0.12) 0%,
+    rgba(54, 8, 18, 0.06) 45%,
+    transparent 75%
+  );
+  filter: blur(60px);
+}
+
+/* ==================================================
+   CONTENT LAYOUT & TYPOGRAPHY
+   ================================================== */
+.hero-content {
+  position: relative;
+  z-index: 2;
+  width: min(1200px, 100%);
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Status Strap Badge */
 .hero-strap {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
-  justify-self: center;
-  font-family: var(--font-mono);
-  letter-spacing: .28em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.72);
-  background: rgba(255,255,255,0.02);
-  padding: 6px 12px;
-  border-radius: 999px;
-  border: 1px solid rgba(255,255,255,0.02);
-  justify-content: center;
+  gap: 10px;
+  padding: 5px 14px;
+  background: rgba(38, 5, 13, 0.7);
+  border: 1px solid rgba(197, 31, 69, 0.35);
+  border-radius: 4px;
+  box-shadow: 0 0 16px rgba(197, 31, 69, 0.15), inset 0 0 8px rgba(197, 31, 69, 0.1);
+  margin-bottom: 20px;
 }
-.hero-strap .strap-dot {
+
+.strap-indicator {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 8px;
   height: 8px;
-  background: linear-gradient(180deg, var(--ruby-core), var(--ruby-deep));
+}
+
+.strap-dot {
+  width: 6px;
+  height: 6px;
+  background-color: var(--ruby-bright, #E62B52);
   border-radius: 50%;
-  box-shadow: 0 0 10px rgba(176,0,42,0.12);
+  box-shadow: 0 0 8px var(--ruby-bright, #E62B52);
 }
 
-/* main title */
-.hero-heading { margin-top: 6px; font-family: var(--font-display); line-height: 1; color: var(--text-primary); }
-.hero-line {
-  display: block;
-  font-weight: 700;
-  font-size: clamp(3rem, 6.2vw, 6rem);
-  letter-spacing: 0.24em;
-  color: rgba(255,255,255,0.96);
-}
-.hero-os {
-  display: inline-block;
-  margin-top: 6px;
-  font-weight: 800;
-  font-size: clamp(1rem, 2.2vw, 1.6rem);
-  color: var(--ruby-core);
-  letter-spacing: 0.28em;
-  text-shadow: 0 0 10px rgba(176,0,42,0.12);
-}
-
-/* subtitle */
-.hero-sub {
-  color: rgba(245,242,242,0.86);
-  font-size: clamp(0.95rem, 1.6vw, 1.06rem);
-  max-width: 820px;
-  margin: 0.4rem auto 0;
-}
-
-/* CTAs */
-.hero-ctas { display:flex; justify-content:center; gap: 14px; margin-top: 14px; }
-.cta {
-  display:inline-flex;
-  align-items:center;
-  gap:10px;
-  padding: 12px 18px;
-  border-radius: 10px;
-  font-weight:700;
-  letter-spacing:0.08em;
-  text-decoration:none;
-}
-.cta.primary {
-  background: linear-gradient(180deg, rgba(224,0,63,0.06), rgba(0,0,0,0.02));
-  color: var(--accent-white);
-  border: 1px solid rgba(255,255,255,0.06);
-  box-shadow: 0 8px 34px rgba(0,0,0,0.45);
-  transition: transform 0.28s ease, box-shadow 0.28s ease;
-}
-.cta.primary:hover { transform: translateY(-3px); box-shadow: 0 14px 44px rgba(0,0,0,0.5); }
-
-.cta.ghost {
-  color: rgba(255,255,255,0.88);
-  background: transparent;
-  border: 1px dashed rgba(255,255,255,0.03);
-}
-
-/* decorative panels (system fragments) - kept decorative and non-intrusive */
-.hero-visuals {
+.strap-ping {
   position: absolute;
-  left: 6%;
-  right: 6%;
-  bottom: clamp(18px, 6vw, 48px);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1px solid var(--ruby-bright, #E62B52);
+  animation: strapPing 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes strapPing {
+  0% { transform: scale(0.8); opacity: 0.8; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+.strap-text {
+  font-family: var(--font-mono, 'IBM Plex Mono', monospace);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  color: var(--text-main, #F4E9EC);
+  text-transform: uppercase;
+}
+
+/* Main Heading */
+.hero-heading {
+  margin: 0 0 16px 0;
   display: flex;
-  justify-content: space-between;
-  gap: clamp(8px, 2.6vw, 28px);
+  align-items: baseline;
+  justify-content: center;
+  gap: clamp(10px, 2vw, 24px);
+  flex-wrap: wrap;
+  line-height: 1;
+}
+
+.hero-brand-name {
+  font-family: var(--font-display, 'Space Grotesk', sans-serif);
+  font-weight: 700;
+  font-size: clamp(2.8rem, 7.5vw, 6.2rem);
+  letter-spacing: 0.16em;
+  color: var(--text-main, #F4E9EC);
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.8);
+}
+
+.hero-os-badge {
+  font-family: var(--font-display, 'Space Grotesk', sans-serif);
+  font-weight: 800;
+  font-size: clamp(1.4rem, 3.2vw, 2.8rem);
+  letter-spacing: 0.22em;
+  color: var(--ruby-bright, #E62B52);
+  background: linear-gradient(135deg, var(--ruby-bright, #E62B52), var(--ruby-primary, #C51F45));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 24px rgba(230, 43, 82, 0.4);
+}
+
+/* Subtitle */
+.hero-sub {
+  font-family: var(--font-display, 'Space Grotesk', sans-serif);
+  font-size: clamp(1rem, 1.6vw, 1.18rem);
+  line-height: 1.6;
+  color: var(--text-muted, #B98F9A);
+  max-width: 760px;
+  margin: 0 0 32px 0;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+/* ==================================================
+   ACTION CTAS
+   ================================================== */
+.hero-ctas {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 64px;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 26px;
+  border-radius: 4px;
+  font-family: var(--font-mono, 'IBM Plex Mono', monospace);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+}
+
+.cta-primary {
+  background: linear-gradient(135deg, #430914 0%, #26050D 100%);
+  color: #FFF;
+  border: 1px solid var(--ruby-primary, #C51F45);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(230, 43, 82, 0.3);
+}
+
+.cta-primary:hover {
+  background: linear-gradient(135deg, var(--ruby-primary, #C51F45) 0%, #430914 100%);
+  border-color: var(--ruby-bright, #E62B52);
+  box-shadow: 0 0 24px rgba(230, 43, 82, 0.45);
+}
+
+.cta-icon {
+  color: var(--ruby-bright, #E62B52);
+  font-size: 0.75rem;
+}
+
+.cta-ghost {
+  background: rgba(38, 5, 13, 0.3);
+  color: var(--text-main, #F4E9EC);
+  border: 1px solid rgba(185, 143, 154, 0.25);
+  backdrop-filter: blur(8px);
+}
+
+.cta-ghost:hover {
+  background: rgba(38, 5, 13, 0.6);
+  border-color: var(--ruby-primary, #C51F45);
+  color: #FFF;
+}
+
+.arrow-down {
+  color: var(--text-muted, #B98F9A);
+  transition: transform 0.25s ease;
+}
+
+.cta-ghost:hover .arrow-down {
+  transform: translateY(2px);
+  color: var(--ruby-bright, #E62B52);
+}
+
+/* ==================================================
+   HUD TELEMETRY PANELS
+   ================================================== */
+.hero-visuals {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
   pointer-events: none;
-  z-index: 1;
 }
 
-/* panel base */
 .panel {
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));
-  border-radius: 12px;
-  padding: 10px 12px;
-  min-width: 120px;
-  max-width: 28%;
-  color: rgba(255,255,255,0.92);
-  font-family: var(--font-mono);
+  background: linear-gradient(160deg, rgba(38, 5, 13, 0.7) 0%, rgba(15, 2, 5, 0.85) 100%);
+  border: 1px solid rgba(197, 31, 69, 0.3);
+  border-radius: 6px;
+  padding: 16px 18px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(230, 43, 82, 0.15);
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--ruby-primary, #C51F45), transparent);
+}
+
+.panel-center {
+  border-color: rgba(230, 43, 82, 0.45);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.8), 0 0 16px rgba(197, 31, 69, 0.15);
+}
+
+/* Panel Header */
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(185, 143, 154, 0.12);
+  padding-bottom: 8px;
+}
+
+.panel-title {
+  font-family: var(--font-mono, 'IBM Plex Mono', monospace);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--text-muted, #B98F9A);
+}
+
+.panel-status {
+  font-family: var(--font-mono, 'IBM Plex Mono', monospace);
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: var(--ruby-bright, #E62B52);
+  letter-spacing: 0.1em;
+}
+
+/* Panel Body */
+.panel-body {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.telemetry-metric {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.telemetry-metric.right {
+  align-items: flex-end;
+}
+
+.metric-label {
+  font-family: var(--font-mono, 'IBM Plex Mono', monospace);
+  font-size: 0.62rem;
+  color: rgba(185, 143, 154, 0.7);
+  letter-spacing: 0.12em;
+}
+
+.metric-value {
+  font-family: var(--font-mono, 'IBM Plex Mono', monospace);
   font-size: 0.78rem;
-  border: 1px solid rgba(255,255,255,0.03);
-  box-shadow: 0 8px 30px rgba(0,0,0,0.46), inset 0 1px 0 rgba(255,255,255,0.02);
-  transform-origin: center;
-  will-change: transform;
+  font-weight: 600;
+  color: var(--text-main, #F4E9EC);
 }
 
-/* center panel gets tiny gold accent */
-.panel.center { border: 1px solid rgba(212,174,55,0.06); box-shadow: 0 10px 36px rgba(0,0,0,0.52); }
-
-/* tiny floating micro motion (slow) */
-@keyframes float-slow { 0% { transform: translateY(6px); } 50% { transform: translateY(-4px); } 100% { transform: translateY(6px); } }
-.panel { animation: float-slow 9s ease-in-out infinite; }
-@media (prefers-reduced-motion: reduce) { .panel { animation: none; } }
-
-/* panel internals */
-.panel-title { font-weight:700; letter-spacing:0.12em; color: rgba(255,255,255,0.92); margin-bottom: 6px; }
-.panel-body { display:flex; align-items:center; gap:8px; }
-.dot { opacity:0.9; font-family: var(--font-mono); font-size:0.92rem; color: rgba(255,255,255,0.88); }
-.chip { padding: 6px 8px; border-radius: 8px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.02); }
-.meter { width: 110px; height: 8px; background: rgba(255,255,255,0.03); border-radius: 6px; overflow: hidden; }
-.meter > span { display:block; height:100%; background: linear-gradient(90deg, var(--ruby-core), rgba(212,174,55,0.06)); }
-
-/* RESPONSIVE: avoid panels colliding with main copy on narrow screens */
-@media (max-width: 980px) {
-  .hero-heading .hero-line { font-size: clamp(2.4rem, 9.2vw, 4rem); }
-  .hero-visuals { left: 4%; right: 4%; bottom: 18px; gap: 10px; }
-  .panel { max-width: 30%; padding: 8px 10px; }
-}
-@media (max-width: 700px) {
-  .hero-visuals { display: none; }
-  .hero-ctas { flex-direction: column; gap: 8px; }
-  .hero-sub { padding-inline: 6px; }
+.telemetry-tags {
+  display: flex;
+  gap: 6px;
 }
 
-/* Safety: ensure hero never causes horizontal overflow */
-.hero-viewport, .hero-content { overflow-x: hidden; }
+.telemetry-tag {
+  font-family: var(--font-mono, 'IBM Plex Mono', monospace);
+  font-size: 0.65rem;
+  padding: 3px 8px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+  color: var(--text-muted, #B98F9A);
+}
+
+.telemetry-tag.highlight {
+  background: rgba(197, 31, 69, 0.2);
+  border-color: var(--ruby-primary, #C51F45);
+  color: var(--text-main, #F4E9EC);
+}
+
+/* Scheduler Chip */
+.scheduler-chip {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(8, 1, 3, 0.5);
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: 1px solid rgba(197, 31, 69, 0.2);
+}
+
+.chip-mode {
+  font-family: var(--font-mono, 'IBM Plex Mono', monospace);
+  font-size: 0.7rem;
+  color: var(--text-muted, #B98F9A);
+}
+
+.chip-mode.active {
+  color: var(--ruby-bright, #E62B52);
+  font-weight: 600;
+}
+
+.chip-arrow {
+  color: var(--ruby-primary, #C51F45);
+  font-size: 0.75rem;
+}
+
+/* Memory Meter */
+.meter-wrapper {
+  flex: 1;
+}
+
+.meter {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 3px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.meter-fill {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--ruby-primary, #C51F45), var(--ruby-bright, #E62B52));
+  box-shadow: 0 0 8px var(--ruby-bright, #E62B52);
+}
+
+/* ==================================================
+   RESPONSIVE DESIGN
+   ================================================== */
+@media (max-width: 960px) {
+  .hero-visuals {
+    grid-template-columns: 1fr;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  
+  .hero-ctas {
+    flex-direction: column;
+    width: 100%;
+    max-width: 320px;
+  }
+  
+  .cta {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero-viewport {
+    padding-top: 32px;
+  }
+
+  .hero-strap {
+    padding: 4px 10px;
+  }
+
+  .strap-text {
+    font-size: 0.64rem;
+  }
+
+  .hero-heading {
+    flex-direction: column;
+    gap: 4px;
+  }
+}
