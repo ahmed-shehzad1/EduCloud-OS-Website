@@ -410,39 +410,428 @@
   }
 }
 
-/* Mobile Responsiveness */
+
+/* ============================================================
+   MOBILE — SIMPLIFIED RUBY CLOUD TIMELINE
+   ============================================================ */
+
 @media (max-width: 868px) {
-  .timeline-assembly-chassis {
-    gap: 48px;
+
+  /* ----------------------------------------------------------
+     SECTION
+     ---------------------------------------------------------- */
+
+  .ruby-cloud-section {
+    padding: 64px 16px 80px;
+    overflow: hidden;
   }
+
+  .ruby-cloud-container {
+    width: 100%;
+  }
+
+
+  /* ----------------------------------------------------------
+     HEADER
+     ---------------------------------------------------------- */
+
+  .ruby-cloud-header {
+    max-width: 100%;
+    margin-bottom: 42px;
+    padding: 0 6px;
+  }
+
+  .ruby-tech-badge {
+    font-size: 0.58rem;
+    letter-spacing: 0.11em;
+    padding: 5px 10px;
+    max-width: 100%;
+  }
+
+  .ruby-cloud-title {
+    font-size: clamp(1.8rem, 9vw, 2.5rem);
+    line-height: 1.08;
+    letter-spacing: 0.04em;
+    margin-bottom: 12px;
+  }
+
+  .ruby-cloud-lead {
+    font-size: 0.82rem;
+    line-height: 1.65;
+    max-width: 520px;
+  }
+
+
+  /* ----------------------------------------------------------
+     TIMELINE
+     
+     Desktop:
+       card      | spine | card
+     
+     Mobile:
+       spine | card
+     
+     Much easier to read on narrow screens.
+     ---------------------------------------------------------- */
+
+  .timeline-assembly-chassis {
+    gap: 34px;
+    padding: 8px 0 8px 0;
+  }
+
+
+  /* ----------------------------------------------------------
+     SIMPLE MOBILE SPINE
+     ---------------------------------------------------------- */
 
   .timeline-spine-laser {
-    left: 24px;
+    left: 14px;
+    width: 1px;
+
     transform: none;
+
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      rgba(197, 31, 69, 0.45) 10%,
+      rgba(230, 43, 82, 0.7) 50%,
+      rgba(197, 31, 69, 0.45) 90%,
+      transparent 100%
+    );
   }
 
+  /*
+   * Disable the moving laser on mobile.
+   * The static ruby spine is cleaner and cheaper to render.
+   */
+  .timeline-pulse-beam {
+    display: none;
+  }
+
+
+  /* ----------------------------------------------------------
+     TIMELINE ROWS
+     ---------------------------------------------------------- */
+
+  .timeline-cloud-row,
+  .timeline-row-left,
+  .timeline-row-right {
+    width: 100%;
+
+    padding-left: 42px !important;
+    padding-right: 0 !important;
+
+    justify-content: flex-start !important;
+
+    align-items: center;
+  }
+
+
+  /* ----------------------------------------------------------
+     TIMELINE NODE
+     ---------------------------------------------------------- */
+
   .timeline-ruby-node {
-    left: 24px;
+    left: 14px;
+    top: 50%;
+
+    width: 16px;
+    height: 16px;
+
     transform: translate(-50%, -50%);
   }
 
-  .timeline-cloud-row {
-    padding-left: 56px !important;
-    padding-right: 0 !important;
-    justify-content: flex-start !important;
+  .ruby-node-core {
+    width: 7px;
+    height: 7px;
+
+    box-shadow: 0 0 8px var(--ruby-bright);
   }
+
+  .ruby-node-ring {
+    border-color: rgba(230, 43, 82, 0.45);
+  }
+
+
+  /* ----------------------------------------------------------
+     CLOUD CARD
+     ---------------------------------------------------------- */
 
   .ruby-cloud-card {
     width: 100%;
+    max-width: none;
+
+    min-height: 0;
+
     margin: 0;
+
+    padding: 22px 18px 24px;
+
+    border-radius: 20px;
+
+    background:
+      radial-gradient(
+        circle at 50% 0%,
+        rgba(38, 5, 13, 0.94) 0%,
+        rgba(15, 2, 5, 0.98) 100%
+      );
+
+    /*
+     * Less expensive blur on mobile.
+     */
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+
+  /* ----------------------------------------------------------
+     REMOVE DECORATIVE CLOUD FRAGMENTS
+     
+     They look good on desktop but make mobile cards
+     visually noisy.
+     ---------------------------------------------------------- */
+
+  .shattered-piece {
+    display: none;
+  }
+
+  .cloud-outline-svg {
+    display: none;
+  }
+
+
+  /* ----------------------------------------------------------
+     CARD HEADER
+     ---------------------------------------------------------- */
+
+  .cloud-card-header {
+    margin-bottom: 11px;
+    gap: 8px;
+  }
+
+  .cloud-sys-code {
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+  }
+
+  .cloud-role-tag {
+    font-size: 0.52rem;
+    padding: 3px 6px;
+  }
+
+
+  /* ----------------------------------------------------------
+     CARD CONTENT
+     ---------------------------------------------------------- */
+
+  .cloud-title {
+    font-size: 1.2rem;
+    line-height: 1.2;
+    margin-bottom: 9px;
+  }
+
+  .cloud-blurb {
+    font-size: 0.8rem;
+    line-height: 1.6;
+    margin-bottom: 18px;
+  }
+
+
+  /* ----------------------------------------------------------
+     ACTION BUTTON
+     ---------------------------------------------------------- */
+
+  .ruby-action-btn {
+    width: 100%;
+
+    justify-content: center;
+
+    min-height: 42px;
+
+    padding: 9px 12px;
+
+    font-size: 0.59rem;
+    letter-spacing: 0.08em;
+  }
+
+
+  /* ----------------------------------------------------------
+     GREEN RAIN
+     
+     Keep only a very subtle effect on mobile.
+     ---------------------------------------------------------- */
+
+  .green-rain-container {
+    top: auto;
+    bottom: 0;
+
+    height: 70px;
+
+    opacity: 0.3;
+
+    border-radius: 0 0 20px 20px;
+  }
+
+  .green-rain-drop {
+    width: 1px;
+
+    box-shadow: none;
+  }
+
+  .rain-head-spark {
+    display: none;
   }
 }
 
+
+/* ============================================================
+   SMALL PHONES
+   ============================================================ */
+
+@media (max-width: 480px) {
+
+  .ruby-cloud-section {
+    padding: 52px 12px 68px;
+  }
+
+
+  /* Header */
+
+  .ruby-cloud-header {
+    margin-bottom: 34px;
+  }
+
+  .ruby-tech-badge {
+    font-size: 0.52rem;
+    letter-spacing: 0.08em;
+  }
+
+  .ruby-cloud-title {
+    font-size: 1.7rem;
+  }
+
+  .ruby-cloud-lead {
+    font-size: 0.76rem;
+    line-height: 1.6;
+  }
+
+
+  /* Timeline */
+
+  .timeline-assembly-chassis {
+    gap: 28px;
+  }
+
+  .timeline-spine-laser {
+    left: 11px;
+  }
+
+  .timeline-ruby-node {
+    left: 11px;
+  }
+
+  .timeline-cloud-row,
+  .timeline-row-left,
+  .timeline-row-right {
+    padding-left: 32px !important;
+  }
+
+
+  /* Cards */
+
+  .ruby-cloud-card {
+    padding: 19px 15px 20px;
+    border-radius: 17px;
+  }
+
+  .cloud-title {
+    font-size: 1.05rem;
+  }
+
+  .cloud-blurb {
+    font-size: 0.74rem;
+  }
+
+  .cloud-sys-code {
+    font-size: 0.52rem;
+  }
+
+  .cloud-role-tag {
+    font-size: 0.48rem;
+  }
+
+  .ruby-action-btn {
+    min-height: 40px;
+    font-size: 0.54rem;
+  }
+
+
+  /* Reduce background effect even further */
+
+  .green-rain-container {
+    display: none;
+  }
+}
+
+
+/* ============================================================
+   VERY SMALL DEVICES
+   ============================================================ */
+
+@media (max-width: 360px) {
+
+  .ruby-cloud-section {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .ruby-cloud-title {
+    font-size: 1.5rem;
+  }
+
+  .ruby-cloud-lead {
+    font-size: 0.72rem;
+  }
+
+  .timeline-cloud-row,
+  .timeline-row-left,
+  .timeline-row-right {
+    padding-left: 28px !important;
+  }
+
+  .timeline-spine-laser,
+  .timeline-ruby-node {
+    left: 9px;
+  }
+
+  .ruby-cloud-card {
+    padding: 17px 13px 18px;
+  }
+
+  .cloud-title {
+    font-size: 1rem;
+  }
+
+  .cloud-blurb {
+    font-size: 0.7rem;
+  }
+}
+
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+
 @media (prefers-reduced-motion: reduce) {
+
   .green-rain-drop,
   .timeline-pulse-beam,
   .ruby-node-ring,
   .badge-pulse-ruby {
     animation: none !important;
+  }
+
+  .ruby-cloud-card {
+    transition: none;
   }
 }
