@@ -101,17 +101,21 @@ export const FeatureFragments: React.FC = () => {
     <section className="ruby-cloud-section" aria-labelledby="cloud-fragments-heading">
       <div className="ruby-cloud-container">
         <header className="ruby-cloud-header">
-          <div className="ruby-tech-badge">
-            <span className="badge-pulse-ruby" />
-            REASSEMBLY TIMELINE MATRIX
-          </div>
-          <h2 id="cloud-fragments-heading" className="ruby-cloud-title">
-            Interface Fragments
-          </h2>
-          <p className="ruby-cloud-lead">
-            Shattered system pieces converge and lock into unified cloud nodes as you scroll down, releasing digital green telemetry rain.
-          </p>
-        </header>
+  <div className="ruby-tech-badge">
+    <span className="badge-pulse-ruby" />
+    EDUCloud OS // SYSTEM ARCHITECTURE
+  </div>
+
+  <h2 id="cloud-fragments-heading" className="ruby-cloud-title">
+    Inside EduCloud OS
+  </h2>
+
+  <p className="ruby-cloud-lead">
+    Explore the core operating-system concepts implemented throughout EduCloud OS,
+    from process management and CPU scheduling to threads, synchronization,
+    inter-process communication, memory management, and kernel simulation.
+  </p>
+</header>
 
         <motion.div
           className="timeline-assembly-chassis"
