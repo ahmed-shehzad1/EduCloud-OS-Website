@@ -559,34 +559,610 @@
   color: #FFF;
 }
 
-@media (max-width: 980px) {
-  .hud-console-chassis {
-    grid-template-columns: 1fr;
+
+/* =========================================================
+   MOBILE FEATURES HUD
+   Simplified mobile diagnostic interface
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+  /* -------------------------------------------------------
+     SECTION
+     ------------------------------------------------------- */
+
+  .features-hud-section {
+    width: 100%;
+    overflow: hidden;
+    padding: 72px 16px;
   }
+
+  .features-container {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+
+
+  /* -------------------------------------------------------
+     HEADER
+     ------------------------------------------------------- */
+
+  .hud-section-header {
+    width: 100%;
+    max-width: 620px;
+    margin: 0 auto 34px;
+    text-align: center;
+  }
+
+  .hud-status-badge {
+    display: inline-flex;
+    max-width: 100%;
+    padding: 6px 10px;
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+  }
+
+  .hud-section-title {
+    font-size: clamp(1.75rem, 8vw, 2.35rem);
+    line-height: 1.08;
+    letter-spacing: 0.04em;
+    margin: 14px 0;
+  }
+
+  .hud-section-lead {
+    max-width: 520px;
+    margin: 0 auto;
+    font-size: 0.88rem;
+    line-height: 1.6;
+  }
+
+
+  /* -------------------------------------------------------
+     MAIN CONSOLE
+     ------------------------------------------------------- */
+
+  .hud-console-chassis {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+
+    padding: 12px;
+
+    border-radius: 18px;
+  }
+
+
+  /* -------------------------------------------------------
+     SUBSYSTEM SELECTOR
+     
+     Desktop = vertical rail
+     Mobile = horizontal scrolling navigation
+     ------------------------------------------------------- */
 
   .hud-selector-rail {
+    width: 100%;
+    min-width: 0;
+
+    display: flex;
     flex-direction: row;
+    gap: 8px;
+
     overflow-x: auto;
-    padding-bottom: 8px;
+    overflow-y: hidden;
+
+    padding: 4px 2px 10px;
+
+    scrollbar-width: none;
+
+    -webkit-overflow-scrolling: touch;
+
+    scroll-snap-type: x proximity;
   }
+
+  .hud-selector-rail::-webkit-scrollbar {
+    display: none;
+  }
+
+
+  /* -------------------------------------------------------
+     SUBSYSTEM BUTTONS
+     ------------------------------------------------------- */
 
   .subsystem-node-btn {
-    min-width: 220px;
+    flex: 0 0 auto;
+
+    min-width: 125px;
+    max-width: 160px;
+
+    min-height: 54px;
+
+    padding: 9px 11px;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    border-radius: 10px;
+
+    scroll-snap-align: start;
   }
 
-  .chamber-body-grid {
-    grid-template-columns: 1fr;
+  .subsystem-node-btn .node-info {
+    min-width: 0;
+    overflow: hidden;
   }
-}
 
-@media (max-width: 600px) {
-  .hud-console-chassis {
-    padding: 14px;
+  .subsystem-node-btn .node-title {
+    display: block;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    font-size: 0.7rem;
   }
+
+  .subsystem-node-btn .node-sys-code {
+    font-size: 0.55rem;
+  }
+
+  .subsystem-node-btn .node-status-led {
+    flex-shrink: 0;
+  }
+
+  .node-indicator-bar {
+    width: 3px;
+    flex-shrink: 0;
+  }
+
+
+  /* -------------------------------------------------------
+     MAIN STAGE
+     ------------------------------------------------------- */
+
+  .hud-stage-chamber {
+    width: 100%;
+    min-width: 0;
+
+    border-radius: 14px;
+
+    overflow: hidden;
+  }
+
+  .chamber-content-wrapper {
+    width: 100%;
+    min-width: 0;
+  }
+
+
+  /* -------------------------------------------------------
+     TOP STATUS BAR
+     ------------------------------------------------------- */
+
+  .chamber-top-bar {
+    padding: 12px 13px;
+
+    gap: 8px;
+
+    flex-wrap: wrap;
+  }
+
+  .chamber-sys-label {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .label-sub {
+    display: none;
+  }
+
+  .chamber-live-signal {
+    font-size: 0.55rem;
+    white-space: nowrap;
+  }
+
+
+  /* -------------------------------------------------------
+     VISUALIZER
+     
+     Keep it compact on mobile.
+     ------------------------------------------------------- */
+
+  .chamber-visualizer-deck {
+    min-height: 145px;
+    height: 145px;
+
+    padding: 12px;
+
+    overflow: hidden;
+  }
+
+  .visualizer-stage {
+    width: 100%;
+    height: 100%;
+  }
+
+
+  /* Process state visualizer */
+
+  .state-machine-stage {
+    gap: 7px;
+  }
+
+  .state-node {
+    min-width: 58px;
+    padding: 7px 5px;
+
+    font-size: 0.55rem;
+  }
+
+  .state-connector {
+    flex: 1;
+    min-width: 12px;
+  }
+
+
+  /* CPU scheduling visualizer */
+
+  .gantt-stage {
+    padding: 8px 4px;
+  }
+
+  .gantt-track {
+    width: 100%;
+  }
+
+  .gantt-label {
+    font-size: 0.55rem;
+  }
+
+  .gantt-bars {
+    min-width: 0;
+  }
+
+  .gantt-block {
+    font-size: 0.55rem;
+    min-height: 28px;
+  }
+
+
+  /* Memory visualizer */
 
   .memory-grid-stage {
     grid-template-columns: repeat(4, 1fr);
+    gap: 5px;
+    padding: 6px;
   }
-}
- 
 
+  .page-frame {
+    min-height: 24px;
+    font-size: 0.48rem;
+  }
+
+
+  /* -------------------------------------------------------
+     BODY
+     ------------------------------------------------------- */
+
+  .chamber-body-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+
+    padding: 18px 14px;
+  }
+
+  .body-description,
+  .body-telemetry {
+    width: 100%;
+    min-width: 0;
+  }
+
+
+  /* -------------------------------------------------------
+     TITLE + DESCRIPTION
+     ------------------------------------------------------- */
+
+  .chamber-title {
+    font-size: 1.3rem;
+    line-height: 1.2;
+
+    margin-bottom: 8px;
+  }
+
+  .chamber-blurb {
+    font-size: 0.84rem;
+    line-height: 1.55;
+
+    margin-bottom: 16px;
+  }
+
+
+  /* -------------------------------------------------------
+     HIGHLIGHTS
+     ------------------------------------------------------- */
+
+  .chamber-highlights {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .highlight-pill {
+    font-size: 0.58rem;
+    padding: 6px 8px;
+  }
+
+  .pill-dot {
+    font-size: 0.5rem;
+  }
+
+
+  /* -------------------------------------------------------
+     TELEMETRY
+     ------------------------------------------------------- */
+
+  .telemetry-metrics-grid {
+    display: grid;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 7px;
+  }
+
+  .metric-box {
+    min-width: 0;
+
+    padding: 10px 9px;
+
+    border-radius: 8px;
+  }
+
+  .metric-box-label {
+    display: block;
+
+    font-size: 0.52rem;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .metric-box-value {
+    display: block;
+
+    margin-top: 3px;
+
+    font-size: 0.78rem;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+
+  /* -------------------------------------------------------
+     TERMINAL
+     ------------------------------------------------------- */
+
+  .telemetry-terminal-stream {
+    margin-top: 8px;
+
+    width: 100%;
+    min-width: 0;
+
+    border-radius: 8px;
+
+    overflow: hidden;
+  }
+
+  .stream-header {
+    padding: 7px 9px;
+
+    font-size: 0.52rem;
+  }
+
+  .stream-output {
+    padding: 10px 9px;
+
+    font-size: 0.58rem;
+
+    line-height: 1.5;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+
+  /* -------------------------------------------------------
+     FOOTER ACTION
+     ------------------------------------------------------- */
+
+  .chamber-footer {
+    padding: 0 14px 16px;
+  }
+
+  .chamber-uplink-btn {
+    width: 100%;
+
+    justify-content: center;
+
+    padding: 11px 13px;
+
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+
+    text-align: center;
+  }
+
+}
+
+
+/* =========================================================
+   SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 480px) {
+
+  .features-hud-section {
+    padding: 56px 11px;
+  }
+
+  .hud-section-header {
+    margin-bottom: 26px;
+  }
+
+  .hud-status-badge {
+    font-size: 0.52rem;
+    letter-spacing: 0.07em;
+  }
+
+  .hud-section-title {
+    font-size: 1.65rem;
+  }
+
+  .hud-section-lead {
+    font-size: 0.8rem;
+    line-height: 1.55;
+  }
+
+
+  /* Smaller console */
+
+  .hud-console-chassis {
+    padding: 8px;
+    border-radius: 14px;
+  }
+
+
+  /* Smaller navigation cards */
+
+  .subsystem-node-btn {
+    min-width: 112px;
+    min-height: 50px;
+
+    padding: 8px 9px;
+  }
+
+  .subsystem-node-btn .node-title {
+    font-size: 0.62rem;
+  }
+
+  .subsystem-node-btn .node-sys-code {
+    font-size: 0.5rem;
+  }
+
+
+  /* Smaller visualizer */
+
+  .chamber-visualizer-deck {
+    height: 125px;
+    min-height: 125px;
+  }
+
+
+  /* Simplify state machine */
+
+  .state-node {
+    min-width: 48px;
+    font-size: 0.48rem;
+  }
+
+
+  /* Body */
+
+  .chamber-body-grid {
+    padding: 16px 11px;
+    gap: 18px;
+  }
+
+  .chamber-title {
+    font-size: 1.15rem;
+  }
+
+  .chamber-blurb {
+    font-size: 0.78rem;
+  }
+
+
+  /* Metrics */
+
+  .metric-box {
+    padding: 8px;
+  }
+
+  .metric-box-label {
+    font-size: 0.46rem;
+  }
+
+  .metric-box-value {
+    font-size: 0.68rem;
+  }
+
+
+  /* Button */
+
+  .chamber-uplink-btn {
+    min-height: 42px;
+
+    font-size: 0.52rem;
+  }
+
+}
+
+
+/* =========================================================
+   VERY SMALL DEVICES
+   ========================================================= */
+
+@media (max-width: 360px) {
+
+  .features-hud-section {
+    padding-inline: 8px;
+  }
+
+  .hud-section-title {
+    font-size: 1.45rem;
+  }
+
+  .hud-console-chassis {
+    padding: 6px;
+  }
+
+  .subsystem-node-btn {
+    min-width: 100px;
+  }
+
+  .chamber-visualizer-deck {
+    height: 110px;
+    min-height: 110px;
+  }
+
+  .chamber-live-signal {
+    display: none;
+  }
+
+  .highlight-pill {
+    font-size: 0.52rem;
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE ACCESSIBILITY
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .subsystem-node-btn,
+  .chamber-content-wrapper,
+  .chamber-uplink-btn {
+    transition: none !important;
+  }
+
+}
