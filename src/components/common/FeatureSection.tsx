@@ -30,18 +30,22 @@ export const FeatureSection: React.FC = () => {
       <div className="hud-grid-background" aria-hidden="true" />
 
       <div className="features-container">
-        <header className="hud-section-header">
-          <div className="hud-status-badge">
-            <span className="badge-pulse" />
-            <span className="badge-text">SUBSYSTEM DIAGNOSTICS MATRIX</span>
-          </div>
-          <h2 id="features-hud-heading" className="hud-section-title">
-            INTERACTIVE KERNEL CORE
-          </h2>
-          <p className="hud-section-lead">
-            Direct telemetry and low-level subsystem visualization. Select an OS component to inspect live diagnostics.
-          </p>
-        </header>
+       <header className="hud-section-header">
+  <div className="hud-status-badge">
+    <span className="badge-pulse" />
+    <span className="badge-text">OPERATING SYSTEM SUBSYSTEMS</span>
+  </div>
+
+  <h2 id="features-hud-heading" className="hud-section-title">
+    EXPLORE EDUCloud OS
+  </h2>
+
+  <p className="hud-section-lead">
+    Discover the core operating-system concepts implemented inside EduCloud OS,
+    including process management, CPU scheduling, thread synchronization,
+    inter-process communication, memory management, file systems, and kernel simulation.
+  </p>
+</header>
 
         <div className="hud-console-chassis">
           <nav className="hud-selector-rail" aria-label="Subsystems Navigation">
