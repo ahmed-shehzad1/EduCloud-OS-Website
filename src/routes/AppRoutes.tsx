@@ -4,6 +4,7 @@ import { PageWrapper } from '../components/layout/PageWrapper';
 import { Home } from '../pages/Home/Home';
 import { About } from '../pages/About/About';
 import { HowTo } from '../pages/HowTo/HowTo';
+import { AuthCallback } from '../pages/AuthCallback/AuthCallback';
 
 export const AppRoutes: React.FC = () => {
   return (
@@ -14,6 +15,7 @@ export const AppRoutes: React.FC = () => {
         <Route path="/about" element={<About />} />
         <Route path="/how-to" element={<HowTo />} />
       </Route>
+      <Route path="/auth/github/callback" element={<AuthCallback />} />
     </Routes>
   );
 };
