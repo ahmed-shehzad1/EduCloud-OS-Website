@@ -18,7 +18,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const login = () => {
-    window.location.href = 'http://localhost:5000/api/auth/github';
+    const backendUrl = import.meta.env.VITE_API_URL;
+
+    if (!backendUrl) {
+      console.error('VITE_API_URL is missing.');
+      return;
+    }
+
+    window.location.href = `${backendUrl}/api/auth/github`;
   };
 
   const logout = () => {
