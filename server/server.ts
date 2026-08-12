@@ -3,6 +3,6 @@ import app from './app';
 
 const PORT = Number(process.env.PORT) || 5000;
 
-app.listen(PORT, () => {
-  console.log(`EduCloud OS API running at http://localhost:${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`EduCloud OS API running on port ${PORT}`);
 });
