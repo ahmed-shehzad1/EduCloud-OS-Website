@@ -17,24 +17,9 @@ interface AuthProviderProps {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-const login = () => {
-  const clientId = import.meta.env.VITE_GITHUB_CLIENT_ID;
-
-  if (!clientId) {
-    console.error('GitHub Client ID is missing.');
-    return;
-  }
-
-  const redirectUri = `${window.location.origin}/auth/github/callback`;
-
-  const githubAuthUrl =
-    `https://github.com/login/oauth/authorize` +
-    `?client_id=${encodeURIComponent(clientId)}` +
-    `&redirect_uri=${encodeURIComponent(redirectUri)}` +
-    `&scope=${encodeURIComponent('read:user user:email')}`;
-
-  window.location.href = githubAuthUrl;
-};
+  const login = () => {
+    window.location.href = 'http://localhost:5000/api/auth/github';
+  };
 
   const logout = () => {
     setIsAuthenticated(false);
