@@ -1,5 +1,6 @@
 import type { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
+import type { AuthenticatedRequest } from '../middleware/authMiddleware';
 
 import {
   exchangeCodeForToken,
@@ -60,6 +61,8 @@ export async function handleGitHubCallback(
       }
     );
 
+    
+
     res.cookie('educloud_auth', token, {
       httpOnly: true,
       secure: true,
@@ -78,4 +81,20 @@ export async function handleGitHubCallback(
       message: 'GitHub authentication failed.',
     });
   }
+}
+
+export function getCurrentUser(
+  req: AuthenticatedRequest,
+  res: Response
+): void {
+  if (!req.user) {
+    res.status(401).json({
+      message: 'Not authenticated.',
+    });
+    return;
+  }
+
+  res.json({
+    user: req.user,
+  });
 }
