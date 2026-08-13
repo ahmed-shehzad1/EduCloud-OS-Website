@@ -1,4 +1,6 @@
 import type { Request, Response } from 'express';
+import jwt from 'jsonwebtoken';
+
 import {
   exchangeCodeForToken,
   getGitHubAuthorizationUrl,
@@ -36,10 +38,39 @@ export async function handleGitHubCallback(
       name: githubUser.name,
     });
 
-    res.json({
-      message: 'GitHub authentication successful.',
-      user: githubUser,
+    const jwtSecret = process.env.JWT_SECRET;
+
+    if (!jwtSecret) {
+      console.error('JWT_SECRET is missing.');
+      res.status(500).send('Authentication configuration error.');
+      return;
+    }
+
+    const token = jwt.sign(
+      {
+        githubId: githubUser.id,
+        login: githubUser.login,
+        name: githubUser.name,
+        avatarUrl: githubUser.avatar_url,
+        email: githubUser.email,
+      },
+      jwtSecret,
+      {
+        expiresIn: '7d',
+      }
+    );
+
+    res.cookie('educloud_auth', token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     });
+
+    const clientUrl =
+      process.env.CLIENT_URL || 'http://localhost:5173';
+
+    res.redirect(`${clientUrl}/profile`);
   } catch (error) {
     console.error('GitHub OAuth error:', error);
 
