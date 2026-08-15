@@ -42,8 +42,22 @@ export const Profile: React.FC = () => {
   if (loading) {
     return (
       <main className="cyber-profile-page">
-        <div className="cyber-bg-grid" />
-        <div className="cyber-scanlines" />
+        {/* Cybernetic Animated Background Stream */}
+<div className="cyber-bg-anim-container" aria-hidden="true">
+  <div className="cyber-bg-grid" />
+  <div className="cyber-scanlines" />
+
+  {/* Floating Ambient Energy Orbs */}
+  <div className="quantum-orb orb-ruby" />
+  <div className="quantum-orb orb-cyan" />
+  <div className="quantum-orb orb-emerald" />
+
+  {/* Circuit Laser Streams */}
+  <div className="laser-stream stream-1" />
+  <div className="laser-stream stream-2" />
+  <div className="laser-stream stream-3" />
+  <div className="laser-stream stream-4" />
+</div>
         <div className="profile-main-wrapper flex-center">
           <div className="cyber-status-card loading-state">
             <div className="hero-status-pill">
