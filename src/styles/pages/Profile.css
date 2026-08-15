@@ -1,5 +1,3 @@
-/* Sleek Cybernetic Profile Page Styles */
-
 :root {
   --about-bg: #030105;
   --ruby-bright: #FF1E56;
@@ -13,7 +11,6 @@
   --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
 }
 
-/* Page Outer Frame */
 .cyber-profile-page {
   position: relative;
   min-height: 100vh;
@@ -40,33 +37,133 @@
   width: 100%;
 }
 
-/* Background Grids & Scanlines */
-.cyber-bg-grid {
+.cyber-bg-anim-container {
   position: absolute;
   inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.cyber-grid-perspective {
+  position: absolute;
+  inset: -100px;
   background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-  background-size: 50px 50px;
-  pointer-events: none;
-  z-index: 1;
+    linear-gradient(to right, rgba(255, 30, 86, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 240, 255, 0.05) 1px, transparent 1px);
+  background-size: 60px 60px;
+  animation: grid-drift 20s linear infinite;
+  transform-origin: center center;
 }
 
-.cyber-scanlines {
+@keyframes grid-drift {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-30px) scale(1.02);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+.quantum-orb {
   position: absolute;
-  inset: 0;
-  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.3) 50%);
-  background-size: 100% 4px;
-  pointer-events: none;
-  z-index: 1;
-  opacity: 0.5;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.28;
+  animation: float-orb 16s ease-in-out infinite alternate;
 }
 
-/* Status Pills */
+.orb-ruby {
+  width: 500px;
+  height: 500px;
+  background: var(--ruby-bright);
+  top: -100px;
+  left: -100px;
+}
+
+.orb-cyan {
+  width: 550px;
+  height: 550px;
+  background: var(--cyan-accent);
+  bottom: -150px;
+  right: -100px;
+  animation-delay: -5s;
+}
+
+.orb-emerald {
+  width: 400px;
+  height: 400px;
+  background: var(--emerald-accent);
+  top: 30%;
+  left: 45%;
+  animation-delay: -10s;
+  opacity: 0.15;
+}
+
+@keyframes float-orb {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(60px, -40px) scale(1.1);
+  }
+  100% {
+    transform: translate(-30px, 50px) scale(0.95);
+  }
+}
+
+.cyber-laser-beam {
+  position: absolute;
+  height: 2px;
+  width: 250px;
+  background: linear-gradient(90deg, transparent, var(--cyan-accent), transparent);
+  box-shadow: 0 0 12px var(--cyan-accent);
+  animation: laser-sweep 8s ease-in-out infinite;
+  opacity: 0;
+}
+
+.beam-1 {
+  top: 25%;
+  animation-delay: 0s;
+}
+
+.beam-2 {
+  top: 60%;
+  background: linear-gradient(90deg, transparent, var(--ruby-bright), transparent);
+  box-shadow: 0 0 12px var(--ruby-bright);
+  animation-delay: 3s;
+}
+
+.beam-3 {
+  top: 80%;
+  background: linear-gradient(90deg, transparent, var(--emerald-accent), transparent);
+  box-shadow: 0 0 12px var(--emerald-accent);
+  animation-delay: 5.5s;
+}
+
+@keyframes laser-sweep {
+  0% {
+    left: -20%;
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.8;
+  }
+  80% {
+    opacity: 0.8;
+  }
+  100% {
+    left: 120%;
+    opacity: 0;
+  }
+}
+
 .hero-status-pill {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
   padding: 6px 16px;
   background: rgba(224, 0, 63, 0.08);
   border: 1px solid rgba(224, 0, 63, 0.25);
@@ -83,26 +180,6 @@
   border-color: rgba(255, 30, 86, 0.4);
 }
 
-.pulse-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--ruby-bright);
-  box-shadow: 0 0 8px var(--ruby-bright);
-  animation: pulse-dot-anim 2s infinite;
-}
-
-.pulse-dot.restricted-dot {
-  background: var(--ruby-bright);
-  box-shadow: 0 0 10px var(--ruby-bright);
-}
-
-@keyframes pulse-dot-anim {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.4; transform: scale(0.85); }
-}
-
-/* Main Profile Card Stage */
 .profile-stage-card {
   position: relative;
   background: rgba(12, 6, 14, 0.85);
@@ -147,10 +224,9 @@
 .system-code {
   font-family: var(--font-mono);
   font-size: 0.72rem;
-  color: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.4);
 }
 
-/* Card Grid Layout */
 .card-main-grid {
   display: grid;
   grid-template-columns: 1fr 340px;
@@ -164,7 +240,6 @@
   align-items: flex-start;
 }
 
-/* Cyber Avatar Wrapper */
 .avatar-frame-wrapper {
   position: relative;
   flex-shrink: 0;
@@ -188,7 +263,6 @@
   background-color: #000;
 }
 
-/* Text Hierarchy */
 .hero-title {
   font-size: clamp(1.6rem, 3vw, 2.2rem);
   font-weight: 900;
@@ -222,7 +296,6 @@
   margin: 12px 0 0 0;
 }
 
-/* Metrics Panel Right */
 .metrics-box-frame {
   background: rgba(4, 1, 6, 0.75);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -273,7 +346,6 @@
   font-weight: 700;
 }
 
-/* Download Button */
 .cyber-download-btn {
   position: relative;
   display: inline-flex;
@@ -289,7 +361,6 @@
   font-weight: 800;
   letter-spacing: 0.05em;
   cursor: pointer;
-  overflow: hidden;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   box-shadow: 0 0 15px rgba(224, 0, 63, 0.3);
   margin-top: 4px;
@@ -301,11 +372,6 @@
   background: linear-gradient(180deg, var(--ruby-bright), var(--ruby-core));
 }
 
-.cyber-download-btn:active {
-  transform: translateY(0);
-}
-
-/* Equalizer Visualizer */
 .equalizer-bars {
   display: flex;
   align-items: flex-end;
@@ -326,7 +392,6 @@
   100% { transform: scaleY(1); }
 }
 
-/* Status Cards (Loading & Error States) */
 .cyber-status-card {
   background: rgba(12, 6, 14, 0.85);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -342,7 +407,6 @@
   border-color: rgba(255, 30, 86, 0.3);
 }
 
-/* Responsive Adjustments */
 @media (max-width: 860px) {
   .card-main-grid {
     grid-template-columns: 1fr;
@@ -351,148 +415,5 @@
   .identity-section {
     flex-direction: column;
     align-items: flex-start;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .eq-bar, .pulse-dot {
-    animation: none !important;
-  }
-}
-
-
-/* ===================================================
-   CYBERNETIC ANIMATED BACKGROUND SYSTEM
-   =================================================== */
-
-.cyber-bg-anim-container {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* Floating Ambient Energy Orbs */
-.quantum-orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(90px);
-  opacity: 0.22;
-  animation: float-orb ease-in-out infinite alternate;
-}
-
-.orb-ruby {
-  width: 480px;
-  height: 480px;
-  background: var(--ruby-bright);
-  top: -100px;
-  left: -120px;
-  animation-duration: 20s;
-}
-
-.orb-cyan {
-  width: 520px;
-  height: 520px;
-  background: var(--cyan-accent);
-  bottom: -150px;
-  right: -100px;
-  animation-duration: 16s;
-  animation-delay: -4s;
-}
-
-.orb-emerald {
-  width: 380px;
-  height: 380px;
-  background: var(--emerald-accent);
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  animation-duration: 24s;
-  animation-delay: -8s;
-  opacity: 0.12;
-}
-
-@keyframes float-orb {
-  0% {
-    transform: translate(0, 0) scale(1);
-  }
-  33% {
-    transform: translate(70px, -50px) scale(1.12);
-  }
-  66% {
-    transform: translate(-40px, 60px) scale(0.92);
-  }
-  100% {
-    transform: translate(30px, 20px) scale(1.05);
-  }
-}
-
-/* Circuit Data Laser Streams */
-.laser-stream {
-  position: absolute;
-  height: 2px;
-  border-radius: 2px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    var(--ruby-bright),
-    var(--cyan-accent),
-    transparent
-  );
-  box-shadow: 0 0 10px var(--cyan-accent);
-  animation: shoot-stream infinite cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.stream-1 {
-  top: 18%;
-  left: -25%;
-  width: 35%;
-  animation-duration: 6.5s;
-  animation-delay: 0s;
-}
-
-.stream-2 {
-  top: 48%;
-  left: -35%;
-  width: 45%;
-  background: linear-gradient(90deg, transparent, var(--emerald-accent), transparent);
-  box-shadow: 0 0 10px var(--emerald-accent);
-  animation-duration: 8.5s;
-  animation-delay: 2.2s;
-}
-
-.stream-3 {
-  top: 78%;
-  left: -20%;
-  width: 30%;
-  background: linear-gradient(90deg, transparent, var(--gold-accent), transparent);
-  box-shadow: 0 0 10px var(--gold-accent);
-  animation-duration: 7s;
-  animation-delay: 4.1s;
-}
-
-.stream-4 {
-  top: 32%;
-  left: -15%;
-  width: 25%;
-  animation-duration: 5.2s;
-  animation-delay: 1s;
-}
-
-@keyframes shoot-stream {
-  0% {
-    transform: translateX(0) scaleX(0.1);
-    opacity: 0;
-  }
-  20% {
-    opacity: 0.75;
-  }
-  80% {
-    opacity: 0.75;
-  }
-  100% {
-    transform: translateX(170vw) scaleX(1.4);
-    opacity: 0;
   }
 }

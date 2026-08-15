@@ -42,27 +42,18 @@ export const Profile: React.FC = () => {
   if (loading) {
     return (
       <main className="cyber-profile-page">
-        {/* Cybernetic Animated Background Stream */}
-<div className="cyber-bg-anim-container" aria-hidden="true">
-  <div className="cyber-bg-grid" />
-  <div className="cyber-scanlines" />
+        <div className="cyber-bg-anim-container" aria-hidden="true">
+          <div className="cyber-grid-perspective" />
+          <div className="quantum-orb orb-ruby" />
+          <div className="quantum-orb orb-cyan" />
+          <div className="cyber-laser-beam beam-1" />
+          <div className="cyber-laser-beam beam-2" />
+        </div>
 
-  {/* Floating Ambient Energy Orbs */}
-  <div className="quantum-orb orb-ruby" />
-  <div className="quantum-orb orb-cyan" />
-  <div className="quantum-orb orb-emerald" />
-
-  {/* Circuit Laser Streams */}
-  <div className="laser-stream stream-1" />
-  <div className="laser-stream stream-2" />
-  <div className="laser-stream stream-3" />
-  <div className="laser-stream stream-4" />
-</div>
         <div className="profile-main-wrapper flex-center">
-          <div className="cyber-status-card loading-state">
+          <div className="cyber-status-card">
             <div className="hero-status-pill">
-              <span className="pulse-dot" />
-              SYSTEM BUS // FETCHING IDENTITY
+              SYSTEM BUS: FETCHING IDENTITY
             </div>
             <h1 className="hero-title">Initializing Session...</h1>
             <div className="equalizer-bars">
@@ -80,16 +71,20 @@ export const Profile: React.FC = () => {
   if (!user) {
     return (
       <main className="cyber-profile-page">
-        <div className="cyber-bg-grid" />
-        <div className="cyber-scanlines" />
+        <div className="cyber-bg-anim-container" aria-hidden="true">
+          <div className="cyber-grid-perspective" />
+          <div className="quantum-orb orb-ruby" />
+          <div className="quantum-orb orb-cyan" />
+          <div className="cyber-laser-beam beam-1" />
+        </div>
+
         <div className="profile-main-wrapper flex-center">
           <div className="cyber-status-card error-state">
             <div className="hero-status-pill restricted">
-              <span className="pulse-dot restricted-dot" />
-              ACCESS RESTRICTED // 401
+              ACCESS RESTRICTED: 401
             </div>
             <h1 className="hero-title">Authentication Required</h1>
-            <p className="hero-description">Please connect your GitHub account first to access EDUCloud OS stream.</p>
+            <p className="hero-description">Please connect your GitHub account first to access the EDUCloud stream.</p>
           </div>
         </div>
       </main>
@@ -98,29 +93,31 @@ export const Profile: React.FC = () => {
 
   return (
     <main className="cyber-profile-page">
-      <div className="cyber-bg-grid" />
-      <div className="cyber-scanlines" />
+      <div className="cyber-bg-anim-container" aria-hidden="true">
+        <div className="cyber-grid-perspective" />
+        <div className="quantum-orb orb-ruby" />
+        <div className="quantum-orb orb-cyan" />
+        <div className="quantum-orb orb-emerald" />
+        <div className="cyber-laser-beam beam-1" />
+        <div className="cyber-laser-beam beam-2" />
+        <div className="cyber-laser-beam beam-3" />
+      </div>
 
       <div className="profile-main-wrapper">
-        {/* Header Badge */}
         <div className="hero-status-pill">
-          <span className="pulse-dot" />
-          SESSION ESTABLISHED // LINK ACTIVE
+          SESSION ESTABLISHED — LINK ACTIVE
         </div>
 
-        {/* Profile Card Frame */}
         <section className="profile-stage-card">
-          {/* Card Meta Bar */}
           <div className="card-top-bar">
             <div className="bar-tag-group">
               <span className="step-badge" style={{ background: 'var(--ruby-core)' }}>USER</span>
               <span className="category-label">IDENTITY MATRIX</span>
             </div>
-            <span className="system-code">UID // GH-{user.githubId || user.login}</span>
+            <span className="system-code">UID: GH-{user.githubId || user.login}</span>
           </div>
 
           <div className="card-main-grid">
-            {/* User Identity Info */}
             <div className="identity-section">
               <div className="avatar-frame-wrapper">
                 <div className="avatar-glow-ring" />
@@ -146,7 +143,6 @@ export const Profile: React.FC = () => {
               </div>
             </div>
 
-            {/* Metrics & OS Terminal Action */}
             <div className="metrics-box-frame">
               <div className="box-title-row">
                 <span className="box-dot" style={{ background: 'var(--emerald-accent)' }} />
@@ -160,7 +156,7 @@ export const Profile: React.FC = () => {
                 </div>
                 <div className="metric-row">
                   <span className="m-label">CLEARANCE</span>
-                  <span className="m-val" style={{ color: 'var(--emerald-accent)' }}>LEVEL 01 // READY</span>
+                  <span className="m-val" style={{ color: 'var(--emerald-accent)' }}>LEVEL 01: READY</span>
                 </div>
                 <div className="metric-row">
                   <span className="m-label">SYSTEM BUILD</span>
@@ -169,7 +165,6 @@ export const Profile: React.FC = () => {
               </div>
 
               <button className="cyber-download-btn">
-                <span className="btn-glow" />
                 <span className="btn-text">DOWNLOAD EDUCloud OS</span>
               </button>
 
