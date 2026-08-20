@@ -43,6 +43,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   try {
     const apiUrl = import.meta.env.VITE_API_URL;
 
+    if (!apiUrl) {
+      console.error('VITE_API_URL is missing.');
+      return;
+    }
+
     await fetch(`${apiUrl}/api/auth/logout`, {
       method: 'POST',
       credentials: 'include',
