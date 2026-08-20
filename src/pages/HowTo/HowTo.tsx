@@ -3,8 +3,10 @@ import { motion } from 'framer-motion';
 import { HowToSteps } from '../../components/common/HowToSteps';
 import '../../styles/pages/howto.css';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth';
 
 export const HowTo: React.FC = () => {
+  const { isAuthenticated, login } = useAuth();
   return (
     <div className="howto-page-container">
       {/* Background Ambient Cyber Glows */}
@@ -52,9 +54,22 @@ export const HowTo: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
         >
-          <Link to="/download" className="cta-btn primary-glow">
-            Download Now
-          </Link>
+          {isAuthenticated ? (
+  <a
+    href="#download"
+    className="cta-btn primary-glow"
+  >
+    Download Now
+  </a>
+) : (
+  <button
+    type="button"
+    className="cta-btn primary-glow"
+    onClick={login}
+  >
+    Connect GitHub to Download
+  </button>
+)}
           <a href="#steps" className="cta-btn ghost-cyber">
             Installation steps ↓
           </a>
@@ -115,7 +130,10 @@ export const HowTo: React.FC = () => {
         </section>
 
         {/* Download Options Grid */}
-        <section className="howto-section download-section">
+        <section
+  className="howto-section download-section"
+  id="download"
+>
           <div className="section-header-block">
             <h2 className="section-title">Get EduCloud OS</h2>
             <p className="section-lead">Choose your installation method below.</p>
@@ -126,9 +144,22 @@ export const HowTo: React.FC = () => {
               <div className="card-badge">RECOMMENDED</div>
               <h3 className="download-card-title">Latest Release</h3>
               <p className="download-card-meta">August 2026 • Signed Installer</p>
-              <Link to="/download" className="download-card-cta">
-                Download Installer
-              </Link>
+             {isAuthenticated ? (
+  <a
+    href="#"
+    className="download-card-cta"
+  >
+    Download Installer
+  </a>
+) : (
+  <button
+    type="button"
+    className="download-card-cta"
+    onClick={login}
+  >
+    🔒 Connect GitHub to Download
+  </button>
+)}
             </div>
 
             <div className="download-card accent-cyan">

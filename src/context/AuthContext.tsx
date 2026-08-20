@@ -39,9 +39,20 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     window.location.href = `${apiUrl}/api/auth/github`;
   };
 
-  const logout = () => {
+ const logout = async () => {
+  try {
+    const apiUrl = import.meta.env.VITE_API_URL;
+
+    await fetch(`${apiUrl}/api/auth/logout`, {
+      method: 'POST',
+      credentials: 'include',
+    });
+  } catch (error) {
+    console.error('Logout request failed:', error);
+  } finally {
     setUser(null);
-  };
+  }
+};
 
   useEffect(() => {
     const loadCurrentUser = async () => {
