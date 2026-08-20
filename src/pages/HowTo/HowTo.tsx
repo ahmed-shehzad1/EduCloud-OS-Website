@@ -2,7 +2,6 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { HowToSteps } from '../../components/common/HowToSteps';
 import '../../styles/pages/howto.css';
-import { Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 
 export const HowTo: React.FC = () => {
@@ -146,11 +145,11 @@ export const HowTo: React.FC = () => {
               <p className="download-card-meta">August 2026 • Signed Installer</p>
              {isAuthenticated ? (
   <a
-    href="#"
-    className="download-card-cta"
-  >
-    Download Installer
-  </a>
+  href="#download"
+  className="cta-btn primary-glow"
+>
+  Download Now
+</a>
 ) : (
   <button
     type="button"
