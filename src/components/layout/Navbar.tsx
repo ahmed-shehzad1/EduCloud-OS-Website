@@ -8,7 +8,7 @@ import { useAuth } from '../../hooks/useAuth';
 const TELEMETRY_TEXT = "EDUCLOUD OS // SYSTEM ONLINE ◆ PROCESS MANAGEMENT ◆ CPU SCHEDULING ◆ THREAD SYNCHRONIZATION ◆ MUTEX ◆ IPC ◆ MEMORY MANAGEMENT ◆ FILE SYSTEM ◆ KERNEL SIMULATION ◆ ";
 
 export const Navbar: React.FC = () => {
-  const { login, user, loading } = useAuth();
+  const { login, logout, user, loading } = useAuth();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
@@ -84,6 +84,7 @@ export const Navbar: React.FC = () => {
       SYNCING...
     </div>
   ) : user ? (
+  <div className="authenticated-nav">
     <Link
       to="/profile"
       className="profile-nav-link"
@@ -105,7 +106,17 @@ export const Navbar: React.FC = () => {
 
       <span className="profile-nav-indicator" aria-hidden="true" />
     </Link>
-  ) : (
+
+    <button
+      type="button"
+      className="logout-nav-button"
+      onClick={logout}
+      aria-label="Log out of EduCloud OS"
+    >
+      LOGOUT
+    </button>
+  </div>
+): (
     <button
       className="auth-button"
       aria-label="GitHub Uplink"
