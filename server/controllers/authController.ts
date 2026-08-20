@@ -98,3 +98,18 @@ export function getCurrentUser(
     user: req.user,
   });
 }
+
+export function logout(
+  _req: Request,
+  res: Response
+): void {
+  res.clearCookie('educloud_auth', {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'none',
+  });
+
+  res.json({
+    message: 'Logged out successfully.',
+  });
+}
