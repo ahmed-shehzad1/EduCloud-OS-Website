@@ -94,32 +94,18 @@ export const HowTo: React.FC = () => {
             </div>
 
             <div className="video-viewport">
-              <div
-                className="video-grid-pattern"
-                aria-hidden="true"
-              />
-
-              <div className="play-button-wrapper">
-                <motion.button
-                  className="play-pulse-btn"
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.95 }}
-                  aria-label="Play Quick Start Overview Video"
-                >
-                  <span className="play-icon">▶</span>
-                </motion.button>
-              </div>
-
-              <div className="video-overlay-info">
-                <span className="badge-pill">
-                  Quick start
-                </span>
-
-                <span className="duration-tag">
-                  1:32
-                </span>
-              </div>
-            </div>
+  <video
+    className="educloud-demo-video"
+    controls
+    preload="metadata"
+  >
+    <source
+      src="/videos/EduCloudOS-Demo.mp4"
+      type="video/mp4"
+    />
+    Your browser does not support the video element.
+  </video>
+</div>
           </div>
         </motion.div>
       </header>
