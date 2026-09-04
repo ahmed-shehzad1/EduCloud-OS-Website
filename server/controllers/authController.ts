@@ -109,7 +109,7 @@ export function logout(
     sameSite: 'none',
   });
 
-  res.json({
+  res.status(200).json({
     message: 'Logged out successfully.',
   });
 }
