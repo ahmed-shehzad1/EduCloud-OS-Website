@@ -97,7 +97,7 @@ export const HowTo: React.FC = () => {
   <video
     className="educloud-demo-video"
     controls
-    preload="metadata"
+    preload="none"
   >
     <source
       src="/videos/EduCloudOS-Demo.mp4"
