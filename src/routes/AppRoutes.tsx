@@ -7,6 +7,7 @@ import { HowTo } from '../pages/HowTo/HowTo';
 import { AuthCallback } from '../pages/AuthCallback/AuthCallback';
 import { Profile } from '../pages/Profile/Profile';
 
+
 export const AppRoutes: React.FC = () => {
   return (
     <Routes>

@@ -4,6 +4,7 @@ import { HowToSteps } from '../../components/common/HowToSteps';
 import '../../styles/pages/howto.css';
 import { useAuth } from '../../hooks/useAuth';
 
+
 export const HowTo: React.FC = () => {
   const { isAuthenticated, login } = useAuth();
   return (
