@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import '../../styles/pages/Profile.css';
+import { useNavigate } from "react-router-dom";
+
+const navigate = useNavigate();
 
 interface GitHubUser {
   githubId: number;
@@ -164,9 +167,12 @@ export const Profile: React.FC = () => {
                 </div>
               </div>
 
-              <button className="cyber-download-btn">
-                <span className="btn-text">DOWNLOAD EDUCloud OS</span>
-              </button>
+             <button
+  className="cyber-download-btn"
+  onClick={() => navigate("/downloads")}
+>
+  <span className="btn-text">DOWNLOAD EDUCloud OS</span>
+</button>
 
               <div className="equalizer-bars">
                 <span className="eq-bar" style={{ background: 'var(--ruby-bright)', animationDelay: '0s' }} />
