@@ -1,12 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { HowToSteps } from '../../components/common/HowToSteps';
 import '../../styles/pages/howto.css';
-import { useAuth } from '../../hooks/useAuth';
-
 
 export const HowTo: React.FC = () => {
-  const { isAuthenticated, login } = useAuth();
   return (
     <div className="howto-page-container">
       {/* Background Ambient Cyber Glows */}
@@ -44,7 +42,8 @@ export const HowTo: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          A short guided flow from download to exploration. Follow these steps to install and begin experimenting with OS concepts.
+          A short guided flow from download to exploration. Follow these
+          steps to install and begin experimenting with OS concepts.
         </motion.p>
 
         {/* Action Buttons */}
@@ -54,22 +53,13 @@ export const HowTo: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
         >
-          {isAuthenticated ? (
-  <a
-    href="#download"
-    className="cta-btn primary-glow"
-  >
-    Download Now
-  </a>
-) : (
-  <button
-    type="button"
-    className="cta-btn primary-glow"
-    onClick={login}
-  >
-    Connect GitHub to Download
-  </button>
-)}
+          <Link
+            to="/downloads"
+            className="cta-btn primary-glow"
+          >
+            Download Now
+          </Link>
+
           <a href="#steps" className="cta-btn ghost-cyber">
             Installation steps ↓
           </a>
@@ -80,7 +70,11 @@ export const HowTo: React.FC = () => {
           className="featured-video-showcase"
           initial={{ opacity: 0, scale: 0.95, y: 25 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
+          transition={{
+            duration: 0.7,
+            delay: 0.35,
+            ease: [0.16, 1, 0.3, 1],
+          }}
         >
           <div className="video-player-frame">
             <div className="video-hud-bar">
@@ -89,13 +83,22 @@ export const HowTo: React.FC = () => {
                 <span />
                 <span />
               </div>
-              <span className="hud-title">EduCloud Runtime Demo — Quick Start</span>
-              <span className="hud-status">LIVE PREVIEW</span>
+
+              <span className="hud-title">
+                EduCloud Runtime Demo — Quick Start
+              </span>
+
+              <span className="hud-status">
+                LIVE PREVIEW
+              </span>
             </div>
 
             <div className="video-viewport">
-              <div className="video-grid-pattern" aria-hidden="true" />
-              
+              <div
+                className="video-grid-pattern"
+                aria-hidden="true"
+              />
+
               <div className="play-button-wrapper">
                 <motion.button
                   className="play-pulse-btn"
@@ -108,8 +111,13 @@ export const HowTo: React.FC = () => {
               </div>
 
               <div className="video-overlay-info">
-                <span className="badge-pill">Quick start</span>
-                <span className="duration-tag">1:32</span>
+                <span className="badge-pill">
+                  Quick start
+                </span>
+
+                <span className="duration-tag">
+                  1:32
+                </span>
               </div>
             </div>
           </div>
@@ -117,12 +125,20 @@ export const HowTo: React.FC = () => {
       </header>
 
       {/* Main Content Section */}
-      <main className="howto-main-content container-centered" id="steps" role="main">
+      <main
+        className="howto-main-content container-centered"
+        id="steps"
+        role="main"
+      >
         <section className="howto-section">
           <div className="section-header-block">
-            <h2 className="section-title">Installation Guide</h2>
+            <h2 className="section-title">
+              Installation Guide
+            </h2>
+
             <p className="section-lead">
-              Follow the steps below — each step expands with details and commands where appropriate.
+              Follow the steps below — each step expands with details
+              and commands where appropriate.
             </p>
           </div>
 
@@ -131,43 +147,59 @@ export const HowTo: React.FC = () => {
 
         {/* Download Options Grid */}
         <section
-  className="howto-section download-section"
-  id="download"
->
+          className="howto-section download-section"
+          id="download"
+        >
           <div className="section-header-block">
-            <h2 className="section-title">Get EduCloud OS</h2>
-            <p className="section-lead">Choose your installation method below.</p>
+            <h2 className="section-title">
+              Get EduCloud OS
+            </h2>
+
+            <p className="section-lead">
+              Choose your installation method below.
+            </p>
           </div>
 
           <div className="download-grid">
+
+            {/* RELEASE */}
             <div className="download-card accent-ruby">
-              <div className="card-badge">RECOMMENDED</div>
-              <h3 className="download-card-title">Latest Release</h3>
-              <p className="download-card-meta">August 2026 • Signed Installer</p>
-             {isAuthenticated ? (
-  <a
-  href="#download"
-  className="cta-btn primary-glow"
->
-  Download Now
-</a>
-) : (
-  <button
-    type="button"
-    className="download-card-cta"
-    onClick={login}
-  >
-    🔒 Connect GitHub to Download
-  </button>
-)}
+              <div className="card-badge">
+                RECOMMENDED
+              </div>
+
+              <h3 className="download-card-title">
+                Latest Release
+              </h3>
+
+              <p className="download-card-meta">
+                August 2026 • Windows Release
+              </p>
+
+              <Link
+                to="/downloads"
+                className="download-card-cta"
+              >
+                🔒 Download Release
+              </Link>
             </div>
 
+            {/* SOURCE */}
             <div className="download-card accent-cyan">
-              <div className="card-badge ghost">DEVELOPER</div>
-              <h3 className="download-card-title">Source</h3>
-              <p className="download-card-meta">Build from source on Linux/macOS</p>
+              <div className="card-badge ghost">
+                DEVELOPER
+              </div>
+
+              <h3 className="download-card-title">
+                Source
+              </h3>
+
+              <p className="download-card-meta">
+                Public source code — build and modify EduCloud OS
+              </p>
+
               <a
-                href="https://github.com"
+                href="https://github.com/ahmed-shehzad1/EduCloud-OS"
                 target="_blank"
                 rel="noreferrer"
                 className="download-card-cta ghost"
@@ -175,6 +207,7 @@ export const HowTo: React.FC = () => {
                 View on GitHub
               </a>
             </div>
+
           </div>
         </section>
       </main>

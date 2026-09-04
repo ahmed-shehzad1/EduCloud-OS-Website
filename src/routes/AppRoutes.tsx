@@ -6,7 +6,7 @@ import { About } from '../pages/About/About';
 import { HowTo } from '../pages/HowTo/HowTo';
 import { AuthCallback } from '../pages/AuthCallback/AuthCallback';
 import { Profile } from '../pages/Profile/Profile';
-
+import { Downloads } from '../pages/Downloads/Downloads';
 
 export const AppRoutes: React.FC = () => {
   return (
@@ -17,10 +17,14 @@ export const AppRoutes: React.FC = () => {
         <Route path="/about" element={<About />} />
         <Route path="/how-to" element={<HowTo />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/downloads" element={<Downloads />} />
       </Route>
 
       {/* OAuth callback stays outside the normal website shell */}
-      <Route path="/auth/github/callback" element={<AuthCallback />} />
+      <Route
+        path="/auth/github/callback"
+        element={<AuthCallback />}
+      />
     </Routes>
   );
 };

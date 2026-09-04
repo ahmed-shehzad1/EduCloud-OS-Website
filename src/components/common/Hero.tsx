@@ -78,10 +78,10 @@ export const Hero: React.FC = () => {
 
         {/* Action CTAs */}
         <motion.div className="hero-ctas" variants={itemVariants}>
-          <Link to="/download" className="cta cta-primary">
+          <Link to="/downloads" className="cta cta-primary">
             <span className="cta-icon">▶</span> Launch Sandbox
           </Link>
-          <Link to="/howto" className="cta cta-ghost">
+          <Link to="/how-to" className="cta cta-ghost">
             Quick Start Guide <span className="arrow-down">↓</span>
           </Link>
         </motion.div>
