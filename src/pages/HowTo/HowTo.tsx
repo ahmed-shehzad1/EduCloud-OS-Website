@@ -98,6 +98,7 @@ export const HowTo: React.FC = () => {
     className="educloud-demo-video"
     controls
     preload="none"
+       poster="/images/educloud-video-poster.jpg"
   >
     <source
       src="/videos/EduCloudOS-Demo.mp4"
