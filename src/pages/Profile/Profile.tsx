@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import '../../styles/pages/Profile.css';
 import { useNavigate } from "react-router-dom";
 
-const navigate = useNavigate();
-
 interface GitHubUser {
   githubId: number;
   login: string;
@@ -15,6 +13,7 @@ interface GitHubUser {
 export const Profile: React.FC = () => {
   const [user, setUser] = useState<GitHubUser | null>(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loadUser = async () => {
